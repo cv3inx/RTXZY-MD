@@ -35,7 +35,7 @@ export default {
       let plugin = global.plugins[name];
       if (!plugin || plugin.disabled) continue;
       if (!opts['restrict'] && plugin.tags?.includes('admin')) continue;
-      if (typeof plugin !== 'function' || !plugin.command) continue;
+      if (!plugin.command) continue;
 
       let _prefix = plugin.customPrefix || this.prefix || global.prefix || /^[.\/!#]/;
 

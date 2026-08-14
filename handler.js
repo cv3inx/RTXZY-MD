@@ -204,9 +204,14 @@ export default {
             })
           )
             continue;
-        if (typeof plugin !== 'function') continue;
-        if ((usedPrefix = (match[0] || '')[0])) {
-          let noPrefix = m.text.replace(usedPrefix, '');
+        // New-style plugins are a plain object with a `run` method instead of
+        // being callable themselves; old-style plugins are the callable itself.
+        let run = typeof plugin.run === 'function' ? plugin.run : typeof plugin === 'function' ? plugin : null;
+        if (!run) continue;
+        let hasPrefixMatch = (usedPrefix = (match[0] || '')[0]);
+        if (hasPrefixMatch || plugin.noPrefix) {
+          if (!hasPrefixMatch) usedPrefix = '';
+          let noPrefix = hasPrefixMatch ? m.text.replace(usedPrefix, '') : m.text;
           let [command, ...args] = noPrefix.trim().split` `.filter((v) => v);
           args = args || [];
           let _args = noPrefix.trim().split` `.slice(1);
@@ -225,6 +230,7 @@ export default {
                 : typeof plugin.command === 'string' // String?
                   ? plugin.command === command
                   : false;
+          if (!isAccept && Array.isArray(plugin.hidden)) isAccept = plugin.hidden.includes(command);
 
           if (!isAccept) continue;
           m.plugin = name;
@@ -337,7 +343,8 @@ export default {
             chatUpdate
           };
           try {
-            await plugin.call(this, m, extra);
+            if (plugin.wait) await m.reply(global.wait);
+            await run.call(this, m, extra);
             if (!isPrems) m.limit = m.limit || plugin.limit || false;
           } catch (e) {
             // Error occured
