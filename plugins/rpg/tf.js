@@ -37,7 +37,7 @@ const handler = {
                 m.reply('Gagal Menstransfer');
                 console.log(e);
                 if (DevMode) {
-                  for (let jid of global.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
+                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
                     conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
                   }
                 }
@@ -55,7 +55,7 @@ const handler = {
                 m.reply('Gagal Menstransfer');
                 console.log(e);
                 if (DevMode) {
-                  for (let jid of global.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
+                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
                     conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
                   }
                 }
@@ -73,7 +73,7 @@ const handler = {
                 m.reply('Gagal Menstransfer');
                 console.log(e);
                 if (DevMode) {
-                  for (let jid of global.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
+                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
                     conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
                   }
                 }
@@ -91,7 +91,7 @@ const handler = {
                 m.reply('Gagal Menstransfer');
                 console.log(e);
                 if (DevMode) {
-                  for (let jid of global.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
+                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
                     conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
                   }
                 }
@@ -109,7 +109,7 @@ const handler = {
                 m.reply('Gagal Menstransfer');
                 console.log(e);
                 if (DevMode) {
-                  for (let jid of global.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
+                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
                     conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
                   }
                 }
@@ -127,7 +127,7 @@ const handler = {
                 m.reply('Gagal Menstransfer');
                 console.log(e);
                 if (DevMode) {
-                  for (let jid of global.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
+                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
                     conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
                   }
                 }
@@ -145,7 +145,7 @@ const handler = {
                 m.reply('Gagal Menstransfer');
                 console.log(e);
                 if (DevMode) {
-                  for (let jid of global.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
+                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
                     conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
                   }
                 }
@@ -163,7 +163,7 @@ const handler = {
                 m.reply('Gagal Menstransfer');
                 console.log(e);
                 if (DevMode) {
-                  for (let jid of global.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
+                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
                     conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
                   }
                 }
@@ -181,7 +181,7 @@ const handler = {
                 m.reply('Gagal Menstransfer');
                 console.log(e);
                 if (DevMode) {
-                  for (let jid of global.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
+                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
                     conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
                   }
                 }
@@ -199,7 +199,7 @@ const handler = {
                 m.reply('Gagal Menstransfer');
                 console.log(e);
                 if (DevMode) {
-                  for (let jid of global.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
+                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
                     conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
                   }
                 }
@@ -217,7 +217,7 @@ const handler = {
                 m.reply('Gagal Menstransfer');
                 console.log(e);
                 if (DevMode) {
-                  for (let jid of global.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
+                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
                     conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
                   }
                 }
@@ -235,7 +235,7 @@ const handler = {
                 m.reply('Gagal Menstransfer');
                 console.log(e);
                 if (DevMode) {
-                  for (let jid of global.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
+                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
                     conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
                   }
                 }
@@ -253,7 +253,7 @@ const handler = {
                 m.reply('Gagal Menstransfer');
                 console.log(e);
                 if (DevMode) {
-                  for (let jid of global.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
+                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
                     conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
                   }
                 }
@@ -271,7 +271,7 @@ const handler = {
                 m.reply('Gagal Menstransfer');
                 console.log(e);
                 if (DevMode) {
-                  for (let jid of global.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
+                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
                     conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
                   }
                 }
@@ -285,7 +285,7 @@ const handler = {
         conn.reply(m.chat, `Gunakan format ${usedPrefix}tf <type> <jumlah> <@tag>\📍 Contoh penggunaan: *${usedPrefix}tf money 100 @tag*\n\n*List yang bisa di transfer :*\n💹 Money\n🏷 Limit\n💳 Tabungan\n🥤 Potion\n🗑️ Sampah\n💎 Diamond\n📦 Common\n🛍️ Uncommon\n🎁 Mythic\n🧰 Legendary\n🕸️ String\n🪵 Kayu\n🪨 Batu\n⛓ iron`.trim(), m);
         console.log(e);
         if (DevMode) {
-          for (let jid of global.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
+          for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
             conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
           }
         }

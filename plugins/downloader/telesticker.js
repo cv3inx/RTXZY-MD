@@ -17,7 +17,7 @@ const handler = {
       for (var i = 0; i < result.length; i++) {
         var url = result[i].url;
         await sleep(10000);
-        await conn.sendImageAsSticker(m.chat, url, null, { packname: global.packname, author: global.author });
+        await conn.sendImageAsSticker(m.chat, url, null, { packname: global.config.branding.stickerPackname, author: global.config.branding.stickerAuthor });
       }
       await conn.reply(m.chat, `Total ${total} stickers successfully sent`, m);
     } catch (e) {

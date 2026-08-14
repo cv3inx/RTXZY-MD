@@ -1,4 +1,4 @@
-let war = global.maxwarn;
+let war = global.config.maxWarn;
 const handler = {
   help: ['warn'],
   usage: '@user',

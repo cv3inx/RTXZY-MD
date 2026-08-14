@@ -7,7 +7,7 @@ export default {
       if (now - lastUpdate > 60000) {
         lastUpdate = now;
         let uptime = process.uptime() * 1000;
-        let bio = `🤖 Aktif Selama: ${clockString(uptime)} | 💌 by: ${global.wm}`;
+        let bio = `🤖 Aktif Selama: ${clockString(uptime)} | 💌 by: ${global.config.branding.watermark}`;
         await this.updateProfileStatus(bio).catch((_) => _);
       }
     }

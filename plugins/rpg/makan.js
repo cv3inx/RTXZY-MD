@@ -6,7 +6,7 @@ const handler = {
   rpg: true,
   run: async (m, { conn, command, usedPrefix, args }) => {
     let user = global.db.data.users[m.sender];
-    let author = global.author;
+    let author = global.config.branding.stickerAuthor;
     let upgrd = (args[0] || '').toLowerCase();
     let type = (args[0] || '').toLowerCase();
     let _type = (args[1] || '').toLowerCase();
@@ -239,7 +239,7 @@ gunakan spasi
 
       console.log(e);
       if (DevMode) {
-        for (let jid of global.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
+        for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
           conn.reply(jid, 'shop.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
         }
       }

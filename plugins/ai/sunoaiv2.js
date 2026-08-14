@@ -53,7 +53,7 @@ async function generateMusic(prompt, duration) {
   const payload = {
     prompt,
     duration,
-    aksesKey: global.aksesKey
+    aksesKey: global.config.api.botcahx.akseskey
   };
 
   const { data } = await axios.post('https://api.botcahx.eu.org/api/maker/aimusicv2', payload);

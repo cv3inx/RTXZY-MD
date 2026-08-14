@@ -76,7 +76,7 @@ const handler = {
                   const data = await (
                     await Api.post('/api/search/openai-custom-v2', {
                       message: message,
-                      apikey: global.btc
+                      apikey: global.config.api.botcahx.key
                     })
                   ).json();
                   resolve(data);

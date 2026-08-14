@@ -29,7 +29,7 @@ const handler = {
       conn.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/cf4f28ed3b9ebdfb30adc.png' }, caption: caption, mentions: [m.sender] }, { quoted: m });
     } catch (error) {
       console.log(error);
-      m.reply(global.eror || 'Error');
+      m.reply(global.config.messages.error || 'Error');
     }
   }
 };

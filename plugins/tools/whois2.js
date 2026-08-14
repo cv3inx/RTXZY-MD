@@ -13,16 +13,16 @@ const handler = {
     const options = {
       method: 'GET',
       headers: {
-        Authorization: `Token=${global.whoisJsonKey}`
+        Authorization: `Token=${global.config.api.whoisJson.key}`
       }
     };
     try {
-      const response = await fetch(`https://whoisjson.com/api/v1/whois?domain=${text}`, options);
+      const response = await fetch(`${global.config.api.whoisJson.url}/whois?domain=${text}`, options);
       const data = await response.json();
       m.reply(JSON.stringify(data));
     } catch (error) {
       console.error(error);
-      m.reply(global.eror || 'Error');
+      m.reply(global.config.messages.error || 'Error');
     }
   }
 };

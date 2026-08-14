@@ -11,13 +11,13 @@ const handler = {
     if (/image/.test(mime)) {
       let media = await q.download();
       m.reply(stiker_wait);
-      let encmedia = await conn.sendImageAsSticker(m.chat, media, m, { packname: global.packname, author: global.author });
+      let encmedia = await conn.sendImageAsSticker(m.chat, media, m, { packname: global.config.branding.stickerPackname, author: global.config.branding.stickerAuthor });
       await fs.unlinkSync(encmedia);
     } else if (/video/.test(mime)) {
       if ((q.msg || q).seconds > 7) return m.reply('maksimal 6 detik!');
       let media = await q.download();
       m.reply(stiker_wait);
-      let encmedia = await conn.sendVideoAsSticker(m.chat, media, m, { packname: global.packname, author: global.author });
+      let encmedia = await conn.sendVideoAsSticker(m.chat, media, m, { packname: global.config.branding.stickerPackname, author: global.config.branding.stickerAuthor });
       await fs.unlinkSync(encmedia);
     } else {
       throw `Kirim Gambar/Video Dengan Caption ${usedPrefix + command}\nDurasi Video 1-6 Detik`;

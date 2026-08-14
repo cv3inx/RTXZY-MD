@@ -8,7 +8,7 @@ const config = {
   owner: {
     number: '62895331520602', // wajib diisi
     name: 'Tio', // wajib diisi
-    mail: 'support@tioprm.eu.org' // wajib diisi
+    mail: 'support@tioprm.eu.org' // opsional — buat fitur .owner, .report, dll. Kalo ga mau pake email, kosongin aja ('').
   },
 
   // Nomor WhatsApp BOT sendiri (bukan owner). Isi biar pas start
@@ -42,42 +42,21 @@ const config = {
 
   maxWarn: 5,
 
-  // API key wajib diisi, sisanya opsional (isi kalo perlu fitur terkait).
-  apiKeys: {
-    botcahx: 'YOUR_APIKEY_HERE', // wajib diisi
-    akses: 'YOUR_AKSESKEY_HERE', // opsional — suno ai (ai music) & fitur prem lainnya
-    whoisJson: '6c7bd1ce704d92c90e2f78d42641a9ee0cbcef198a6ad62a3dd06deb22af6fd3' // fitur .whois2, ganti punya sendiri kalo abis kuota
+  // Key wajib diisi, sisanya opsional (isi kalo perlu fitur terkait).
+  api: {
+    botcahx: {
+      url: 'https://api.botcahx.eu.org', // wajib diisi
+      key: 'YOUR_APIKEY_HERE', // wajib diisi
+      akseskey: 'YOUR_AKSESKEY_HERE' // opsional — suno ai (ai music) & fitur prem lainnya
+    },
+    whoisJson: {
+      url: 'https://whoisjson.com/api/v1', // wajib diisi
+      key: '6c7bd1ce704d92c90e2f78d42641a9ee0cbcef198a6ad62a3dd06deb22af6fd3' // fitur .whois2, ganti punya sendiri kalo abis kuota
+    }
   }
 };
 
-global.owner = config.access.owner;
-global.mods = config.access.mods;
-global.prems = config.access.prems;
-global.nameowner = config.owner.name;
-global.numberowner = config.owner.number;
-global.mail = config.owner.mail;
-global.botNumber = config.botNumber;
-global.gc = config.links.group;
-global.instagram = config.links.instagram;
-global.wm = config.branding.watermark;
-global.packname = config.branding.stickerPackname;
-global.author = config.branding.stickerAuthor;
-global.thumb = config.branding.thumb;
-global.wait = config.messages.wait;
-global.eror = config.messages.error;
-global.stiker_wait = config.messages.stickerWait;
-global.maxwarn = config.maxWarn;
-global.btc = config.apiKeys.botcahx;
-global.aksesKey = config.apiKeys.akses;
-global.whoisJsonKey = config.apiKeys.whoisJson;
-
-// Tidak boleh diganti atau di ubah
-global.APIs = {
-  btc: 'https://api.botcahx.eu.org'
-};
-global.APIKeys = {
-  [global.APIs.btc]: global.btc
-};
+global.config = config;
 
 import fs from 'fs';
 import chalk from 'chalk';

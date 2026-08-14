@@ -43,7 +43,7 @@ async function getWeatherInfo() {
 }
 
 async function notifyOwnerOfFailure(feature, error) {
-  for (const jid of (global.owner || []).map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net')) {
+  for (const jid of (global.config.access.owner || []).map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net')) {
     await conn.sendMessage(jid, { text: `[❗] Reminder ${feature} gagal ambil data:\n${error}` }).catch(() => {});
   }
 }

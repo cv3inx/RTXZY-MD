@@ -79,8 +79,8 @@ export default {
       await ensureUserAndChatDefaults(m, this);
       if (opts['nyimak']) return;
       let isOwnerSelf = false;
-      if (global.owner && Array.isArray(global.owner)) {
-        isOwnerSelf = global.owner.some((o) => {
+      if (global.config.access.owner && Array.isArray(global.config.access.owner)) {
+        isOwnerSelf = global.config.access.owner.some((o) => {
           let number = Array.isArray(o) ? o[0] : o;
           return (
             typeof number === 'string' &&
@@ -119,20 +119,20 @@ export default {
       let usedPrefix;
       let _user = global.db.data && global.db.data.users && global.db.data.users[m.sender];
 
-      //let isROwner = [global.conn.user.jid, ...global.owner].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
-      /**let isROwner = [global.conn.user.jid, ...global.owner]
+      //let isROwner = [global.conn.user.jid, ...global.config.access.owner].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
+      /**let isROwner = [global.conn.user.jid, ...global.config.access.owner]
               .map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net')
               .includes(
                 m.sender.endsWith('@lid') 
                   ? conn.getJid(m.sender)?.replace(/[^0-9]/g, '') + '@s.whatsapp.net' 
                   : m.sender.replace(/[^0-9]/g, '') + '@s.whatsapp.net'
               );**/
-      let isROwner = [global.conn?.user?.jid, ...(global.owner || [])]
+      let isROwner = [global.conn?.user?.jid, ...(global.config.access.owner || [])]
         .filter((v) => v != null)
         .map((v) => String(v).replace(/[^0-9]/g, ''))
         .includes(String((this.getJid ? this.getJid(m.sender) : null) || m.sender).replace(/[^0-9]/g, ''));
       let isOwner = isROwner || m.fromMe;
-      let isMods = isOwner || global.mods.map((v) => v.replace(/[^0-9]/g, '')).includes(String(m.sender).replace(/[^0-9]/g, ''));
+      let isMods = isOwner || global.config.access.mods.map((v) => v.replace(/[^0-9]/g, '')).includes(String(m.sender).replace(/[^0-9]/g, ''));
       let isPrems = isROwner || db.data.users[m.sender].premiumTime > 0 || db.data.users[m.sender].premium;
 
       // const groupMetadata = (m.isGroup ? (conn.chats[m.chat] || {}).metadata || (await this.groupMetadata(m.chat).catch((_) => null)) : {}) || {};
@@ -343,7 +343,7 @@ export default {
             chatUpdate
           };
           try {
-            if (plugin.wait) await m.reply(global.wait);
+            if (plugin.wait) await m.reply(global.config.messages.wait);
             await run.call(this, m, extra);
             if (!isPrems) m.limit = m.limit || plugin.limit || false;
           } catch (e) {
@@ -368,7 +368,7 @@ export default {
               // intentional validation message, safe to show as-is. Anything else
               // (a native Error, thrown object, etc.) is unexpected — show a generic
               // message instead of the raw error/stack.
-              m.reply(typeof e === 'string' ? e : global.eror || 'Error');
+              m.reply(typeof e === 'string' ? e : global.config.messages.error || 'Error');
             }
           } finally {
             // m.reply(util.format(_user))

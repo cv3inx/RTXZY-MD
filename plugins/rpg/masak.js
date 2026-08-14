@@ -9,7 +9,7 @@ const handler = {
     let type = (args[0] || '').toLowerCase();
     let msk = (args[0] || '').toLowerCase();
     let user = global.db.data.users[m.sender];
-    let author = global.author;
+    let author = global.config.branding.stickerAuthor;
     let cok = `「 *C O O K I N G* 」
 
 
@@ -186,7 +186,7 @@ gunakan spasi`;
       conn.reply(m.chat, `Sepertinya ada yg eror,coba laporin ke owner deh`, m);
       console.log(e);
       if (DevMode) {
-        for (let jid of global.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
+        for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
           conn.reply(jid, 'shop.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', MessageType.text);
         }
       }

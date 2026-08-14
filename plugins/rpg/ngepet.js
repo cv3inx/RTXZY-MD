@@ -17,7 +17,7 @@ const handler = {
       let kngepet = 'https://telegra.ph/file/eff11a638fed2a3260b8f.jpg';
       let mngepet = 'https://telegra.ph/file/a1410ce010b59486bc122.jpg';
 
-      let botol = global.wm;
+      let botol = global.config.branding.watermark;
 
       let __timers = new Date() - global.db.data.users[m.sender].lastngepet;
       let _timers = 18000000 - __timers;

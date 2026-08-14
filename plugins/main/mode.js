@@ -5,7 +5,7 @@ const handler = {
   command: new RegExp(),
   limit: false,
   run: async (m, { conn }) => {
-    let wm = global.wm;
+    let wm = global.config.branding.watermark;
     let _uptime = process.uptime() * 1000;
     let uptimex = clockString(_uptime);
 

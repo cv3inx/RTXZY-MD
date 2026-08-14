@@ -8,7 +8,7 @@ const handler = {
   botAdmin: true,
   fail: null,
   run: async (m, { conn, text, participants, usedPrefix, command }) => {
-    if (!text) throw `_Masukan nomor!_\nContoh:\n\n${usedPrefix + command} ${global.owner[0]}`;
+    if (!text) throw `_Masukan nomor!_\nContoh:\n\n${usedPrefix + command} ${global.config.access.owner[0]}`;
 
     m.reply('_Sedang di proses..._');
     const _participants = participants.map((user) => user.id);

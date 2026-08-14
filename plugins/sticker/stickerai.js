@@ -18,7 +18,7 @@ const handler = {
     fs.writeFileSync(filePath, buffer);
 
     m.reply(stiker_wait);
-    let encmedia = await conn.sendImageAsSticker(m.chat, buffer, m, { packname: global.packname, author: global.author });
+    let encmedia = await conn.sendImageAsSticker(m.chat, buffer, m, { packname: global.config.branding.stickerPackname, author: global.config.branding.stickerAuthor });
 
     await fs.unlinkSync(encmedia);
     await fs.unlinkSync(filePath);

@@ -30,7 +30,7 @@ ${list}
 │ 
 └────
 
-_${global.wm}_`,
+_${global.config.branding.watermark}_`,
       m,
       { contextInfo: { mentionedJid: absen } }
     );

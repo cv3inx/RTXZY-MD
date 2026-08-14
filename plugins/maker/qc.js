@@ -29,14 +29,14 @@ const handler = {
 
       if (!/image\/(jpe?g|png|webp)/.test(mime)) {
         let req = await ___qctext(txt, name, avatar);
-        let stiker = await createWebp(req, false, global.packname, global.author);
+        let stiker = await createWebp(req, false, global.config.branding.stickerPackname, global.config.branding.stickerAuthor);
         conn.sendFile(m.chat, stiker, 'sticker.webp', '', m);
       } else {
         let img = await q.download();
         let decodedBuffer = await sharp(img).toFormat('png').toBuffer();
         let url = await uploadImage(decodedBuffer);
         let req = await ___qcimg(url, txt, name, avatar);
-        let stiker = await createWebp(req, false, global.packname, global.author);
+        let stiker = await createWebp(req, false, global.config.branding.stickerPackname, global.config.branding.stickerAuthor);
         conn.sendFile(m.chat, stiker, 'sticker.webp', '', m);
       }
     } catch (e) {
@@ -109,8 +109,8 @@ async function ___qcimg(url, text, name, avatar) {
 async function createWebp(req, url, packName, authorName, quality) {
   let metadata_sticker = {
     type: 'full',
-    pack: global.packname,
-    author: global.author,
+    pack: global.config.branding.stickerPackname,
+    author: global.config.branding.stickerAuthor,
     quality
   };
   return new Sticker(req ? req : url, metadata_sticker).toBuffer();

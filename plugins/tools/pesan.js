@@ -19,7 +19,7 @@ const handler = {
 
     let korban = `${number}`;
     var nomor = m.sender;
-    let spam1 = `*「 PENITIPAN PESAN 」*\n\nUntuk : wa.me/${korban}\nPesan : ${pesan}\n\n*${global.wm}*`;
+    let spam1 = `*「 PENITIPAN PESAN 」*\n\nUntuk : wa.me/${korban}\nPesan : ${pesan}\n\n*${global.config.branding.watermark}*`;
 
     conn.reply(korban + '@s.whatsapp.net', spam1, m);
 

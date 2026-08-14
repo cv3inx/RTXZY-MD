@@ -34,13 +34,13 @@ const handler = {
       if (command === 'attp') {
         await conn.sendFile(m.chat, buffer, 'sticker.webp', '', m);
       } else if (command === 'bratvid' || command === 'brat2' || command === 'bratgif') {
-        await conn.sendVideoAsSticker(m.chat, buffer, m, { packname: global.packname, author: global.author });
+        await conn.sendVideoAsSticker(m.chat, buffer, m, { packname: global.config.branding.stickerPackname, author: global.config.branding.stickerAuthor });
       } else {
-        await conn.sendImageAsSticker(m.chat, buffer, m, { packname: global.packname, author: global.author });
+        await conn.sendImageAsSticker(m.chat, buffer, m, { packname: global.config.branding.stickerPackname, author: global.config.branding.stickerAuthor });
       }
     } catch (e) {
       console.error(e);
-      await conn.sendImageAsSticker(m.chat, err, m, { packname: global.packname, author: global.author });
+      await conn.sendImageAsSticker(m.chat, err, m, { packname: global.config.branding.stickerPackname, author: global.config.branding.stickerAuthor });
     }
   }
 };

@@ -1,6 +1,6 @@
 import * as zapo from '../../lib/simple.js';
 
-let wm = global.wm;
+let wm = global.config.branding.watermark;
 const handler = {
   help: ['mancing'],
   tags: ['rpg'],

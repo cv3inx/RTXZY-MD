@@ -1,6 +1,6 @@
-var name = global.nameowner;
-var numberowner = global.numberowner;
-var gmail = global.mail;
+var name = global.config.owner.name;
+var numberowner = global.config.owner.number;
+var gmail = global.config.owner.mail;
 const handler = {
   command: ['owner', 'creator'],
   help: ['owner', 'creator'],

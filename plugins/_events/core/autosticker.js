@@ -18,7 +18,7 @@ const handler = {
           let img = await q.download();
           if (!img) return;
           fs.writeFileSync(imgPath, img);
-          await conn.sendImageAsSticker(m.chat, imgPath, m, { packname: global.packname, author: global.author });
+          await conn.sendImageAsSticker(m.chat, imgPath, m, { packname: global.config.branding.stickerPackname, author: global.config.branding.stickerAuthor });
           fs.unlink(imgPath, (err) => {
             if (err) console.error('Gagal menghapus file gambar sementara:', err);
             else console.log('File gambar sementara dihapus');
@@ -36,7 +36,7 @@ const handler = {
           let video = await q.download();
           if (!video) return;
           fs.writeFileSync(videoPath, video);
-          await conn.sendVideoAsSticker(m.chat, videoPath, m, { packname: global.packname, author: global.author });
+          await conn.sendVideoAsSticker(m.chat, videoPath, m, { packname: global.config.branding.stickerPackname, author: global.config.branding.stickerAuthor });
 
           fs.unlink(videoPath, (err) => {
             if (err) console.error('Gagal menghapus file video sementara:', err);

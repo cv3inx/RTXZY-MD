@@ -32,7 +32,7 @@ const readDbFile = async () => {
 
 const sendBackup = async (conn) => {
   const data = await readDbFile();
-  await conn.sendMessage(global.numberowner + '@s.whatsapp.net', {
+  await conn.sendMessage(global.config.owner.number + '@s.whatsapp.net', {
     document: data,
     mimetype: 'application/x-sqlite3',
     fileName: 'database.sqlite'

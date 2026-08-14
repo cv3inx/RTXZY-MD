@@ -43,7 +43,7 @@ const { Low, JSONFile } = low;
   const question = (text) => new Promise((resolve) => rl.question(text, resolve));
 
   global.API = (name, path = '/', query = {}, apikeyqueryname) =>
-    (name in global.APIs ? global.APIs[name] : name) +
+    (name in global.config.api ? global.config.api[name].url : name) +
     path +
     (query || apikeyqueryname
       ? '?' +
@@ -52,7 +52,7 @@ const { Low, JSONFile } = low;
             ...query,
             ...(apikeyqueryname
               ? {
-                  [apikeyqueryname]: global.APIKeys[name in global.APIs ? global.APIs[name] : name]
+                  [apikeyqueryname]: name in global.config.api ? global.config.api[name].key : undefined
                 }
               : {})
           })
@@ -207,7 +207,7 @@ const { Low, JSONFile } = low;
       console.log(chalk.blueBright('QR Mode is active. Please scan the QR code that will appear below.'));
       rl.close();
     } else {
-      let phoneNumber = (global.botNumber || '').replace(/\D/g, '');
+      let phoneNumber = (global.config.botNumber || '').replace(/\D/g, '');
 
       if (phoneNumber.length >= 10) {
         console.log(chalk.blueBright(`Using bot number from config.js: ${phoneNumber}`));
