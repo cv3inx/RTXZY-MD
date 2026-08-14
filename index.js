@@ -1,16 +1,22 @@
 const __dirname = import.meta.dirname;
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-import cluster from 'cluster';
 import { spawn } from 'child_process';
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
 import http from 'http';
+import chalk from 'chalk';
+
+const log = {
+  info: (m) => console.log(chalk.yellow(m)),
+  ok: (m) => console.log(chalk.green(m)),
+  err: (m) => console.error(chalk.red(m))
+};
 
 const nodeVersion = parseInt(process.versions.node.split('.')[0]);
 if (nodeVersion < 22) {
-  console.error(`\x1b[31m❌ Node.js ${nodeVersion} is not supported. Please use Node.js 22 or higher.\x1b[0m`);
+  log.err(`❌ Node.js ${nodeVersion} is not supported. Please use Node.js 22 or higher.`);
   process.exit(1);
 }
 
@@ -34,22 +40,34 @@ const server = http.createServer((req, res) => {
 function listenOnPort(port) {
   server.once('error', (e) => {
     if (e.code === 'EADDRINUSE' && port !== 0) {
-      console.warn(`Port ${port} is already in use, trying another random port`);
+      log.info(`Port ${port} is already in use, trying another random port`);
       listenOnPort(0);
       return;
     }
 
-    console.error('failed:', e);
+    log.err(`failed: ${e}`);
     process.exit(1);
   });
 
-  server.listen(port, '0.0.0.0', () => {
-    const actualPort = server.address().port;
-    console.log('\x1b[33m%s\x1b[0m', `Port ${actualPort} is open`);
-  });
+  server.listen(port, '0.0.0.0', () => log.info(`🔌 Port ${server.address().port} is open`));
+}
+
+function printBanner() {
+  log.info(`🖥️  ${os.type()}, ${os.release()} - ${os.arch()}`);
+  log.info(`💾 Total RAM: ${(os.totalmem() / 1024 ** 3).toFixed(2)} GB`);
+  log.info(`💽 Free RAM: ${(os.freemem() / 1024 ** 3).toFixed(2)} GB`);
+  try {
+    require.resolve('zapo-js');
+    log.info(`🟡 zapo-js library version ${require('zapo-js/package.json').version} is installed`);
+  } catch {
+    log.err(`❌ zapo-js library is not installed`);
+  }
+  log.info(`📃 Script by BOTCAHX`);
+  log.info(`🔗 Github: https://github.com/BOTCAHX/RTXZY-MD`);
 }
 
 listenOnPort(Number(process.env.PORT) || 0);
+printBanner();
 
 let isRunning = false;
 
@@ -67,12 +85,12 @@ function start(file) {
   });
 
   p.on('message', (data) => {
-    console.log('\x1b[36m%s\x1b[0m', `🟢 RECEIVED ${data}`);
+    console.log(chalk.cyan(`🟢 RECEIVED ${data}`));
     switch (data) {
       case 'reset':
         p.kill();
         isRunning = false;
-        start.apply(this, arguments);
+        start(file);
         break;
       case 'uptime':
         p.send(process.uptime());
@@ -82,7 +100,7 @@ function start(file) {
 
   p.on('exit', (code) => {
     isRunning = false;
-    console.error('\x1b[31m%s\x1b[0m', `Exited with code: ${code}`);
+    log.err(`Exited with code: ${code}`);
     start('main.js');
 
     if (code === 0) return;
@@ -92,62 +110,40 @@ function start(file) {
     fs.unwatchFile(args[0]);
     fs.watchFile(args[0], () => {
       fs.unwatchFile(args[0]);
-      console.error('\x1b[31m%s\x1b[0m', `File ${args[0]} has been modified. Script will restart...`);
+      log.err(`File ${args[0]} has been modified. Script will restart...`);
       start('main.js');
     });
   });
 
   p.on('error', (err) => {
-    console.error('\x1b[31m%s\x1b[0m', `Error: ${err}`);
+    log.err(`Error: ${err}`);
     p.kill();
     isRunning = false;
-    console.error('\x1b[31m%s\x1b[0m', `Error occurred. Script will restart...`);
+    log.err(`Error occurred. Script will restart...`);
     start('main.js');
   });
-
-  const pluginsFolder = path.join(__dirname, 'plugins');
-
-  fs.readdir(pluginsFolder, (err, files) => {
-    if (err) {
-      console.error('\x1b[31m%s\x1b[0m', `Error reading plugins folder: ${err}`);
-      return;
-    }
-    console.log('\x1b[33m%s\x1b[0m', `🟡 Found ${files.length} plugins in folder ${pluginsFolder}`);
-    try {
-      require.resolve('zapo-js');
-      console.log('\x1b[33m%s\x1b[0m', `🟡 zapo-js library version ${require('zapo-js/package.json').version} is installed`);
-    } catch (e) {
-      console.error('\x1b[33m%s\x1b[0m', `❌ zapo-js library is not installed`);
-    }
-  });
-
-  console.log(`🖥️ \x1b[33m${os.type()}\x1b[0m, \x1b[33m${os.release()}\x1b[0m - \x1b[33m${os.arch()}\x1b[0m`);
-  const ramInGB = os.totalmem() / (1024 * 1024 * 1024);
-  console.log(`💾 \x1b[33mTotal RAM: ${ramInGB.toFixed(2)} GB\x1b[0m`);
-  const freeRamInGB = os.freemem() / (1024 * 1024 * 1024);
-  console.log(`💽 \x1b[33mFree RAM: ${freeRamInGB.toFixed(2)} GB\x1b[0m`);
-  console.log('\x1b[33m%s\x1b[0m', `📃 Script by BOTCAHX`);
-  console.log('\x1b[33m%s\x1b[0m', `🔗 Github: https://github.com/BOTCAHX/RTXZY-MD`);
-
-  setInterval(() => {}, 1000);
 }
 
 start('main.js');
 
+// Keeps the event loop alive between the child process exiting and the
+// restart above spawning a new one.
+setInterval(() => {}, 1000);
+
 const tmpDir = './tmp';
 if (!fs.existsSync(tmpDir)) {
   fs.mkdirSync(tmpDir);
-  console.log('\x1b[33m%s\x1b[0m', `📁 Created directory ${tmpDir}`);
+  log.info(`📁 Created directory ${tmpDir}`);
 }
 
 process.on('unhandledRejection', (reason) => {
-  console.error('\x1b[31m%s\x1b[0m', `Unhandled promise rejection: ${reason}`);
-  console.error('\x1b[31m%s\x1b[0m', 'Unhandled promise rejection. Script will restart...');
+  log.err(`Unhandled promise rejection: ${reason}`);
+  log.err('Script will restart...');
   start('main.js');
 });
 
 process.on('exit', (code) => {
-  console.error(`Exited with code: ${code}`);
-  console.error('Script will restart...');
+  log.err(`Exited with code: ${code}`);
+  log.err('Script will restart...');
   start('main.js');
 });
