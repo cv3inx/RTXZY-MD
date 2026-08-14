@@ -63,24 +63,24 @@ function start(file) {
   }
   const args = [resolvedFile, ...process.argv.slice(2)];
   const p = spawn(process.argv[0], args, {
-    stdio: ["inherit", "inherit", "inherit", "ipc"],
+    stdio: ['inherit', 'inherit', 'inherit', 'ipc']
   });
 
-  p.on("message", (data) => {
+  p.on('message', (data) => {
     console.log('\x1b[36m%s\x1b[0m', `🟢 RECEIVED ${data}`);
     switch (data) {
-      case "reset":
+      case 'reset':
         p.kill();
         isRunning = false;
         start.apply(this, arguments);
         break;
-      case "uptime":
+      case 'uptime':
         p.send(process.uptime());
         break;
     }
   });
 
-  p.on("exit", (code) => {
+  p.on('exit', (code) => {
     isRunning = false;
     console.error('\x1b[31m%s\x1b[0m', `Exited with code: ${code}`);
     start('main.js');
@@ -92,20 +92,20 @@ function start(file) {
     fs.unwatchFile(args[0]);
     fs.watchFile(args[0], () => {
       fs.unwatchFile(args[0]);
-	  console.error('\x1b[31m%s\x1b[0m', `File ${args[0]} has been modified. Script will restart...`);
-      start("main.js");
+      console.error('\x1b[31m%s\x1b[0m', `File ${args[0]} has been modified. Script will restart...`);
+      start('main.js');
     });
   });
 
-  p.on("error", (err) => {
+  p.on('error', (err) => {
     console.error('\x1b[31m%s\x1b[0m', `Error: ${err}`);
     p.kill();
     isRunning = false;
     console.error('\x1b[31m%s\x1b[0m', `Error occurred. Script will restart...`);
-    start("main.js");
+    start('main.js');
   });
 
-  const pluginsFolder = path.join(__dirname, "plugins");
+  const pluginsFolder = path.join(__dirname, 'plugins');
 
   fs.readdir(pluginsFolder, (err, files) => {
     if (err) {
@@ -127,17 +127,17 @@ function start(file) {
   const freeRamInGB = os.freemem() / (1024 * 1024 * 1024);
   console.log(`💽 \x1b[33mFree RAM: ${freeRamInGB.toFixed(2)} GB\x1b[0m`);
   console.log('\x1b[33m%s\x1b[0m', `📃 Script by BOTCAHX`);
-  console.log('\x1b[33m%s\x1b[0m', `🔗 Github: https://github.com/BOTCAHX/RTXZY-MD`);	
+  console.log('\x1b[33m%s\x1b[0m', `🔗 Github: https://github.com/BOTCAHX/RTXZY-MD`);
 
   setInterval(() => {}, 1000);
 }
 
-start("main.js");
+start('main.js');
 
 const tmpDir = './tmp';
-  if (!fs.existsSync(tmpDir)) {
-    fs.mkdirSync(tmpDir);
-    console.log('\x1b[33m%s\x1b[0m', `📁 Created directory ${tmpDir}`);
+if (!fs.existsSync(tmpDir)) {
+  fs.mkdirSync(tmpDir);
+  console.log('\x1b[33m%s\x1b[0m', `📁 Created directory ${tmpDir}`);
 }
 
 process.on('unhandledRejection', (reason) => {

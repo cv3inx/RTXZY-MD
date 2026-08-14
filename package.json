@@ -18,7 +18,9 @@
     "mcp": "zapo-mcp-server",
     "lint": "eslint . --cache",
     "lint:fix": "eslint . --fix --cache",
-    "lint:debug": "eslint . --debug"
+    "lint:debug": "eslint . --debug",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "keywords": [
     "whatsapp-bot-md",
@@ -112,6 +114,7 @@
   },
   "devDependencies": {
     "eslint": "^9.39.5",
-    "globals": "^14.0.0"
+    "globals": "^14.0.0",
+    "prettier": "^3.9.6"
   }
 }

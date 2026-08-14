@@ -1,0 +1,7 @@
+node_modules
+lib/lowdb
+lib/json
+plugins/info/tqto.js
+package-lock.json
+database.json
+sessions

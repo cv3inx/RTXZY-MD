@@ -222,20 +222,6 @@ Dokumentasi lengkap & skill MCP tersedia di [`zapo.to/mcp`](https://zapo.to/mcp)
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://dashboard.render.com/blueprint/new?repo=https%3A%2F%2Fgithub.com%2FBOTCAHX%2FRTXZY-MD)
 
-### Heroku
-
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/BOTCAHX/RTXZY-MD)
-
-#### Heroku Buildpack
-
-```
-heroku/nodejs
-https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git
-https://github.com/clhuang/heroku-buildpack-webp-binaries.git
-```
-
----
-
 ## Kontributor
 
 <p align="center">

@@ -3,6 +3,7 @@
 
 # Lock files
 package-lock.json
+yarn.lock
 
 # Local / Session data
 /sessions/
@@ -19,3 +20,5 @@ database.sqlite*
 
 # Temp media
 /tmp/
+.env
+.claude
