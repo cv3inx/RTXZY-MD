@@ -1,9 +1,22 @@
-let handler = async (m, { conn, text }) => {
-  if (!text) return conn.reply(m.chat, 'Harap Masukan Teks yang akan direpeat!', m);
+const handler = {
+  help: ['repeat <teks>'],
+  tags: ['tools'],
+  command: /^(repeat)$/i,
+  owner: false,
+  mods: false,
+  premium: false,
+  group: false,
+  private: false,
+  admin: false,
+  botAdmin: false,
+  fail: null,
+  limit: true,
+  run: async (m, { conn, text }) => {
+    if (!text) return conn.reply(m.chat, 'Harap Masukan Teks yang akan direpeat!', m);
 
-  conn.reply(
-    m.chat,
-    `
+    conn.reply(
+      m.chat,
+      `
 ${text}
 ${text}
 ${text}
@@ -1005,22 +1018,9 @@ ${text}
 ${text}
 ${text}
 `.trim(),
-    m
-  );
+      m
+    );
+  }
 };
-handler.help = ['repeat <teks>'];
-handler.tags = ['tools'];
-handler.command = /^(repeat)$/i;
-handler.owner = false;
-handler.mods = false;
-handler.premium = false;
-handler.group = false;
-handler.private = false;
-
-handler.admin = false;
-handler.botAdmin = false;
-
-handler.fail = null;
-handler.limit = true;
 
 export default handler;

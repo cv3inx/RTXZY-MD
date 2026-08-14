@@ -2,24 +2,26 @@
    Github : https://github.com/BOTCAHX/RTXZY-MD
 */
 
-let handler = async (m, { text, usedPrefix, command }) => {
-  try {
-    let result = await khodamnya();
-    let teks = `- Khodam \`@${m.quoted ? m.quoted.sender.split('@')[0] : m.sender.split('@')[0]}\` : ${result.name}\n\n> Penjelasan : ${result.meaning}`;
+const handler = {
+  command: ['cekkhodam', 'cekhodam', 'cekodam'],
+  help: ['cekkhodam', 'cekhodam', 'cekodam'],
+  tags: ['fun'],
+  limit: true,
+  run: async (m, { text, usedPrefix, command }) => {
+    try {
+      let result = await khodamnya();
+      let teks = `- Khodam \`@${m.quoted ? m.quoted.sender.split('@')[0] : m.sender.split('@')[0]}\` : ${result.name}\n\n> Penjelasan : ${result.meaning}`;
 
-    if (m.key.fromMe) {
-      await m.reply(teks, { edit: m.key, mentions: [m.quoted ? m.quoted.sender : m.sender] });
-    } else {
-      await m.reply(teks);
+      if (m.key.fromMe) {
+        await m.reply(teks, { edit: m.key, mentions: [m.quoted ? m.quoted.sender : m.sender] });
+      } else {
+        await m.reply(teks);
+      }
+    } catch (e) {
+      console.error(e);
     }
-  } catch (e) {
-    console.error(e);
   }
 };
-
-handler.command = handler.help = ['cekkhodam', 'cekhodam', 'cekodam'];
-handler.tags = ['fun'];
-handler.limit = true;
 
 export default handler;
 

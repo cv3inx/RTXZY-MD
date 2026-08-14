@@ -2,44 +2,45 @@ import * as zapo from '../../lib/simple.js';
 
 import Jimp from 'jimp';
 
-let handler = async (m, { conn }) => {
-  const { S_WHATSAPP_NET } = zapo;
+const handler = {
+  help: ['setppgc'],
+  tags: ['group'],
+  command: /^(setppgc|setppgrup|setppgroup)$/i,
+  group: true,
+  admin: true,
+  botAdmin: true,
+  run: async (m, { conn }) => {
+    const { S_WHATSAPP_NET } = zapo;
 
-  try {
-    var image = m.quoted ? m.quoted : m;
-    var mime = (image.msg || image).mimetype || '';
-    var media = await image.download();
-    const group = m.chat;
-    var { img } = await generateProfilePicture(media);
-    await conn.query({
-      tag: 'iq',
-      attrs: {
-        target: group,
-        to: S_WHATSAPP_NET,
-        type: 'set',
-        xmlns: 'w:profile:picture'
-      },
-      content: [
-        {
-          tag: 'picture',
-          attrs: { type: 'image' },
-          content: img
-        }
-      ]
-    });
-    m.reply(`Update Profile Group ✅`);
-  } catch (e) {
-    await m.reply('*[ERROR]* Reply gambar untuk mengganti profile group!');
+    try {
+      var image = m.quoted ? m.quoted : m;
+      var mime = (image.msg || image).mimetype || '';
+      var media = await image.download();
+      const group = m.chat;
+      var { img } = await generateProfilePicture(media);
+      await conn.query({
+        tag: 'iq',
+        attrs: {
+          target: group,
+          to: S_WHATSAPP_NET,
+          type: 'set',
+          xmlns: 'w:profile:picture'
+        },
+        content: [
+          {
+            tag: 'picture',
+            attrs: { type: 'image' },
+            content: img
+          }
+        ]
+      });
+      m.reply(`Update Profile Group ✅`);
+    } catch (e) {
+      await m.reply('*[ERROR]* Reply gambar untuk mengganti profile group!');
+    }
   }
 };
 
-handler.help = ['setppgc'];
-handler.tags = ['group'];
-handler.command = /^(setppgc|setppgrup|setppgroup)$/i;
-
-handler.group = true;
-handler.admin = true;
-handler.botAdmin = true;
 export default handler;
 
 async function generateProfilePicture(buffer) {

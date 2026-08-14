@@ -1,5 +1,10 @@
-let handler = async (m, { conn, usedPrefix }) => {
-  let tutorial = `
+const handler = {
+  help: ['tutorguild'],
+  tags: ['rpgG'],
+  command: /^tutorguild$/i,
+  rpg: true,
+  run: async (m, { conn, usedPrefix }) => {
+    let tutorial = `
 🏰 *Tutorial Guild*
 
 1. *Membuat Guild*
@@ -55,11 +60,8 @@ let handler = async (m, { conn, usedPrefix }) => {
 🔗 Selamat menjelajahi fitur guild!
     `;
 
-  conn.reply(m.chat, tutorial, m);
+    conn.reply(m.chat, tutorial, m);
+  }
 };
 
-handler.help = ['tutorguild'];
-handler.tags = ['rpgG'];
-handler.command = /^tutorguild$/i;
-handler.rpg = true;
 export default handler;

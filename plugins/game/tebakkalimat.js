@@ -1,17 +1,23 @@
 let timeout = 100000;
 let poin = 500;
-let handler = async (m, { conn, usedPrefix, Api }) => {
-  conn.tebakkalimat = conn.tebakkalimat ? conn.tebakkalimat : {};
-  let id = m.chat;
-  if (id in conn.tebakkalimat) {
-    conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebakkalimat[id][0]);
-    throw false;
-  }
-  // di sini dia ngambil data dari api
-  let src = await (await Api.get('/api/game/tebakkalimat')).json();
-  let json = src;
-  // buat caption buat di tampilin di wa
-  let caption = `
+const handler = {
+  help: ['tebakkalimat'],
+  tags: ['game'],
+  command: /^tebakkalimat/i,
+  register: false,
+  group: true,
+  run: async (m, { conn, usedPrefix, Api }) => {
+    conn.tebakkalimat = conn.tebakkalimat ? conn.tebakkalimat : {};
+    let id = m.chat;
+    if (id in conn.tebakkalimat) {
+      conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebakkalimat[id][0]);
+      throw false;
+    }
+    // di sini dia ngambil data dari api
+    let src = await (await Api.get('/api/game/tebakkalimat')).json();
+    let json = src;
+    // buat caption buat di tampilin di wa
+    let caption = `
 ${json.soal}
 
 ┌─⊷ *SOAL*
@@ -21,21 +27,17 @@ ${json.soal}
 ▢ *Balas/ REPLY soal ini untuk menjawab*
 └──────────────
 `.trim();
-  conn.tebakkalimat[id] = [
-    await conn.reply(m.chat, caption, m),
-    json,
-    poin,
-    setTimeout(() => {
-      if (conn.tebakkalimat[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.tebakkalimat[id][0]);
-      delete conn.tebakkalimat[id];
-    }, timeout)
-  ];
+    conn.tebakkalimat[id] = [
+      await conn.reply(m.chat, caption, m),
+      json,
+      poin,
+      setTimeout(() => {
+        if (conn.tebakkalimat[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.tebakkalimat[id][0]);
+        delete conn.tebakkalimat[id];
+      }, timeout)
+    ];
+  }
 };
-handler.help = ['tebakkalimat'];
-handler.tags = ['game'];
-handler.command = /^tebakkalimat/i;
-handler.register = false;
-handler.group = true;
 
 export default handler;
 

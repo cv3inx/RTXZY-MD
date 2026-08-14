@@ -10,74 +10,78 @@ var format = sizeFormatter({
   keepTrailingZeroes: false,
   render: (literal, symbol) => `${literal} ${symbol}B`
 });
-var handler = async (m, { conn }) => {
-  const chats = Object.entries(conn.chats).filter(([id, data]) => id && data.isChats);
-  const groupsIn = chats.filter(([id]) => id.endsWith('@g.us')); //groups.filter(v => !v.read_only)
-  const used = process.memoryUsage();
-  const cpus = os.cpus().map((cpu) => {
-    cpu.total = Object.keys(cpu.times).reduce((last, type) => last + cpu.times[type], 0);
-    return cpu;
-  });
-  const cpu = cpus.reduce(
-    (last, cpu, _, { length }) => {
-      last.total += cpu.total;
-      last.speed += cpu.speed / length;
-      last.times.user += cpu.times.user;
-      last.times.nice += cpu.times.nice;
-      last.times.sys += cpu.times.sys;
-      last.times.idle += cpu.times.idle;
-      last.times.irq += cpu.times.irq;
-      return last;
-    },
-    {
-      speed: 0,
-      total: 0,
-      times: {
-        user: 0,
-        nice: 0,
-        sys: 0,
-        idle: 0,
-        irq: 0
+const handler = {
+  help: ['ping', 'speed'],
+  tags: ['info'],
+  command: /^(ping|speed|pong|ingfo)$/i,
+  run: async (m, { conn }) => {
+    const chats = Object.entries(conn.chats).filter(([id, data]) => id && data.isChats);
+    const groupsIn = chats.filter(([id]) => id.endsWith('@g.us')); //groups.filter(v => !v.read_only)
+    const used = process.memoryUsage();
+    const cpus = os.cpus().map((cpu) => {
+      cpu.total = Object.keys(cpu.times).reduce((last, type) => last + cpu.times[type], 0);
+      return cpu;
+    });
+    const cpu = cpus.reduce(
+      (last, cpu, _, { length }) => {
+        last.total += cpu.total;
+        last.speed += cpu.speed / length;
+        last.times.user += cpu.times.user;
+        last.times.nice += cpu.times.nice;
+        last.times.sys += cpu.times.sys;
+        last.times.idle += cpu.times.idle;
+        last.times.irq += cpu.times.irq;
+        return last;
+      },
+      {
+        speed: 0,
+        total: 0,
+        times: {
+          user: 0,
+          nice: 0,
+          sys: 0,
+          idle: 0,
+          irq: 0
+        }
       }
+    );
+    var _muptime;
+    if (process.send) {
+      process.send('uptime');
+      _muptime =
+        (await new Promise((resolve) => {
+          process.once('message', resolve);
+          setTimeout(resolve, 1000);
+        })) * 1000;
     }
-  );
-  var _muptime;
-  if (process.send) {
-    process.send('uptime');
-    _muptime =
-      (await new Promise((resolve) => {
-        process.once('message', resolve);
-        setTimeout(resolve, 1000);
-      })) * 1000;
-  }
-  var muptime = clockString(_muptime);
-  var old = performance.now();
-  var neww = performance.now();
-  var speed = neww - old;
-  var cpux = osu.cpu;
-  var cpuCore = cpux.count();
-  var drive = osu.drive;
-  var mem = osu.mem;
-  var netstat = osu.netstat;
-  var HostN = osu.os.hostname();
-  var OS = osu.os.platform();
-  var cpuModel = cpux.model();
+    var muptime = clockString(_muptime);
+    var old = performance.now();
+    var neww = performance.now();
+    var speed = neww - old;
+    var cpux = osu.cpu;
+    var cpuCore = cpux.count();
+    var drive = osu.drive;
+    var mem = osu.mem;
+    var netstat = osu.netstat;
+    var HostN = osu.os.hostname();
+    var OS = osu.os.platform();
+    var cpuModel = cpux.model();
 
-  var d = new Date(new Date() + 3600000);
-  var locale = 'id';
-  var weeks = d.toLocaleDateString(locale, { weekday: 'long' });
-  var dates = d.toLocaleDateString(locale, {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  });
-  var times = d.toLocaleTimeString(locale, {
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric'
-  });
-  await m.reply('_Testing speed..._');
-  var txt = `*ᴘ ɪ ɴ ɢ*
+    var d = new Date(new Date() + 3600000);
+    var locale = 'id';
+    var weeks = d.toLocaleDateString(locale, { weekday: 'long' });
+    var dates = d.toLocaleDateString(locale, {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+    var times = d.toLocaleTimeString(locale, {
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric'
+    });
+    await m.reply('_Testing speed..._');
+    var txt = `*ᴘ ɪ ɴ ɢ*
 ${Math.round(neww - old)} ms
 ${speed} ms
 
@@ -128,11 +132,9 @@ ${cpus
     : ''
 }
 `;
-  conn.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/ec8cf04e3a2890d3dce9c.jpg' }, caption: txt, mentions: [m.sender] }, { quoted: m });
+    conn.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/ec8cf04e3a2890d3dce9c.jpg' }, caption: txt, mentions: [m.sender] }, { quoted: m });
+  }
 };
-handler.help = ['ping', 'speed'];
-handler.tags = ['info'];
-handler.command = /^(ping|speed|pong|ingfo)$/i;
 export default handler;
 
 function clockString(ms) {

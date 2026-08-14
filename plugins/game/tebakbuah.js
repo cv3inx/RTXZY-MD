@@ -1,26 +1,32 @@
 let timeout = 100000;
 let poin = 10000;
 
-let handler = async (m, { conn, usedPrefix, Api }) => {
-  conn.tebakbuah = conn.tebakbuah ? conn.tebakbuah : {};
-  let id = m.chat;
-  if (id in conn.tebakbuah) {
-    conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebakbuah[id][0]);
-    throw false;
-  }
+const handler = {
+  help: ['tebakbuah'],
+  tags: ['game'],
+  command: /^tebakbuah/i,
+  limit: false,
+  group: true,
+  run: async (m, { conn, usedPrefix, Api }) => {
+    conn.tebakbuah = conn.tebakbuah ? conn.tebakbuah : {};
+    let id = m.chat;
+    if (id in conn.tebakbuah) {
+      conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebakbuah[id][0]);
+      throw false;
+    }
 
-  let json;
-  try {
-    json = await (await Api.get('/api/game/tebakbuah')).json();
-  } catch (e) {
-    console.error(e);
-    throw 'Gagal mengambil data dari API, coba lagi nanti.';
-  }
+    let json;
+    try {
+      json = await (await Api.get('/api/game/tebakbuah')).json();
+    } catch (e) {
+      console.error(e);
+      throw 'Gagal mengambil data dari API, coba lagi nanti.';
+    }
 
-  // Pastikan API memberikan hasil yang valid
-  if (!json || !json.img || !json.jawaban) throw 'Terjadi kesalahan, API tidak memberikan data yang valid!';
+    // Pastikan API memberikan hasil yang valid
+    if (!json || !json.img || !json.jawaban) throw 'Terjadi kesalahan, API tidak memberikan data yang valid!';
 
-  let caption = `
+    let caption = `
 ≡ _GAME TEBAK BUAH
 
 ┌─⊷ *SOAL*
@@ -32,21 +38,16 @@ let handler = async (m, { conn, usedPrefix, Api }) => {
 └──────────────
 
     `.trim();
-  conn.tebakbuah[id] = [
-    await conn.sendMessage(m.chat, { image: { url: json.img }, caption: caption }, { quoted: m }),
-    json,
-    poin,
-    setTimeout(() => {
-      if (conn.tebakbuah[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.tebakbuah[id][0]);
-      delete conn.tebakbuah[id];
-    }, timeout)
-  ];
+    conn.tebakbuah[id] = [
+      await conn.sendMessage(m.chat, { image: { url: json.img }, caption: caption }, { quoted: m }),
+      json,
+      poin,
+      setTimeout(() => {
+        if (conn.tebakbuah[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.tebakbuah[id][0]);
+        delete conn.tebakbuah[id];
+      }, timeout)
+    ];
+  }
 };
-
-handler.help = ['tebakbuah'];
-handler.tags = ['game'];
-handler.command = /^tebakbuah/i;
-handler.limit = false;
-handler.group = true;
 
 export default handler;

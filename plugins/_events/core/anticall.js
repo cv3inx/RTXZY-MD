@@ -19,9 +19,10 @@ async function init(conn) {
   initialized = true;
 }
 
-let handler = (m) => m;
-handler.before = async function (m, { conn }) {
-  init(conn);
+const handler = {
+  before: async function (m, { conn }) {
+    init(conn);
+  }
 };
 
 export default handler;

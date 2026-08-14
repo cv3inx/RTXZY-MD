@@ -1,17 +1,23 @@
 let timeout = 100000;
 let poin = 10000;
-let handler = async (m, { conn, usedPrefix, Api }) => {
-  conn.tebaktebakan = conn.tebaktebakan ? conn.tebaktebakan : {};
-  let id = m.chat;
-  if (id in conn.tebaktebakan) {
-    conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebaktebakan[id][0]);
-    throw false;
-  }
-  // di sini dia ngambil data dari api
-  let src = await (await Api.get('/api/game/tebaktebakan')).json();
-  let json = src;
-  // buat caption buat di tampilin di wa
-  let caption = `
+const handler = {
+  help: ['tebaktebakan'],
+  tags: ['game'],
+  command: /^tebaktebakan/i,
+  register: false,
+  group: true,
+  run: async (m, { conn, usedPrefix, Api }) => {
+    conn.tebaktebakan = conn.tebaktebakan ? conn.tebaktebakan : {};
+    let id = m.chat;
+    if (id in conn.tebaktebakan) {
+      conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebaktebakan[id][0]);
+      throw false;
+    }
+    // di sini dia ngambil data dari api
+    let src = await (await Api.get('/api/game/tebaktebakan')).json();
+    let json = src;
+    // buat caption buat di tampilin di wa
+    let caption = `
 ${json.soal}
 
 ┌─⊷ *SOAL*
@@ -21,21 +27,17 @@ ${json.soal}
 ▢ *Balas/ REPLY soal ini untuk menjawab*
 └──────────────
 `.trim();
-  conn.tebaktebakan[id] = [
-    await conn.reply(m.chat, caption, m),
-    json,
-    poin,
-    setTimeout(() => {
-      if (conn.tebaktebakan[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.tebaktebakan[id][0]);
-      delete conn.tebaktebakan[id];
-    }, timeout)
-  ];
+    conn.tebaktebakan[id] = [
+      await conn.reply(m.chat, caption, m),
+      json,
+      poin,
+      setTimeout(() => {
+        if (conn.tebaktebakan[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.tebaktebakan[id][0]);
+        delete conn.tebaktebakan[id];
+      }, timeout)
+    ];
+  }
 };
-handler.help = ['tebaktebakan'];
-handler.tags = ['game'];
-handler.command = /^tebaktebakan/i;
-handler.register = false;
-handler.group = true;
 
 export default handler;
 

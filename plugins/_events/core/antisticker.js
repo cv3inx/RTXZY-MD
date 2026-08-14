@@ -1,23 +1,23 @@
-let handler = (m) => m;
+const handler = {
+  before: function (m, { isAdmin, isBotAdmin }) {
+    if (m.isZapo && m.fromMe) return true;
+    let chat = global.db.data.chats[m.chat];
+    let sender = global.db.data.chats[m.sender];
 
-handler.before = function (m, { isAdmin, isBotAdmin }) {
-  if (m.isZapo && m.fromMe) return true;
-  let chat = global.db.data.chats[m.chat];
-  let sender = global.db.data.chats[m.sender];
-
-  let isSticker = m.mtype;
-  if (chat.antiSticker && isSticker) {
-    if (isSticker === 'stickerMessage' || isSticker === 'lottieStickerMessage') {
-      if (global.opts) {
-        if (!(isAdmin || !isBotAdmin)) {
-          this.sendMessage(m.chat, { delete: m.key });
+    let isSticker = m.mtype;
+    if (chat.antiSticker && isSticker) {
+      if (isSticker === 'stickerMessage' || isSticker === 'lottieStickerMessage') {
+        if (global.opts) {
+          if (!(isAdmin || !isBotAdmin)) {
+            this.sendMessage(m.chat, { delete: m.key });
+          }
+          return true;
         }
-        return true;
       }
     }
-  }
-  return true;
+    return true;
+  },
+  group: true
 };
 
-handler.group = true;
 export default handler;

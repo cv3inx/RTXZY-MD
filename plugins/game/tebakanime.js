@@ -1,26 +1,32 @@
 let timeout = 100000;
 let poin = 10000;
 
-let handler = async (m, { conn, usedPrefix, Api }) => {
-  conn.tebakanime = conn.tebakanime ? conn.tebakanime : {};
-  let id = m.chat;
-  if (id in conn.tebakanime) {
-    conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebakanime[id][0]);
-    throw false;
-  }
+const handler = {
+  help: ['tebakanime'],
+  tags: ['game'],
+  command: /^tebakanime/i,
+  limit: false,
+  group: true,
+  run: async (m, { conn, usedPrefix, Api }) => {
+    conn.tebakanime = conn.tebakanime ? conn.tebakanime : {};
+    let id = m.chat;
+    if (id in conn.tebakanime) {
+      conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebakanime[id][0]);
+      throw false;
+    }
 
-  let json;
-  try {
-    json = await (await Api.get('/api/game/tebakanime')).json();
-  } catch (e) {
-    console.error(e);
-    throw 'Gagal mengambil data dari API, coba lagi nanti.';
-  }
+    let json;
+    try {
+      json = await (await Api.get('/api/game/tebakanime')).json();
+    } catch (e) {
+      console.error(e);
+      throw 'Gagal mengambil data dari API, coba lagi nanti.';
+    }
 
-  // Pastikan API memberikan hasil yang valid
-  if (!json || !json.img || !json.jawaban) throw 'Terjadi kesalahan, API tidak memberikan data yang valid!';
+    // Pastikan API memberikan hasil yang valid
+    if (!json || !json.img || !json.jawaban) throw 'Terjadi kesalahan, API tidak memberikan data yang valid!';
 
-  let caption = `
+    let caption = `
 ≡ _GAME TEBAK ANIME
 
 ┌─⊷ *SOAL*
@@ -33,21 +39,16 @@ let handler = async (m, { conn, usedPrefix, Api }) => {
 └──────────────
 
     `.trim();
-  conn.tebakanime[id] = [
-    await conn.sendMessage(m.chat, { image: { url: json.img }, caption: caption }, { quoted: m }),
-    json,
-    poin,
-    setTimeout(() => {
-      if (conn.tebakanime[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.tebakanime[id][0]);
-      delete conn.tebakanime[id];
-    }, timeout)
-  ];
+    conn.tebakanime[id] = [
+      await conn.sendMessage(m.chat, { image: { url: json.img }, caption: caption }, { quoted: m }),
+      json,
+      poin,
+      setTimeout(() => {
+        if (conn.tebakanime[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.tebakanime[id][0]);
+        delete conn.tebakanime[id];
+      }, timeout)
+    ];
+  }
 };
-
-handler.help = ['tebakanime'];
-handler.tags = ['game'];
-handler.command = /^tebakanime/i;
-handler.limit = false;
-handler.group = true;
 
 export default handler;

@@ -1,17 +1,19 @@
-let handler = async (m, { conn, usedPrefix, text }) => {
-  let user = global.db.data.users[m.sender];
-  let time = user.lastclaimb2 + 86400000;
-  if (new Date() - user.lastclaimb2 < 86400000) throw `Kamu Sudah Ambil Gaji Hari Ini\nTunggu selama ${msToTime(time - new Date())} lagi`;
-  let money = `${Math.floor(Math.random() * 5000000)}`.trim();
-  user.money += 50000;
-  user.lastclaimb2 = new Date() * 1;
-  m.reply(`Kamu Mendapatkan 50.000 Money`);
+const handler = {
+  help: ['gajian'],
+  tags: ['rpg'],
+  command: /^(gaji|gajian)/i,
+  register: true,
+  rpg: true,
+  run: async (m, { conn, usedPrefix, text }) => {
+    let user = global.db.data.users[m.sender];
+    let time = user.lastclaimb2 + 86400000;
+    if (new Date() - user.lastclaimb2 < 86400000) throw `Kamu Sudah Ambil Gaji Hari Ini\nTunggu selama ${msToTime(time - new Date())} lagi`;
+    let money = `${Math.floor(Math.random() * 5000000)}`.trim();
+    user.money += 50000;
+    user.lastclaimb2 = new Date() * 1;
+    m.reply(`Kamu Mendapatkan 50.000 Money`);
+  }
 };
-handler.help = ['gajian'];
-handler.tags = ['rpg'];
-handler.command = /^(gaji|gajian)/i;
-handler.register = true;
-handler.rpg = true;
 export default handler;
 
 function msToTime(duration) {

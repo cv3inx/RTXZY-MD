@@ -1,7 +1,19 @@
-let handler = async (m, { conn, usedPrefix: _p }) => {
-  conn.reply(
-    m.chat,
-    `
+const handler = {
+  help: ['murothal'],
+  tags: ['islam'],
+  command: /^(murothal)$/i,
+  owner: false,
+  mods: false,
+  premium: false,
+  group: false,
+  private: false,
+  admin: false,
+  botAdmin: false,
+  fail: null,
+  run: async (m, { conn, usedPrefix: _p }) => {
+    conn.reply(
+      m.chat,
+      `
 QUR'AN BOT:
 Via Copas {SEBARKAN}
 *YouTube:*
@@ -37,21 +49,9 @@ Juz 28 ⇨ http://j.mp/2brI3ai
 Juz 29 ⇨ http://j.mp/2bFRyBF
 Juz 30 ⇨ http://j.mp/2bFREcc
 `.trim(),
-    m
-  );
+      m
+    );
+  }
 };
-handler.help = ['murothal'];
-handler.tags = ['islam'];
-handler.command = /^(murothal)$/i;
-handler.owner = false;
-handler.mods = false;
-handler.premium = false;
-handler.group = false;
-handler.private = false;
-
-handler.admin = false;
-handler.botAdmin = false;
-
-handler.fail = null;
 
 export default handler;

@@ -1,44 +1,45 @@
 import { readdirSync, statSync, unlinkSync } from 'fs';
 import { join } from 'path';
 
-let handler = async (m, { conn, usedPrefix, args }) => {
-  const tmp = ['./tmp'];
-  const filenames = [];
+const handler = {
+  help: ['cleartmp'],
+  tags: ['owner'],
+  command: /^(cleartmp)$/i,
+  rowner: true,
+  run: async (m, { conn, usedPrefix, args }) => {
+    const tmp = ['./tmp'];
+    const filenames = [];
 
-  tmp.forEach((dirname) => {
-    readdirSync(dirname).forEach((file) => {
-      filenames.push(join(dirname, file));
+    tmp.forEach((dirname) => {
+      readdirSync(dirname).forEach((file) => {
+        filenames.push(join(dirname, file));
+      });
     });
-  });
 
-  const deletedFiles = [];
+    const deletedFiles = [];
 
-  filenames.forEach((file) => {
-    const stats = statSync(file);
+    filenames.forEach((file) => {
+      const stats = statSync(file);
 
-    if (stats.isDirectory()) {
-      console.log(`Skipping directory: ${file}`);
-    } else {
-      unlinkSync(file);
-      deletedFiles.push(file);
+      if (stats.isDirectory()) {
+        console.log(`Skipping directory: ${file}`);
+      } else {
+        unlinkSync(file);
+        deletedFiles.push(file);
+      }
+    });
+
+    conn.reply(m.chat, 'Success!', m);
+
+    if (deletedFiles.length > 0) {
+      console.log('Deleted files:', deletedFiles);
+      conn.reply(m.chat, `Deleted files:\n${deletedFiles.join('\n')}`, m);
     }
-  });
 
-  conn.reply(m.chat, 'Success!', m);
-
-  if (deletedFiles.length > 0) {
-    console.log('Deleted files:', deletedFiles);
-    conn.reply(m.chat, `Deleted files:\n${deletedFiles.join('\n')}`, m);
-  }
-
-  if (deletedFiles.length == 0) {
-    conn.reply(m.chat, 'tidak ada file yang tersisa di tmp', m);
+    if (deletedFiles.length == 0) {
+      conn.reply(m.chat, 'tidak ada file yang tersisa di tmp', m);
+    }
   }
 };
-
-handler.help = ['cleartmp'];
-handler.tags = ['owner'];
-handler.command = /^(cleartmp)$/i;
-handler.rowner = true;
 
 export default handler;

@@ -1,6 +1,10 @@
-let handler = async (m) =>
-  m.reply(
-    `
+const handler = {
+  help: ['kodebahasa'],
+  tags: ['internet'],
+  command: /^kodebahasa$/i,
+  run: async (m) =>
+    m.reply(
+      `
 ┏━━°❀❬ *Kode Bahasa* ❭❀°━━┓
 ┃
 ┃• af : Afrikaans
@@ -56,9 +60,7 @@ let handler = async (m) =>
 ┃• cy : Welsh
 ┗━━━━━━━━━━━━━━━━
 `.trim()
-  ); // Tambah sendiri kalo mau
-handler.help = ['kodebahasa'];
-handler.tags = ['internet'];
-handler.command = /^kodebahasa$/i;
+    )
+}; // Tambah sendiri kalo mau
 
 export default handler;

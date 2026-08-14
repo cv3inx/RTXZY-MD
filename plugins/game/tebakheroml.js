@@ -1,16 +1,22 @@
 let timeout = 100000;
 let poin = 1000;
-let handler = async (m, { conn, usedPrefix, Api }) => {
-  conn.tebakml = conn.tebakml ? conn.tebakml : {};
-  let id = m.chat;
-  if (id in conn.tebakml) {
-    conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebakml[id][0]);
-    throw false;
-  }
-  let src = await (await Api.get('/api/game/tebakheroml')).json();
-  let json = src;
-  if (!json) throw 'Terjadi kesalahan, ulangi lagi perintah!';
-  let caption = `
+const handler = {
+  help: ['tebakml'],
+  tags: ['game'],
+  command: /^tebakml/i,
+  limit: false,
+  group: true,
+  run: async (m, { conn, usedPrefix, Api }) => {
+    conn.tebakml = conn.tebakml ? conn.tebakml : {};
+    let id = m.chat;
+    if (id in conn.tebakml) {
+      conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebakml[id][0]);
+      throw false;
+    }
+    let src = await (await Api.get('/api/game/tebakheroml')).json();
+    let json = src;
+    if (!json) throw 'Terjadi kesalahan, ulangi lagi perintah!';
+    let caption = `
 ≡ _TEBAK HERO ML_
 
 ┌─⊷ *SOAL*
@@ -22,21 +28,16 @@ let handler = async (m, { conn, usedPrefix, Api }) => {
 └──────────────
 
     `.trim();
-  conn.tebakml[id] = [
-    await conn.sendMessage(m.chat, { image: { url: json.fullimg }, caption: caption }, { quoted: m }),
-    json,
-    poin,
-    setTimeout(() => {
-      if (conn.tebakml[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.tebakml[id][0]);
-      delete conn.tebakml[id];
-    }, timeout)
-  ];
+    conn.tebakml[id] = [
+      await conn.sendMessage(m.chat, { image: { url: json.fullimg }, caption: caption }, { quoted: m }),
+      json,
+      poin,
+      setTimeout(() => {
+        if (conn.tebakml[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.tebakml[id][0]);
+        delete conn.tebakml[id];
+      }, timeout)
+    ];
+  }
 };
-
-handler.help = ['tebakml'];
-handler.tags = ['game'];
-handler.command = /^tebakml/i;
-handler.limit = false;
-handler.group = true;
 
 export default handler;

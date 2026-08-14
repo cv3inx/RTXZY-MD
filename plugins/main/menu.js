@@ -58,52 +58,114 @@ I am an automated system (WhatsApp Bot) that can help to do something, search an
   after: `*Note:* Ketik .menu <category> untuk melihat menu spesifik\nContoh: .menu tools`
 };
 
-let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
-  try {
-    let pkg = JSON.parse(await fs.promises.readFile(path.join(__dirname, '../package.json')).catch((_) => '{}'));
-    let { exp, limit, level, role } = global.db.data.users[m.sender];
-    let { min, xp, max } = levelling.xpRange(level, global.multiplier);
-    let name = `@${m.sender.split`@`[0]}`;
-    let teks = args[0] || '';
+const handler = {
+  help: ['menu'],
+  tags: ['main'],
+  command: /^(menu|help)$/i,
+  exp: 3,
+  run: async (m, { conn, usedPrefix: _p, args = [], command }) => {
+    try {
+      let pkg = JSON.parse(await fs.promises.readFile(path.join(__dirname, '../package.json')).catch((_) => '{}'));
+      let { exp, limit, level, role } = global.db.data.users[m.sender];
+      let { min, xp, max } = levelling.xpRange(level, global.multiplier);
+      let name = `@${m.sender.split`@`[0]}`;
+      let teks = args[0] || '';
 
-    let d = new Date(new Date() + 3600000);
-    let locale = 'id';
-    let date = d.toLocaleDateString(locale, {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    });
-
-    let time = d.toLocaleTimeString(locale, {
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric'
-    });
-
-    let _uptime = process.uptime() * 1000;
-    let uptime = clockString(_uptime);
-
-    let help = Object.values(global.plugins)
-      .filter((plugin) => !plugin.disabled)
-      .map((plugin) => {
-        return {
-          help: Array.isArray(plugin.help) ? plugin.help : [plugin.help],
-          tags: Array.isArray(plugin.tags) ? plugin.tags : [plugin.tags],
-          prefix: 'customPrefix' in plugin,
-          limit: plugin.limit,
-          premium: plugin.premium,
-          enabled: !plugin.disabled
-        };
+      let d = new Date(new Date() + 3600000);
+      let locale = 'id';
+      let date = d.toLocaleDateString(locale, {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
       });
 
-    if (!teks) {
-      let menuList = `${defaultMenu.before}\n\n┌  ◦ *DAFTAR MENU*\n`;
-      for (let tag of arrayMenu) {
-        if (tag && allTags[tag]) {
-          menuList += `│  ◦ ${_p}menu ${tag}\n`;
+      let time = d.toLocaleTimeString(locale, {
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+      });
+
+      let _uptime = process.uptime() * 1000;
+      let uptime = clockString(_uptime);
+
+      let help = Object.values(global.plugins)
+        .filter((plugin) => !plugin.disabled)
+        .map((plugin) => {
+          return {
+            help: Array.isArray(plugin.help) ? plugin.help : [plugin.help],
+            tags: Array.isArray(plugin.tags) ? plugin.tags : [plugin.tags],
+            prefix: 'customPrefix' in plugin,
+            limit: plugin.limit,
+            premium: plugin.premium,
+            enabled: !plugin.disabled
+          };
+        });
+
+      if (!teks) {
+        let menuList = `${defaultMenu.before}\n\n┌  ◦ *DAFTAR MENU*\n`;
+        for (let tag of arrayMenu) {
+          if (tag && allTags[tag]) {
+            menuList += `│  ◦ ${_p}menu ${tag}\n`;
+          }
         }
+        menuList += `└  \n\n${defaultMenu.after}`;
+
+        let replace = {
+          '%': '%',
+          p: _p,
+          uptime,
+          name,
+          date,
+          time
+        };
+
+        let text = menuList.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name]);
+        await conn.sendMessage(m.chat, { image: { url: global.thumb || 'https://telegra.ph/file/3a34bfa58714bdef500d9.jpg' }, caption: text, mentions: [m.sender] }, { quoted: m });
+        return;
       }
-      menuList += `└  \n\n${defaultMenu.after}`;
+
+      if (!allTags[teks]) {
+        return m.reply(`Menu "${teks}" tidak tersedia.\nSilakan ketik ${_p}menu untuk melihat daftar menu.`);
+      }
+
+      let menuCategory = defaultMenu.before + '\n\n';
+
+      if (teks === 'all') {
+        // category all
+        for (let tag of arrayMenu) {
+          if (tag !== 'all' && allTags[tag]) {
+            menuCategory += defaultMenu.header.replace(/%category/g, allTags[tag]) + '\n';
+
+            let categoryCommands = help.filter((menu) => menu.tags && menu.tags.includes(tag) && menu.help);
+            for (let menu of categoryCommands) {
+              for (let help of menu.help) {
+                menuCategory +=
+                  defaultMenu.body
+                    .replace(/%cmd/g, menu.prefix ? help : _p + help)
+                    .replace(/%islimit/g, menu.limit ? '(Ⓛ)' : '')
+                    .replace(/%isPremium/g, menu.premium ? '(Ⓟ)' : '') + '\n';
+              }
+            }
+            menuCategory += defaultMenu.footer + '\n';
+          }
+        }
+      } else {
+        menuCategory += defaultMenu.header.replace(/%category/g, allTags[teks]) + '\n';
+
+        let categoryCommands = help.filter((menu) => menu.tags && menu.tags.includes(teks) && menu.help);
+        for (let menu of categoryCommands) {
+          for (let help of menu.help) {
+            menuCategory +=
+              defaultMenu.body
+                .replace(/%cmd/g, menu.prefix ? help : _p + help)
+                .replace(/%islimit/g, menu.limit ? '(Ⓛ)' : '')
+                .replace(/%isPremium/g, menu.premium ? '(Ⓟ)' : '') + '\n';
+          }
+        }
+        menuCategory += defaultMenu.footer + '\n';
+      }
+
+      menuCategory += '\n' + defaultMenu.after;
 
       let replace = {
         '%': '%',
@@ -114,76 +176,15 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
         time
       };
 
-      let text = menuList.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name]);
+      let text = menuCategory.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name]);
+
       await conn.sendMessage(m.chat, { image: { url: global.thumb || 'https://telegra.ph/file/3a34bfa58714bdef500d9.jpg' }, caption: text, mentions: [m.sender] }, { quoted: m });
-      return;
+    } catch (e) {
+      conn.reply(m.chat, 'Maaf, menu sedang error', m);
+      console.error(e);
     }
-
-    if (!allTags[teks]) {
-      return m.reply(`Menu "${teks}" tidak tersedia.\nSilakan ketik ${_p}menu untuk melihat daftar menu.`);
-    }
-
-    let menuCategory = defaultMenu.before + '\n\n';
-
-    if (teks === 'all') {
-      // category all
-      for (let tag of arrayMenu) {
-        if (tag !== 'all' && allTags[tag]) {
-          menuCategory += defaultMenu.header.replace(/%category/g, allTags[tag]) + '\n';
-
-          let categoryCommands = help.filter((menu) => menu.tags && menu.tags.includes(tag) && menu.help);
-          for (let menu of categoryCommands) {
-            for (let help of menu.help) {
-              menuCategory +=
-                defaultMenu.body
-                  .replace(/%cmd/g, menu.prefix ? help : _p + help)
-                  .replace(/%islimit/g, menu.limit ? '(Ⓛ)' : '')
-                  .replace(/%isPremium/g, menu.premium ? '(Ⓟ)' : '') + '\n';
-            }
-          }
-          menuCategory += defaultMenu.footer + '\n';
-        }
-      }
-    } else {
-      menuCategory += defaultMenu.header.replace(/%category/g, allTags[teks]) + '\n';
-
-      let categoryCommands = help.filter((menu) => menu.tags && menu.tags.includes(teks) && menu.help);
-      for (let menu of categoryCommands) {
-        for (let help of menu.help) {
-          menuCategory +=
-            defaultMenu.body
-              .replace(/%cmd/g, menu.prefix ? help : _p + help)
-              .replace(/%islimit/g, menu.limit ? '(Ⓛ)' : '')
-              .replace(/%isPremium/g, menu.premium ? '(Ⓟ)' : '') + '\n';
-        }
-      }
-      menuCategory += defaultMenu.footer + '\n';
-    }
-
-    menuCategory += '\n' + defaultMenu.after;
-
-    let replace = {
-      '%': '%',
-      p: _p,
-      uptime,
-      name,
-      date,
-      time
-    };
-
-    let text = menuCategory.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name]);
-
-    await conn.sendMessage(m.chat, { image: { url: global.thumb || 'https://telegra.ph/file/3a34bfa58714bdef500d9.jpg' }, caption: text, mentions: [m.sender] }, { quoted: m });
-  } catch (e) {
-    conn.reply(m.chat, 'Maaf, menu sedang error', m);
-    console.error(e);
   }
 };
-
-handler.help = ['menu'];
-handler.tags = ['main'];
-handler.command = /^(menu|help)$/i;
-handler.exp = 3;
 
 export default handler;
 

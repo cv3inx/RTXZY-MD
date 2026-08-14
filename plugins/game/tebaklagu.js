@@ -1,15 +1,20 @@
 let timeout = 100000;
 let poin = 10000;
-let handler = async (m, { conn, command, usedPrefix, Api }) => {
-  conn.tebaklagu = conn.tebaklagu ? conn.tebaklagu : {};
-  let id = m.chat;
-  if (id in conn.tebaklagu) {
-    conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebaklagu[id][0]);
-    throw false;
-  }
-  let data = await (await Api.get('/api/game/tebaklagu')).json();
-  let json = data;
-  let caption = `*${command.toUpperCase()}*
+const handler = {
+  help: ['tebaklagu'],
+  tags: ['game'],
+  command: /^tebaklagu/i,
+  limit: true,
+  run: async (m, { conn, command, usedPrefix, Api }) => {
+    conn.tebaklagu = conn.tebaklagu ? conn.tebaklagu : {};
+    let id = m.chat;
+    if (id in conn.tebaklagu) {
+      conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebaklagu[id][0]);
+      throw false;
+    }
+    let data = await (await Api.get('/api/game/tebaklagu')).json();
+    let json = data;
+    let caption = `*${command.toUpperCase()}*
 Penyanyi: ${json.artis}
 
 ┌─⊷ *SOAL*
@@ -19,20 +24,17 @@ Penyanyi: ${json.artis}
 ▢ *Balas/ REPLY soal ini untuk menjawab*
 └──────────────
 `.trim();
-  conn.tebaklagu[id] = [
-    await conn.reply(m.chat, caption, m),
-    json,
-    poin,
-    setTimeout(() => {
-      if (conn.tebaklagu[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.judul}*`, conn.tebaklagu[id][0]);
-      delete conn.tebaklagu[id];
-    }, timeout)
-  ];
-  await conn.sendFile(m.chat, json.lagu, 'tebaklagu.mp3', '', conn.tebaklagu[id][0]);
+    conn.tebaklagu[id] = [
+      await conn.reply(m.chat, caption, m),
+      json,
+      poin,
+      setTimeout(() => {
+        if (conn.tebaklagu[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.judul}*`, conn.tebaklagu[id][0]);
+        delete conn.tebaklagu[id];
+      }, timeout)
+    ];
+    await conn.sendFile(m.chat, json.lagu, 'tebaklagu.mp3', '', conn.tebaklagu[id][0]);
+  }
 };
-handler.help = ['tebaklagu'];
-handler.tags = ['game'];
-handler.command = /^tebaklagu/i;
-handler.limit = true;
 
 export default handler;

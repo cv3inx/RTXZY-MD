@@ -1,6 +1,11 @@
-let handler = async (m, { conn, usedPrefix }) => {
-  let user = global.db.data.users[m.sender];
-  let buah = `GUDANG BUAH
+const handler = {
+  help: ['buah'],
+  tags: ['rpg'],
+  command: /^(buah|listbuah)$/i,
+  rpg: true,
+  run: async (m, { conn, usedPrefix }) => {
+    let user = global.db.data.users[m.sender];
+    let buah = `GUDANG BUAH
 
 🍌 ${user.pisang} Pisang
 🍇 ${user.anggur} Anggur 
@@ -9,11 +14,8 @@ let handler = async (m, { conn, usedPrefix }) => {
 🍎 ${user.apel} Apel
 
 Gunakan Command ${usedPrefix}sell Untuk Menjual Buah !`;
-  conn.reply(m.chat, buah, m);
+    conn.reply(m.chat, buah, m);
+  }
 };
-handler.help = ['buah'];
-handler.tags = ['rpg'];
-handler.command = /^(buah|listbuah)$/i;
-handler.rpg = true;
 
 export default handler;

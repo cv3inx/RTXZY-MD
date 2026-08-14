@@ -5,24 +5,26 @@ const limitprem = 20;
 const moneyfree = 10000;
 const moneyprem = 20000;
 
-let handler = async (m, { conn, isPrems }) => {
-  let time = global.db.data.users[m.sender].lastweekly + 604800000;
-  if (new Date() - global.db.data.users[m.sender].lastweekly < 604800000) throw `Anda sudah mengklaim, klaim mingguan ini\ntunggu selama ${msToTime(time - new Date())} lagi`;
-  //    conn.reply(m.chat, `Anda sudah mengklaim dan mendapatkan :`, m)
-  global.db.data.users[m.sender].exp += isPrems ? prem : free;
-  global.db.data.users[m.sender].money += isPrems ? moneyprem : moneyfree;
-  global.db.data.users[m.sender].limit += isPrems ? limitprem : limitfree;
-  // global.db.data.users[m.sender].legendary += 3
-  conn.reply(m.chat, `Selamat kamu mendapatkan:\n\n+${isPrems ? prem : free} Exp\n+${isPrems ? moneyprem : moneyfree} Money\n+${isPrems ? limitprem : limitfree} Limit`, m);
-  global.db.data.users[m.sender].lastweekly = new Date() * 1;
+const handler = {
+  help: ['weekly'],
+  tags: ['rpgabsen'],
+  command: /^(weekly)$/i,
+  limit: true,
+  fail: null,
+  rpg: true,
+  run: async (m, { conn, isPrems }) => {
+    let time = global.db.data.users[m.sender].lastweekly + 604800000;
+    if (new Date() - global.db.data.users[m.sender].lastweekly < 604800000) throw `Anda sudah mengklaim, klaim mingguan ini\ntunggu selama ${msToTime(time - new Date())} lagi`;
+    //    conn.reply(m.chat, `Anda sudah mengklaim dan mendapatkan :`, m)
+    global.db.data.users[m.sender].exp += isPrems ? prem : free;
+    global.db.data.users[m.sender].money += isPrems ? moneyprem : moneyfree;
+    global.db.data.users[m.sender].limit += isPrems ? limitprem : limitfree;
+    // global.db.data.users[m.sender].legendary += 3
+    conn.reply(m.chat, `Selamat kamu mendapatkan:\n\n+${isPrems ? prem : free} Exp\n+${isPrems ? moneyprem : moneyfree} Money\n+${isPrems ? limitprem : limitfree} Limit`, m);
+    global.db.data.users[m.sender].lastweekly = new Date() * 1;
+  }
 };
 
-handler.help = ['weekly'];
-handler.tags = ['rpgabsen'];
-handler.command = /^(weekly)$/i;
-handler.limit = true;
-handler.fail = null;
-handler.rpg = true;
 export default handler;
 
 function msToTime(duration) {

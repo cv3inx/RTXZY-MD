@@ -1,25 +1,26 @@
-let handler = async (m, { conn, text }) => {
-  conn.reply(
-    m.chat,
-    `${pickRandom(['Yap', 'Sepertinya Begitu', 'Kayaknya', 'Kayaknya nggak', 'Nggak', 'Nggak mungkin'])}
+const handler = {
+  help: ['apakah <teks>?'],
+  tags: ['kerang'],
+  customPrefix: /(\?$)/,
+  command: /^apakah$/i,
+  owner: false,
+  fail: null,
+  run: async (m, { conn, text }) => {
+    conn.reply(
+      m.chat,
+      `${pickRandom(['Yap', 'Sepertinya Begitu', 'Kayaknya', 'Kayaknya nggak', 'Nggak', 'Nggak mungkin'])}
 `.trim(),
-    m,
-    m.mentionedJid
-      ? {
-          contextInfo: {
-            mentionedJid: m.mentionedJid
+      m,
+      m.mentionedJid
+        ? {
+            contextInfo: {
+              mentionedJid: m.mentionedJid
+            }
           }
-        }
-      : {}
-  );
+        : {}
+    );
+  }
 };
-handler.help = ['apakah <teks>?'];
-handler.tags = ['kerang'];
-handler.customPrefix = /(\?$)/;
-handler.command = /^apakah$/i;
-handler.owner = false;
-
-handler.fail = null;
 
 export default handler;
 

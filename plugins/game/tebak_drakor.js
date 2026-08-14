@@ -1,16 +1,22 @@
 let timeout = 100000;
 let poin = 10000;
-let handler = async (m, { conn, usedPrefix, Api }) => {
-  conn.tebakdrakor = conn.tebakdrakor ? conn.tebakdrakor : {};
-  let id = m.chat;
-  if (id in conn.tebakdrakor) {
-    conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebakdrakor[id][0]);
-    throw false;
-  }
-  let src = await (await Api.get('/api/game/tebakdrakor')).json();
-  let json = src;
-  if (!json) throw 'Terjadi kesalahan, ulangi lagi perintah!';
-  let caption = `
+const handler = {
+  help: ['tebakdrakor'],
+  tags: ['game'],
+  command: /^tebakdrakor/i,
+  limit: true,
+  group: true,
+  run: async (m, { conn, usedPrefix, Api }) => {
+    conn.tebakdrakor = conn.tebakdrakor ? conn.tebakdrakor : {};
+    let id = m.chat;
+    if (id in conn.tebakdrakor) {
+      conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebakdrakor[id][0]);
+      throw false;
+    }
+    let src = await (await Api.get('/api/game/tebakdrakor')).json();
+    let json = src;
+    if (!json) throw 'Terjadi kesalahan, ulangi lagi perintah!';
+    let caption = `
 ≡ _GAME TEBAK DRAKOR_
 
 ┌─⊷ *SOAL*
@@ -22,21 +28,16 @@ let handler = async (m, { conn, usedPrefix, Api }) => {
 └──────────────
 
     `.trim();
-  conn.tebakdrakor[id] = [
-    await conn.sendMessage(m.chat, { image: { url: json.img }, caption: caption }, { quoted: m }),
-    json,
-    poin,
-    setTimeout(() => {
-      if (conn.tebakdrakor[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.tebakdrakor[id][0]);
-      delete conn.tebakdrakor[id];
-    }, timeout)
-  ];
+    conn.tebakdrakor[id] = [
+      await conn.sendMessage(m.chat, { image: { url: json.img }, caption: caption }, { quoted: m }),
+      json,
+      poin,
+      setTimeout(() => {
+        if (conn.tebakdrakor[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.tebakdrakor[id][0]);
+        delete conn.tebakdrakor[id];
+      }, timeout)
+    ];
+  }
 };
-
-handler.help = ['tebakdrakor'];
-handler.tags = ['game'];
-handler.command = /^tebakdrakor/i;
-handler.limit = true;
-handler.group = true;
 
 export default handler;

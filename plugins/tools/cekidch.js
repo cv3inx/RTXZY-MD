@@ -42,77 +42,78 @@ async function scrapeChannelPage(channelId) {
   return { name: decodeEntities(ogTitle), followers, description, picture: ogImage };
 }
 
-let handler = async (m, { conn, text, command, usedPrefix }) => {
-  if (!text) throw `Silakan masukkan link channel WhatsApp.\nContoh:\n${usedPrefix + command} https://whatsapp.com/channel/0029VbAI9JCBKfi5qXq9yJ01`;
-  const channelId = parseChannelId(text);
+const handler = {
+  command: ['cekidch'],
+  tags: ['tools'],
+  premium: false,
+  limit: true,
+  run: async (m, { conn, text, command, usedPrefix }) => {
+    if (!text) throw `Silakan masukkan link channel WhatsApp.\nContoh:\n${usedPrefix + command} https://whatsapp.com/channel/0029VbAI9JCBKfi5qXq9yJ01`;
+    const channelId = parseChannelId(text);
 
-  let meta = null;
-  let via = 'api';
-  try {
-    const newsletter = conn._client?.newsletter;
-    if (newsletter?.fetch) {
-      const jid = channelId.endsWith('@newsletter') ? channelId : `${channelId}@newsletter`;
-      try {
-        meta = await newsletter.fetch(jid, { fetchFullImage: true });
-      } catch (e) {
+    let meta = null;
+    let via = 'api';
+    try {
+      const newsletter = conn._client?.newsletter;
+      if (newsletter?.fetch) {
+        const jid = channelId.endsWith('@newsletter') ? channelId : `${channelId}@newsletter`;
         try {
-          meta = await newsletter.fetchByInvite(channelId, { fetchFullImage: true });
-        } catch (e2) {
-          console.error('cekidch newsletter api failed (jid + invite):', e?.message, '|', e2?.message);
+          meta = await newsletter.fetch(jid, { fetchFullImage: true });
+        } catch (e) {
+          try {
+            meta = await newsletter.fetchByInvite(channelId, { fetchFullImage: true });
+          } catch (e2) {
+            console.error('cekidch newsletter api failed (jid + invite):', e?.message, '|', e2?.message);
+          }
         }
       }
-    }
-  } catch (err) {
-    console.error('cekidch newsletter api error:', err?.message);
-  }
-
-  if (!meta || !meta.name) {
-    try {
-      meta = await scrapeChannelPage(channelId);
-      via = 'web';
     } catch (err) {
-      console.error('cekidch scrape failed:', err?.message);
-      return m.reply(`*Error*: ID channel tidak valid atau channel tidak ditemukan.\n\nID yang digunakan: ${channelId}`);
+      console.error('cekidch newsletter api error:', err?.message);
     }
-  }
 
-  let response = `📢 *Informasi Channel WhatsApp*\n\n`;
-  response += `📛 *Nama Channel*: ${meta.name || '-'}\n`;
-  response += `🆔 *ID Channel*: ${channelId}\n`;
-  response += `👥 *Jumlah Subscriber*: ${meta.subscribersCount ?? meta.followers ?? '-'}\n`;
-  if (meta.verification) response += `✅ *Verifikasi*: ${meta.verification}\n`;
-  if (meta.creationTime) response += `⏰ *Waktu Dibuat*: ${new Date(meta.creationTime * 1000).toLocaleString()}\n`;
-  response += `📝 *Deskripsi*:\n${meta.description || '-'}\n`;
-  response += `\n_(sumber: ${via === 'api' ? 'API WhatsApp' : 'halaman web channel'})_`;
+    if (!meta || !meta.name) {
+      try {
+        meta = await scrapeChannelPage(channelId);
+        via = 'web';
+      } catch (err) {
+        console.error('cekidch scrape failed:', err?.message);
+        return m.reply(`*Error*: ID channel tidak valid atau channel tidak ditemukan.\n\nID yang digunakan: ${channelId}`);
+      }
+    }
 
-  let previewUrl = null;
-  if (meta.preview?.directPath) {
-    previewUrl = 'https://mmg.whatsapp.net' + meta.preview.directPath;
-  } else if (typeof meta.picture === 'string') {
-    previewUrl = meta.picture;
-  } else if (meta.picture?.directPath) {
-    previewUrl = 'https://mmg.whatsapp.net' + meta.picture.directPath;
-  }
-  if (previewUrl) {
-    try {
-      const { data: imageBuffer } = await axios.get(previewUrl, {
-        timeout: 20000,
-        responseType: 'arraybuffer',
-        headers: UA_HEADERS
-      });
-      await conn.sendFile(m.chat, Buffer.from(imageBuffer), 'preview.jpg', response, m);
-    } catch (e) {
-      console.error('cekidch send preview failed:', e?.message);
+    let response = `📢 *Informasi Channel WhatsApp*\n\n`;
+    response += `📛 *Nama Channel*: ${meta.name || '-'}\n`;
+    response += `🆔 *ID Channel*: ${channelId}\n`;
+    response += `👥 *Jumlah Subscriber*: ${meta.subscribersCount ?? meta.followers ?? '-'}\n`;
+    if (meta.verification) response += `✅ *Verifikasi*: ${meta.verification}\n`;
+    if (meta.creationTime) response += `⏰ *Waktu Dibuat*: ${new Date(meta.creationTime * 1000).toLocaleString()}\n`;
+    response += `📝 *Deskripsi*:\n${meta.description || '-'}\n`;
+    response += `\n_(sumber: ${via === 'api' ? 'API WhatsApp' : 'halaman web channel'})_`;
+
+    let previewUrl = null;
+    if (meta.preview?.directPath) {
+      previewUrl = 'https://mmg.whatsapp.net' + meta.preview.directPath;
+    } else if (typeof meta.picture === 'string') {
+      previewUrl = meta.picture;
+    } else if (meta.picture?.directPath) {
+      previewUrl = 'https://mmg.whatsapp.net' + meta.picture.directPath;
+    }
+    if (previewUrl) {
+      try {
+        const { data: imageBuffer } = await axios.get(previewUrl, {
+          timeout: 20000,
+          responseType: 'arraybuffer',
+          headers: UA_HEADERS
+        });
+        await conn.sendFile(m.chat, Buffer.from(imageBuffer), 'preview.jpg', response, m);
+      } catch (e) {
+        console.error('cekidch send preview failed:', e?.message);
+        return m.reply(response);
+      }
+    } else {
       return m.reply(response);
     }
-  } else {
-    return m.reply(response);
   }
 };
-
-handler.command = ['cekidch'];
-handler.tags = ['tools'];
-handler.premium = false;
-handler.limit = true;
 
 export default handler;

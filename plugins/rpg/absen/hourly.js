@@ -4,32 +4,33 @@ const moneyfree = 5000;
 const moneyprem = 10000;
 const timeout = 3600000;
 
-let handler = async (m, { conn, isPrems }) => {
-  let time = global.db.data.users[m.sender].lasthourly + 3600000;
-  if (new Date() - global.db.data.users[m.sender].lasthourly < 3600000) return conn.reply(m.chat, `Anda sudah mengklaim, klaim harian hari ini\ntunggu selama ${msToTime(time - new Date())} lagi`, m);
-  //  conn.reply(m.chat, `Anda sudah mengklaim dan mendapatkan :`, m)
-  global.db.data.users[m.sender].exp += isPrems ? prem : free;
-  global.db.data.users[m.sender].money += isPrems ? moneyprem : moneyfree;
-  // global.db.data.users[m.sender].potion += 5
-  conn.reply(m.chat, `Selamat kamu mendapatkan:\n\n+${isPrems ? prem : free} Exp\n+${isPrems ? moneyprem : moneyfree} Money`, m);
-  global.db.data.users[m.sender].lasthourly = new Date() * 1;
+const handler = {
+  help: ['hourly'],
+  tags: ['rpgabsen'],
+  command: /^(hourly)$/i,
+  owner: false,
+  mods: false,
+  premium: false,
+  group: false,
+  private: false,
+  rpg: true,
+  admin: false,
+  botAdmin: false,
+  fail: null,
+  money: 0,
+  exp: 0,
+  limit: true,
+  run: async (m, { conn, isPrems }) => {
+    let time = global.db.data.users[m.sender].lasthourly + 3600000;
+    if (new Date() - global.db.data.users[m.sender].lasthourly < 3600000) return conn.reply(m.chat, `Anda sudah mengklaim, klaim harian hari ini\ntunggu selama ${msToTime(time - new Date())} lagi`, m);
+    //  conn.reply(m.chat, `Anda sudah mengklaim dan mendapatkan :`, m)
+    global.db.data.users[m.sender].exp += isPrems ? prem : free;
+    global.db.data.users[m.sender].money += isPrems ? moneyprem : moneyfree;
+    // global.db.data.users[m.sender].potion += 5
+    conn.reply(m.chat, `Selamat kamu mendapatkan:\n\n+${isPrems ? prem : free} Exp\n+${isPrems ? moneyprem : moneyfree} Money`, m);
+    global.db.data.users[m.sender].lasthourly = new Date() * 1;
+  }
 };
-handler.help = ['hourly'];
-handler.tags = ['rpgabsen'];
-handler.command = /^(hourly)$/i;
-handler.owner = false;
-handler.mods = false;
-handler.premium = false;
-handler.group = false;
-handler.private = false;
-handler.rpg = true;
-handler.admin = false;
-handler.botAdmin = false;
-
-handler.fail = null;
-handler.money = 0;
-handler.exp = 0;
-handler.limit = true;
 
 export default handler;
 

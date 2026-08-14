@@ -1,31 +1,33 @@
-let handler = async (m, { conn }) => {
-  let user = global.db.data.users[m.sender];
+const handler = {
+  help: ['guildaccept @user'],
+  tags: ['rpgG'],
+  command: /^(guildaccept)$/i,
+  rpg: true,
+  run: async (m, { conn }) => {
+    let user = global.db.data.users[m.sender];
 
-  // Cek apakah pengguna adalah pemilik guild atau memiliki peran staff
-  if (!isGuildOwner(user) && !isGuildStaff(user)) {
-    return conn.reply(m.chat, 'Anda tidak memiliki izin untuk melakukan ini.', m);
+    // Cek apakah pengguna adalah pemilik guild atau memiliki peran staff
+    if (!isGuildOwner(user) && !isGuildStaff(user)) {
+      return conn.reply(m.chat, 'Anda tidak memiliki izin untuk melakukan ini.', m);
+    }
+
+    let target = m.mentionedJid[0];
+    if (!target) return conn.reply(m.chat, 'Tag user yang ingin Anda terima di guild.', m);
+
+    let targetUser = global.db.data.users[target];
+    if (!targetUser.guildRequest) return conn.reply(m.chat, 'Tidak ada permintaan bergabung yang tertunda dari pengguna ini.', m);
+
+    let guildName = targetUser.guildRequest;
+    let guild = global.db.data.guilds[guildName];
+
+    guild.members.push(target);
+    targetUser.guild = guildName;
+    delete targetUser.guildRequest;
+
+    conn.reply(m.chat, `Permintaan bergabung dari @${target.split('@')[0]} telah diterima.`, m);
   }
-
-  let target = m.mentionedJid[0];
-  if (!target) return conn.reply(m.chat, 'Tag user yang ingin Anda terima di guild.', m);
-
-  let targetUser = global.db.data.users[target];
-  if (!targetUser.guildRequest) return conn.reply(m.chat, 'Tidak ada permintaan bergabung yang tertunda dari pengguna ini.', m);
-
-  let guildName = targetUser.guildRequest;
-  let guild = global.db.data.guilds[guildName];
-
-  guild.members.push(target);
-  targetUser.guild = guildName;
-  delete targetUser.guildRequest;
-
-  conn.reply(m.chat, `Permintaan bergabung dari @${target.split('@')[0]} telah diterima.`, m);
 };
 
-handler.help = ['guildaccept @user'];
-handler.tags = ['rpgG'];
-handler.command = /^(guildaccept)$/i;
-handler.rpg = true;
 export default handler;
 
 // Fungsi untuk mengecek apakah pengguna adalah pemilik guild

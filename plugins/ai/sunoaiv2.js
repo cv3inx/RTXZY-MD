@@ -1,49 +1,51 @@
 import axios from 'axios';
 
-let handler = async (m, { conn, text, args, usedPrefix, command }) => {
-  let [prompt, duration] = text.split('|').map((s) => s.trim());
+const handler = {
+  command: ['aimusicv2', 'musicgenv2', 'sunoaiv2'],
+  help: ['aimusicv2', 'musicgenv2', 'sunoaiv2'],
+  tags: ['ai'],
+  limit: true,
+  run: async (m, { conn, text, args, usedPrefix, command }) => {
+    let [prompt, duration] = text.split('|').map((s) => s.trim());
 
-  if (!prompt || !duration) return m.reply(`Contoh penggunaan:\n${usedPrefix + command} Kisah cinta di bawah bulan purnama | 60\n\nKeterangan:\n- Prompt: deskripsi atau lirik lagu\n- Duration: durasi lagu dalam detik`);
+    if (!prompt || !duration) return m.reply(`Contoh penggunaan:\n${usedPrefix + command} Kisah cinta di bawah bulan purnama | 60\n\nKeterangan:\n- Prompt: deskripsi atau lirik lagu\n- Duration: durasi lagu dalam detik`);
 
-  await m.reply('⏳ Membuat lagu, mohon tunggu...\n*Pembuatan lagu bisa memakan waktu 2-5 menit*');
+    await m.reply('⏳ Membuat lagu, mohon tunggu...\n*Pembuatan lagu bisa memakan waktu 2-5 menit*');
 
-  try {
-    const result = await generateMusic(prompt, duration);
+    try {
+      const result = await generateMusic(prompt, duration);
 
-    if (!result?.audioData || !result.audioData.length) throw '❌ Gagal mendapatkan audio.';
+      if (!result?.audioData || !result.audioData.length) throw '❌ Gagal mendapatkan audio.';
 
-    let listInfo = result.audioData
-      .map((item, i) => {
-        return `🎵 *Audio ${i + 1}*\n*Judul:* ${item.songName}\n*Duration:* ${item.duration.toFixed(2)} detik\n*Audio URL:* ${item.audioUrl}`;
-      })
-      .join('\n\n');
+      let listInfo = result.audioData
+        .map((item, i) => {
+          return `🎵 *Audio ${i + 1}*\n*Judul:* ${item.songName}\n*Duration:* ${item.duration.toFixed(2)} detik\n*Audio URL:* ${item.audioUrl}`;
+        })
+        .join('\n\n');
 
-    await m.reply(`✅ Berikut semua hasil yang tersedia:\n\n${listInfo}\n\nAlbum Art: ${result.albumArt || 'Tidak tersedia'}`);
+      await m.reply(`✅ Berikut semua hasil yang tersedia:\n\n${listInfo}\n\nAlbum Art: ${result.albumArt || 'Tidak tersedia'}`);
 
-    for (let i = 0; i < result.audioData.length; i++) {
-      const audioItem = result.audioData[i];
-      const audioBuffer = await axios.get(audioItem.audioUrl, { responseType: 'arraybuffer' }).then((res) => res.data);
+      for (let i = 0; i < result.audioData.length; i++) {
+        const audioItem = result.audioData[i];
+        const audioBuffer = await axios.get(audioItem.audioUrl, { responseType: 'arraybuffer' }).then((res) => res.data);
 
-      await conn.sendMessage(
-        m.chat,
-        {
-          audio: audioBuffer,
-          mimetype: 'audio/mpeg',
-          fileName: `${audioItem.songName.replace(/[^a-zA-Z0-9]/g, '_')}_${i + 1}.mp3`,
-          ptt: false
-        },
-        { quoted: m }
-      );
+        await conn.sendMessage(
+          m.chat,
+          {
+            audio: audioBuffer,
+            mimetype: 'audio/mpeg',
+            fileName: `${audioItem.songName.replace(/[^a-zA-Z0-9]/g, '_')}_${i + 1}.mp3`,
+            ptt: false
+          },
+          { quoted: m }
+        );
+      }
+    } catch (e) {
+      console.error(e);
+      m.reply('❌ Gagal membuat lagu');
     }
-  } catch (e) {
-    console.error(e);
-    m.reply('❌ Gagal membuat lagu');
   }
 };
-
-handler.command = handler.help = ['aimusicv2', 'musicgenv2', 'sunoaiv2'];
-handler.tags = ['ai'];
-handler.limit = true;
 
 export default handler;
 

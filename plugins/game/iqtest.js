@@ -1,19 +1,19 @@
-let handler = async (m, { conn }) => {
-  conn.reply(m.chat, `${pickRandom(global.iq)}`, m);
+const handler = {
+  help: ['iqtest'],
+  tags: ['game'],
+  command: /^(iqtest)$/i,
+  owner: false,
+  mods: false,
+  premium: false,
+  group: false,
+  private: false,
+  admin: false,
+  botAdmin: false,
+  fail: null,
+  run: async (m, { conn }) => {
+    conn.reply(m.chat, `${pickRandom(global.iq)}`, m);
+  }
 };
-handler.help = ['iqtest'];
-handler.tags = ['game'];
-handler.command = /^(iqtest)$/i;
-handler.owner = false;
-handler.mods = false;
-handler.premium = false;
-handler.group = false;
-handler.private = false;
-
-handler.admin = false;
-handler.botAdmin = false;
-
-handler.fail = null;
 
 export default handler;
 

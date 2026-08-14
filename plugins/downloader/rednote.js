@@ -1,54 +1,55 @@
-let handler = async (m, { conn, text, usedPrefix, command, Api }) => {
-  if (!text) throw `Masukkan URL!\n\nContoh:\n${usedPrefix + command} http://xhslink.com/o/21DKXV988zp`;
-  if (!text.match(/xhslink|xiaohongshu/gi)) throw `URL Tidak Valid!`;
+const handler = {
+  help: ['xiaohongshu', 'rednote'],
+  command: /^(xiaohongshu|xhs|xhsdl|rednote)$/i,
+  tags: ['downloader'],
+  limit: true,
+  premium: false,
+  run: async (m, { conn, text, usedPrefix, command, Api }) => {
+    if (!text) throw `Masukkan URL!\n\nContoh:\n${usedPrefix + command} http://xhslink.com/o/21DKXV988zp`;
+    if (!text.match(/xhslink|xiaohongshu/gi)) throw `URL Tidak Valid!`;
 
-  m.reply(wait);
-  try {
-    const res = await Api.get('/api/download/rednote', { url: text })
-      .then((r) => r.json())
-      .then((data) => ({ data }));
-    const result = res.data?.result;
-    if (!result || !result.media) throw `Gagal mengambil data!`;
+    m.reply(wait);
+    try {
+      const res = await Api.get('/api/download/rednote', { url: text })
+        .then((r) => r.json())
+        .then((data) => ({ data }));
+      const result = res.data?.result;
+      if (!result || !result.media) throw `Gagal mengambil data!`;
 
-    const media = result.media;
-    const meta = result.metadata;
-    const title = meta?.title || 'No title';
+      const media = result.media;
+      const meta = result.metadata;
+      const title = meta?.title || 'No title';
 
-    if (media.videoUrl) {
-      await conn.sendMessage(
-        m.chat,
-        {
-          video: { url: media.videoUrl },
-          caption: `*Title:* ${title}`
-        },
-        { quoted: m }
-      );
-    } else if (media.images && media.images.length > 0) {
-      for (let img of media.images) {
-        await sleep(2000);
+      if (media.videoUrl) {
         await conn.sendMessage(
           m.chat,
           {
-            image: { url: img },
+            video: { url: media.videoUrl },
             caption: `*Title:* ${title}`
           },
           { quoted: m }
         );
+      } else if (media.images && media.images.length > 0) {
+        for (let img of media.images) {
+          await sleep(2000);
+          await conn.sendMessage(
+            m.chat,
+            {
+              image: { url: img },
+              caption: `*Title:* ${title}`
+            },
+            { quoted: m }
+          );
+        }
+      } else {
+        throw `Konten tidak ditemukan!`;
       }
-    } else {
-      throw `Konten tidak ditemukan!`;
+    } catch (e) {
+      console.error(e);
+      throw `Terjadi kesalahan saat memproses permintaan!`;
     }
-  } catch (e) {
-    console.error(e);
-    throw `Terjadi kesalahan saat memproses permintaan!`;
   }
 };
-
-handler.help = ['xiaohongshu', 'rednote'];
-handler.command = /^(xiaohongshu|xhs|xhsdl|rednote)$/i;
-handler.tags = ['downloader'];
-handler.limit = true;
-handler.premium = false;
 
 export default handler;
 

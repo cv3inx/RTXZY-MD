@@ -2,38 +2,42 @@ import jimp from 'jimp';
 import uploadImage from '../../lib/media/uploadImage.js';
 import uploadFile from '../../lib/media/uploadFile.js';
 
-let handler = async (m, { conn, usedPrefix, args }) => {
-  let toWidth = args[0];
-  let toHeight = args[1];
-  if (!toWidth) throw 'Please provide the width.';
-  if (!toHeight) throw 'Please provide the height.';
-  if (isNaN(toWidth) || isNaN(toHeight)) throw 'Width and height must be numbers.';
-  let quotedMsg = m.quoted ? m.quoted : m;
-  let mime = (quotedMsg.msg || quotedMsg).mimetype || '';
-  if (!mime) throw 'Media not found.';
+const handler = {
+  help: ['resize <width> <height> (reply|caption)'],
+  tags: ['tools'],
+  command: /^(resize)$/i,
+  run: async (m, { conn, usedPrefix, args }) => {
+    let toWidth = args[0];
+    let toHeight = args[1];
+    if (!toWidth) throw 'Please provide the width.';
+    if (!toHeight) throw 'Please provide the height.';
+    if (isNaN(toWidth) || isNaN(toHeight)) throw 'Width and height must be numbers.';
+    let quotedMsg = m.quoted ? m.quoted : m;
+    let mime = (quotedMsg.msg || quotedMsg).mimetype || '';
+    if (!mime) throw 'Media not found.';
 
-  let media = await quotedMsg.download();
-  let isMedia = /image\/(png|jpe?g|gif)|video\/mp4/.test(mime);
-  if (!isMedia) throw `The "${mime}" type is not supported.`;
-  let link = await (isMedia ? uploadImage : uploadImage)(media);
-  let source = await jimp.read(await media);
-  let size = {
-    before: {
-      height: await source.getHeight(),
-      width: await source.getWidth()
-    },
-    after: {
-      height: toHeight,
-      width: toWidth
-    }
-  };
-  let compres = await conn.resize(media, toWidth - 0, toHeight - 0);
-  let linkCompres = await (isMedia ? uploadImage : uploadImage)(compres);
-  conn.sendFile(
-    m.chat,
-    compres,
-    null,
-    `
+    let media = await quotedMsg.download();
+    let isMedia = /image\/(png|jpe?g|gif)|video\/mp4/.test(mime);
+    if (!isMedia) throw `The "${mime}" type is not supported.`;
+    let link = await (isMedia ? uploadImage : uploadImage)(media);
+    let source = await jimp.read(await media);
+    let size = {
+      before: {
+        height: await source.getHeight(),
+        width: await source.getWidth()
+      },
+      after: {
+        height: toHeight,
+        width: toWidth
+      }
+    };
+    let compres = await conn.resize(media, toWidth - 0, toHeight - 0);
+    let linkCompres = await (isMedia ? uploadImage : uploadImage)(compres);
+    conn.sendFile(
+      m.chat,
+      compres,
+      null,
+      `
 • BEFORE
 *+* Width : ${size.before.width}
 *+* Height : ${size.before.height}
@@ -45,12 +49,9 @@ let handler = async (m, { conn, usedPrefix, args }) => {
 • LINK
 *+* Original: ${link}
 *+* Compressed: ${linkCompres}`,
-    m
-  );
+      m
+    );
+  }
 };
-
-handler.help = ['resize <width> <height> (reply|caption)'];
-handler.tags = ['tools'];
-handler.command = /^(resize)$/i;
 
 export default handler;

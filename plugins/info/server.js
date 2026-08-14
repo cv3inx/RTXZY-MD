@@ -1,36 +1,38 @@
 import os from 'os';
 import fetch from 'node-fetch';
 
-let handler = async (m, { conn }) => {
-  try {
-    let response = await fetch('https://freeipapi.com/api/json');
-    let json = await response.json();
-    let caption = `乂  *S E R V E R*\n\n`;
-    caption += `┌  ◦  OS: ${os.type()} (${os.arch()} / ${os.release()})\n`;
-    caption += `│  ◦  RAM: ${formatSize(os.totalmem() - os.freemem())} / ${formatSize(os.totalmem())}\n`;
-    json.timeZones = [json.timeZones[0]];
-    let currencies = json.currencies || ['N/A'];
-    let currency = currencies[0] || 'N/A';
+const handler = {
+  command: ['server'],
+  help: ['server'],
+  tags: ['info'],
+  owner: true,
+  run: async (m, { conn }) => {
+    try {
+      let response = await fetch('https://freeipapi.com/api/json');
+      let json = await response.json();
+      let caption = `乂  *S E R V E R*\n\n`;
+      caption += `┌  ◦  OS: ${os.type()} (${os.arch()} / ${os.release()})\n`;
+      caption += `│  ◦  RAM: ${formatSize(os.totalmem() - os.freemem())} / ${formatSize(os.totalmem())}\n`;
+      json.timeZones = [json.timeZones[0]];
+      let currencies = json.currencies || ['N/A'];
+      let currency = currencies[0] || 'N/A';
 
-    for (let key in json) {
-      if (key === 'currencies') {
-        caption += `│  ◦  Currency: ${currency}\n`;
-      } else {
-        caption += `│  ◦  ${ucword(key)}: ${json[key]}\n`;
+      for (let key in json) {
+        if (key === 'currencies') {
+          caption += `│  ◦  Currency: ${currency}\n`;
+        } else {
+          caption += `│  ◦  ${ucword(key)}: ${json[key]}\n`;
+        }
       }
+      caption += `│  ◦  Uptime: ${toTime(os.uptime() * 1000)}\n`;
+      caption += `└  ◦  Processor: ${os.cpus()[0].model}\n\n`;
+      conn.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/cf4f28ed3b9ebdfb30adc.png' }, caption: caption, mentions: [m.sender] }, { quoted: m });
+    } catch (error) {
+      console.log(error);
+      m.reply(global.eror || 'Error');
     }
-    caption += `│  ◦  Uptime: ${toTime(os.uptime() * 1000)}\n`;
-    caption += `└  ◦  Processor: ${os.cpus()[0].model}\n\n`;
-    conn.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/cf4f28ed3b9ebdfb30adc.png' }, caption: caption, mentions: [m.sender] }, { quoted: m });
-  } catch (error) {
-    console.log(error);
-    m.reply(global.eror || 'Error');
   }
 };
-
-handler.command = handler.help = ['server'];
-handler.tags = ['info'];
-handler.owner = true;
 
 export default handler;
 

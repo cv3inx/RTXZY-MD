@@ -1,20 +1,21 @@
-let handler = async (m, { conn, usedPrefix, command, Api }) => {
-  try {
-    await m.reply(wait);
-    let res = await Api.get('/api/muslim/wirid');
-    let json = await res.json();
-    var wrd = [`―-WIRID-―\n\nId: ${json.result.data[0].id}\n\nWaktu: ${json.result.data[0].times}\n\nArabic: ${json.result.data[0].arabic}`, `―-WIRID-―\n\nId: ${json.result.data[1].id}\n\nWaktu: ${json.result.data[1].times}\n\nArabic: ${json.result.data[1].arabic}`, `―-WIRID-―\n\nId: ${json.result.data[2].id}\n\nWaktu: ${json.result.data[2].times}\n\nArabic: ${json.result.data[2].arabic}`];
-    conn.reply(m.chat, `${pickRandom(wrd)}`);
-  } catch (e) {
-    throw eror;
+const handler = {
+  help: ['wirid'],
+  tags: ['islam'],
+  command: /^(wirid)$/i,
+  group: false,
+  limit: true,
+  run: async (m, { conn, usedPrefix, command, Api }) => {
+    try {
+      await m.reply(wait);
+      let res = await Api.get('/api/muslim/wirid');
+      let json = await res.json();
+      var wrd = [`―-WIRID-―\n\nId: ${json.result.data[0].id}\n\nWaktu: ${json.result.data[0].times}\n\nArabic: ${json.result.data[0].arabic}`, `―-WIRID-―\n\nId: ${json.result.data[1].id}\n\nWaktu: ${json.result.data[1].times}\n\nArabic: ${json.result.data[1].arabic}`, `―-WIRID-―\n\nId: ${json.result.data[2].id}\n\nWaktu: ${json.result.data[2].times}\n\nArabic: ${json.result.data[2].arabic}`];
+      conn.reply(m.chat, `${pickRandom(wrd)}`);
+    } catch (e) {
+      throw eror;
+    }
   }
 };
-
-handler.help = ['wirid'];
-handler.tags = ['islam'];
-handler.command = /^(wirid)$/i;
-handler.group = false;
-handler.limit = true;
 
 export default handler;
 

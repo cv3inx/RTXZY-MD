@@ -1,17 +1,19 @@
-let handler = async (m, { conn, usedPrefix, command }) => {
-  let _uptime = process.uptime() * 1000;
-  let tio = clockString(_uptime);
+const handler = {
+  help: ['runtime'],
+  tags: ['info'],
+  command: /^(uptime|runtime)$/i,
+  run: async (m, { conn, usedPrefix, command }) => {
+    let _uptime = process.uptime() * 1000;
+    let tio = clockString(_uptime);
 
-  var ct = `
+    var ct = `
 *───「 RUNTIME BOT 」───*
 
 Runtime : ${tio}
     `;
-  m.reply(ct);
+    m.reply(ct);
+  }
 };
-handler.help = ['runtime'];
-handler.tags = ['info'];
-handler.command = /^(uptime|runtime)$/i;
 
 export default handler;
 

@@ -1,15 +1,20 @@
-let handler = async (m) => {
-  let userId = m.sender;
-  let user = global.db.data.users[userId];
+const handler = {
+  help: ['guild'],
+  tags: ['rpgG'],
+  command: /^(guild)$/i,
+  rpg: true,
+  run: async (m) => {
+    let userId = m.sender;
+    let user = global.db.data.users[userId];
 
-  if (!user.guild) return conn.reply(m.chat, 'Kamu belum tergabung dalam guild. Gunakan .joinguild <nama_guild> untuk bergabung ke guild atau buat guild baru dengan .createguild <nama_guild>.', m);
+    if (!user.guild) return conn.reply(m.chat, 'Kamu belum tergabung dalam guild. Gunakan .joinguild <nama_guild> untuk bergabung ke guild atau buat guild baru dengan .createguild <nama_guild>.', m);
 
-  let guildId = user.guild;
-  let guild = global.db.data.guilds[guildId];
-  if (!guild) return conn.reply(m.chat, 'Guild tidak ditemukan.', m);
+    let guildId = user.guild;
+    let guild = global.db.data.guilds[guildId];
+    if (!guild) return conn.reply(m.chat, 'Guild tidak ditemukan.', m);
 
-  let membersList = guild.members.map((member, idx) => `• ${idx + 1}. @${member.split('@')[0]}`).join('\n');
-  let guildInfo = `
+    let membersList = guild.members.map((member, idx) => `• ${idx + 1}. @${member.split('@')[0]}`).join('\n');
+    let guildInfo = `
 亗 Nama Guild: ${guild.name}
 亗 Level: ${guild.level}
 亗 Pemilik: @${guild.owner.split('@')[0]}
@@ -24,11 +29,8 @@ let handler = async (m) => {
 亗 Waiting Room: ${guild.waitingRoom.length > 0 ? guild.waitingRoom.map((room) => `• @${room.split('@')[0]}`).join('\n') : '-'}
 亗 Building Made: ${guild.createdAt}`;
 
-  conn.reply(m.chat, guildInfo, m, { mentions: [guild.owner, ...guild.members] });
+    conn.reply(m.chat, guildInfo, m, { mentions: [guild.owner, ...guild.members] });
+  }
 };
 
-handler.help = ['guild'];
-handler.tags = ['rpgG'];
-handler.command = /^(guild)$/i;
-handler.rpg = true;
 export default handler;

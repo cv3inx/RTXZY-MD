@@ -1,16 +1,18 @@
-let handler = async (m, { conn, args, usedPrefix, command }) => {
-  let who;
-  if (m.isGroup) who = args[0] ? args[0] : m.chat;
-  else who = args[0];
+const handler = {
+  help: ['delesewa'],
+  tags: ['owner'],
+  command: /^(delexpired|delsewa)$/i,
+  rowner: true,
+  run: async (m, { conn, args, usedPrefix, command }) => {
+    let who;
+    if (m.isGroup) who = args[0] ? args[0] : m.chat;
+    else who = args[0];
 
-  if (new Date() * 1 < global.db.data.chats[who].expired) global.db.data.chats[who].expired = false;
-  else global.db.data.chats[who].expired = false;
-  conn.reply(m.chat, `Berhasil menghapus hari kadaluarsa untuk Grup ini`, m);
+    if (new Date() * 1 < global.db.data.chats[who].expired) global.db.data.chats[who].expired = false;
+    else global.db.data.chats[who].expired = false;
+    conn.reply(m.chat, `Berhasil menghapus hari kadaluarsa untuk Grup ini`, m);
+  }
 };
-handler.help = ['delesewa'];
-handler.tags = ['owner'];
-handler.command = /^(delexpired|delsewa)$/i;
-handler.rowner = true;
 
 export default handler;
 

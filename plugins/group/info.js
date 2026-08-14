@@ -1,25 +1,30 @@
-let handler = async (m, { conn, participants, groupMetadata, text }) => {
-  const getGroupAdmins = (participants) => {
-    let admins = [];
-    for (let i of participants) {
-      i.isAdmin ? admins.push(i.jid) : '';
-    }
-    return admins;
-  };
+const handler = {
+  help: ['infogrup'],
+  tags: ['group'],
+  command: /^(gro?upinfo|info(gro?up|gc))$/i,
+  group: true,
+  run: async (m, { conn, participants, groupMetadata, text }) => {
+    const getGroupAdmins = (participants) => {
+      let admins = [];
+      for (let i of participants) {
+        i.isAdmin ? admins.push(i.jid) : '';
+      }
+      return admins;
+    };
 
-  let pp = 'https://telegra.ph/file/3c1ea5866a11088685413.jpg';
-  try {
-    const groupPp = await conn.getProfilePicture(m.chat);
-    if (groupPp) pp = groupPp;
-  } catch (e) {
-  } finally {
-    let { isBanned, welcome, detect, sWelcome, sBye, sPromote, sDemote, antiLink, expired, descUpdate, stiker } = global.db.data.chats[m.chat];
-    const groupAdmins = getGroupAdmins(participants);
-    let listAdmin = groupAdmins.map((v, i) => `${i + 1}. @${v.split`@`[0]}`).join('\n');
+    let pp = 'https://telegra.ph/file/3c1ea5866a11088685413.jpg';
+    try {
+      const groupPp = await conn.getProfilePicture(m.chat);
+      if (groupPp) pp = groupPp;
+    } catch (e) {
+    } finally {
+      let { isBanned, welcome, detect, sWelcome, sBye, sPromote, sDemote, antiLink, expired, descUpdate, stiker } = global.db.data.chats[m.chat];
+      const groupAdmins = getGroupAdmins(participants);
+      let listAdmin = groupAdmins.map((v, i) => `${i + 1}. @${v.split`@`[0]}`).join('\n');
 
-    if (text) return m.reply(msToDate(expired - new Date() * 1));
+      if (text) return m.reply(msToDate(expired - new Date() * 1));
 
-    let caption = `*Informasi Grup*\n
+      let caption = `*Informasi Grup*\n
 *ID:* 
 ${groupMetadata.id}
 *Nama:* 
@@ -48,15 +53,11 @@ Demote: ${sDemote}
 *Tersisa:*
 ${msToDate(expired - new Date() * 1)}
 `.trim();
-    let mentionedJid = groupAdmins.concat([`${m.chat.split`-`[0]}@s.whatsapp.net`]);
-    conn.sendFile(m.key.remoteJid, pp, 'pp.jpg', caption, m, 0, { contextInfo: { mentionedJid } });
+      let mentionedJid = groupAdmins.concat([`${m.chat.split`-`[0]}@s.whatsapp.net`]);
+      conn.sendFile(m.key.remoteJid, pp, 'pp.jpg', caption, m, 0, { contextInfo: { mentionedJid } });
+    }
   }
 };
-handler.help = ['infogrup'];
-handler.tags = ['group'];
-handler.command = /^(gro?upinfo|info(gro?up|gc))$/i;
-
-handler.group = true;
 
 export default handler;
 

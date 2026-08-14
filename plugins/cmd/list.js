@@ -1,7 +1,11 @@
-let handler = async (m, { conn }) => {
-  conn.reply(
-    m.chat,
-    `
+const handler = {
+  help: ['listcmd'],
+  tags: ['database', 'premium'],
+  command: ['listcmd', 'infocmd'],
+  run: async (m, { conn }) => {
+    conn.reply(
+      m.chat,
+      `
 *DAFTAR HASH*
 \`\`\`
 ${Object.entries(global.db.data.sticker)
@@ -9,17 +13,14 @@ ${Object.entries(global.db.data.sticker)
   .join('\n')}
 \`\`\`
 `.trim(),
-    null,
-    {
-      mentions: Object.values(global.db.data.sticker)
-        .map((x) => x.mentionedJid)
-        .reduce((a, b) => [...a, ...b], [])
-    }
-  );
+      null,
+      {
+        mentions: Object.values(global.db.data.sticker)
+          .map((x) => x.mentionedJid)
+          .reduce((a, b) => [...a, ...b], [])
+      }
+    );
+  }
 };
-
-handler.help = ['listcmd'];
-handler.tags = ['database', 'premium'];
-handler.command = ['listcmd', 'infocmd'];
 
 export default handler;

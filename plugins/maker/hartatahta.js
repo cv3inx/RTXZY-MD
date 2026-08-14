@@ -1,24 +1,26 @@
 const __dirname = import.meta.dirname;
 import fs from 'fs';
-let handler = async (m, { conn, text }) => {
-  conn.hartatahta = conn.hartatahta ? conn.hartatahta : {};
-  if (m.chat in conn.hartatahta) throw 'Masih ada yang sedang membuat\nTeks Harta Tahta\ndi chat ini... tunggu sampai selesai';
-  else conn.hartatahta[m.chat] = true;
-  m.reply('_Sedang membuat..._\n*Mohon tunggu*');
-  try {
-    let img = await ht(text ? text : 'your title');
-    conn.sendFile(m.chat, img, 'Harta Tahta.png', '*Nih*', m);
-    setTimeout(() => {
-      fs.unlinkSync(img);
-    }, 5000);
-  } finally {
-    delete conn.hartatahta[m.chat];
+const handler = {
+  help: ['tahta <teks>'],
+  tags: ['tools'],
+  command: /^((harta)?tahta)$/i,
+  limit: false,
+  run: async (m, { conn, text }) => {
+    conn.hartatahta = conn.hartatahta ? conn.hartatahta : {};
+    if (m.chat in conn.hartatahta) throw 'Masih ada yang sedang membuat\nTeks Harta Tahta\ndi chat ini... tunggu sampai selesai';
+    else conn.hartatahta[m.chat] = true;
+    m.reply('_Sedang membuat..._\n*Mohon tunggu*');
+    try {
+      let img = await ht(text ? text : 'your title');
+      conn.sendFile(m.chat, img, 'Harta Tahta.png', '*Nih*', m);
+      setTimeout(() => {
+        fs.unlinkSync(img);
+      }, 5000);
+    } finally {
+      delete conn.hartatahta[m.chat];
+    }
   }
 };
-handler.help = ['tahta <teks>'];
-handler.tags = ['tools'];
-handler.command = /^((harta)?tahta)$/i;
-handler.limit = false;
 
 export default handler;
 

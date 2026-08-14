@@ -1,31 +1,32 @@
-let handler = (m, { usedPrefix, command, text }) => {
-  if (!text) throw `contoh:\n${usedPrefix + command} 2002 02 25`;
+const handler = {
+  help: ['zodiac *2002 02 25*'],
+  tags: ['tools', 'internet', 'fun'],
+  command: /^zodia[kc]$/i,
+  run: (m, { usedPrefix, command, text }) => {
+    if (!text) throw `contoh:\n${usedPrefix + command} 2002 02 25`;
 
-  const date = new Date(text);
-  if (date == 'Invalid Date') throw date;
-  const d = new Date();
-  const [tahun, bulan, tanggal] = [d.getFullYear(), d.getMonth() + 1, d.getDate()];
-  const birth = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
+    const date = new Date(text);
+    if (date == 'Invalid Date') throw date;
+    const d = new Date();
+    const [tahun, bulan, tanggal] = [d.getFullYear(), d.getMonth() + 1, d.getDate()];
+    const birth = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
 
-  const zodiac = getZodiac(birth[1], birth[2]);
-  const ageD = new Date(d - date);
-  const age = ageD.getFullYear() - new Date(1970, 0, 1).getFullYear();
+    const zodiac = getZodiac(birth[1], birth[2]);
+    const ageD = new Date(d - date);
+    const age = ageD.getFullYear() - new Date(1970, 0, 1).getFullYear();
 
-  const birthday = [tahun + (+new Date(1970, bulan - 1, tanggal) > +new Date(1970, birth[1] - 1, birth[2])), ...birth.slice(1)];
-  const cekusia = bulan === birth[1] && tanggal === birth[2] ? `Selamat ulang tahun yang ke-${age} 🥳` : age;
+    const birthday = [tahun + (+new Date(1970, bulan - 1, tanggal) > +new Date(1970, birth[1] - 1, birth[2])), ...birth.slice(1)];
+    const cekusia = bulan === birth[1] && tanggal === birth[2] ? `Selamat ulang tahun yang ke-${age} 🥳` : age;
 
-  const teks = `
+    const teks = `
 Lahir : ${birth.join('-')}
 Ultah Mendatang : ${birthday.join('-')}
 Usia : ${cekusia}
 Zodiak : ${zodiac}
 `.trim();
-  m.reply(teks);
+    m.reply(teks);
+  }
 };
-handler.help = ['zodiac *2002 02 25*'];
-handler.tags = ['tools', 'internet', 'fun'];
-
-handler.command = /^zodia[kc]$/i;
 
 export default handler;
 

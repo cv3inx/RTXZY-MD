@@ -1,8 +1,13 @@
 var name = global.nameowner;
 var numberowner = global.numberowner;
 var gmail = global.mail;
-var handler = async (m, { conn }) => {
-  const vcard = `BEGIN:VCARD
+const handler = {
+  command: ['owner', 'creator'],
+  help: ['owner', 'creator'],
+  tags: ['info'],
+  limit: false,
+  run: async (m, { conn }) => {
+    const vcard = `BEGIN:VCARD
 VERSION:3.0
 N:Sy;Bot;;;
 FN: ${name}
@@ -20,15 +25,13 @@ item3.X-ABADR:ac
 item5.URL:${instagram}
 item5.X-ABLabel:Website
 END:VCARD`;
-  const sentMsg = await conn.sendMessage(m.chat, {
-    contacts: {
-      displayName: 'CN',
-      contacts: [{ vcard }]
-    }
-  });
-  await conn.reply(m.chat, 'Itu Adalah nomor owner Bot', sentMsg);
+    const sentMsg = await conn.sendMessage(m.chat, {
+      contacts: {
+        displayName: 'CN',
+        contacts: [{ vcard }]
+      }
+    });
+    await conn.reply(m.chat, 'Itu Adalah nomor owner Bot', sentMsg);
+  }
 };
-handler.command = handler.help = ['owner', 'creator'];
-handler.tags = ['info'];
-handler.limit = false;
 export default handler;

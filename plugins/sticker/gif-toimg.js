@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { proto } from 'zapo-js';
 import uploader from '../../lib/media/uploadFile.js';
-import { stickerToImage, stickerToGif, stickerToMp4, detectStickerKind, STICKER_KIND } from '../../lib/sticker-convert.js?v=6';
+import { stickerToImage, stickerToGif, stickerToMp4, detectStickerKind, STICKER_KIND } from '../../lib/media/sticker-convert.js?v=6';
 function findMediaInner(q) {
   if (!q || typeof q !== 'object') return null;
   if (q.url || q.directPath || q.mediaKey) return q;
@@ -52,78 +52,79 @@ async function downloadSticker(conn, q) {
   }
 }
 
-let handler = async (m, { conn, usedPrefix, command, Api }) => {
-  let q = m.quoted ? m.quoted : m;
-  let mime = (q.msg || q).mimetype || q.mediaType || '';
-  let isSticker = /sticker/i.test(q.mtype || '') || /webp|was/i.test(mime) || q.isLottie;
-  if (!isSticker) {
-    await m.reply(`Reply sticker with command ${usedPrefix + command}`);
-    return;
-  }
-  await m.reply(wait);
-  let buffer;
-  try {
-    const r = await downloadSticker(conn, q);
-    buffer = r.buffer;
-    if (!buffer || !buffer.length) {
-      await m.reply('Gagal mengunduh sticker.' + (r.reason ? '\n⚠️ ' + String(r.reason).slice(0, 300) : ''));
+const handler = {
+  help: ['toimg', 'togif', 'tomp4'],
+  tags: ['tools'],
+  command: /^(toimg|togif|tomp4)$/i,
+  limit: true,
+  run: async (m, { conn, usedPrefix, command, Api }) => {
+    let q = m.quoted ? m.quoted : m;
+    let mime = (q.msg || q).mimetype || q.mediaType || '';
+    let isSticker = /sticker/i.test(q.mtype || '') || /webp|was/i.test(mime) || q.isLottie;
+    if (!isSticker) {
+      await m.reply(`Reply sticker with command ${usedPrefix + command}`);
       return;
     }
-    // 1) Coba API dulu
+    await m.reply(wait);
+    let buffer;
     try {
-      const media = await uploader(buffer);
-      let json;
-      if (command === 'togif' || command === 'tomp4') {
-        json = await (await Api.get('/api/tools/webp2mp4', { url: media })).json();
-      } else if (command === 'toimg') {
-        json = await (await Api.get('/api/tools/webp2png', { url: media })).json();
-      }
-      if (json && json.result) {
-        await conn.sendFile(m.chat, json.result, null, '*DONE*', m);
+      const r = await downloadSticker(conn, q);
+      buffer = r.buffer;
+      if (!buffer || !buffer.length) {
+        await m.reply('Gagal mengunduh sticker.' + (r.reason ? '\n⚠️ ' + String(r.reason).slice(0, 300) : ''));
         return;
       }
-    } catch (e) {
-      console.warn('sticker: api gagal, fallback ke lokal:', e?.message || e);
-    }
-    // 2) Fallback konversi lokal
-    const isLottie = detectStickerKind(buffer) === STICKER_KIND.LOTTIE;
-    let out;
-    let filename = 'sticker.png';
-    if (isLottie) {
-      out = await stickerToGif(buffer);
-      filename = 'sticker.gif';
-    } else if (command === 'toimg') {
-      out = await stickerToImage(buffer);
-    } else if (command === 'togif') {
-      out = await stickerToGif(buffer);
-      filename = 'sticker.gif';
-    } else {
-      out = await stickerToMp4(buffer);
-      filename = 'sticker.mp4';
-    }
-    if (out && out.length) {
-      await conn.sendFile(m.chat, out, filename, '*DONE*', m);
-    } else {
-      await m.reply('Error: Failed to convert file. Please try again.');
-    }
-  } catch (err) {
-    console.error('sticker convert error:', err);
-    let dbg = 'no-buffer';
-    if (buffer && buffer.length) {
+      // 1) Coba API dulu
       try {
-        fs.writeFileSync('/tmp/lottie-debug.bin', buffer);
-      } catch {
-        /* ignore */
+        const media = await uploader(buffer);
+        let json;
+        if (command === 'togif' || command === 'tomp4') {
+          json = await (await Api.get('/api/tools/webp2mp4', { url: media })).json();
+        } else if (command === 'toimg') {
+          json = await (await Api.get('/api/tools/webp2png', { url: media })).json();
+        }
+        if (json && json.result) {
+          await conn.sendFile(m.chat, json.result, null, '*DONE*', m);
+          return;
+        }
+      } catch (e) {
+        console.warn('sticker: api gagal, fallback ke lokal:', e?.message || e);
       }
-      dbg = 'kind=' + detectStickerKind(buffer) + ' head=' + buffer.slice(0, 8).toString('hex') + ' len=' + buffer.length;
+      // 2) Fallback konversi lokal
+      const isLottie = detectStickerKind(buffer) === STICKER_KIND.LOTTIE;
+      let out;
+      let filename = 'sticker.png';
+      if (isLottie) {
+        out = await stickerToGif(buffer);
+        filename = 'sticker.gif';
+      } else if (command === 'toimg') {
+        out = await stickerToImage(buffer);
+      } else if (command === 'togif') {
+        out = await stickerToGif(buffer);
+        filename = 'sticker.gif';
+      } else {
+        out = await stickerToMp4(buffer);
+        filename = 'sticker.mp4';
+      }
+      if (out && out.length) {
+        await conn.sendFile(m.chat, out, filename, '*DONE*', m);
+      } else {
+        await m.reply('Error: Failed to convert file. Please try again.');
+      }
+    } catch (err) {
+      console.error('sticker convert error:', err);
+      let dbg = 'no-buffer';
+      if (buffer && buffer.length) {
+        try {
+          fs.writeFileSync('/tmp/lottie-debug.bin', buffer);
+        } catch {
+          /* ignore */
+        }
+        dbg = 'kind=' + detectStickerKind(buffer) + ' head=' + buffer.slice(0, 8).toString('hex') + ' len=' + buffer.length;
+      }
+      await m.reply('An error occurred while processing your request.\n⚠️ ' + String(err?.message || err).slice(0, 200) + '\n' + dbg);
     }
-    await m.reply('An error occurred while processing your request.\n⚠️ ' + String(err?.message || err).slice(0, 200) + '\n' + dbg);
   }
 };
-
-handler.help = ['toimg', 'togif', 'tomp4'];
-handler.tags = ['tools'];
-handler.command = /^(toimg|togif|tomp4)$/i;
-handler.limit = true;
 
 export default handler;

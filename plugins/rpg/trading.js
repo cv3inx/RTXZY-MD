@@ -1,9 +1,16 @@
 const cooldown = 0;
 
-let handler = async (m, { conn, usedPrefix, args, text }) => {
-  if (!text) {
-    return m.reply(
-      `
+const handler = {
+  help: ['trading'],
+  tags: ['rpg'],
+  command: /^(trading)$/i,
+  cooldown: cooldown,
+  disabled: false,
+  rpg: true,
+  run: async (m, { conn, usedPrefix, args, text }) => {
+    if (!text) {
+      return m.reply(
+        `
 Here are several E-wallets that you can trade:
 • Gopay
 • Ovo
@@ -11,83 +18,78 @@ Here are several E-wallets that you can trade:
 
 Example: ${usedPrefix}trading 100000 gopay
 `.trim()
-    );
-  }
+      );
+    }
 
-  let user = await global.db.data.users[m.sender];
+    let user = await global.db.data.users[m.sender];
 
-  let [count, ewallet] = text.split(' ');
+    let [count, ewallet] = text.split(' ');
 
-  // Check if both count and ewallet are provided
-  if (!count || !ewallet) {
-    return m.reply(`Format salah. Contoh penggunaan: ${usedPrefix}trading 100000 gopay`);
-  }
+    // Check if both count and ewallet are provided
+    if (!count || !ewallet) {
+      return m.reply(`Format salah. Contoh penggunaan: ${usedPrefix}trading 100000 gopay`);
+    }
 
-  count = parseInt(count);
-  if (isNaN(count)) {
-    return m.reply(`Jumlah trading harus berupa angka. Contoh penggunaan: ${usedPrefix}trading 100000 gopay`);
-  }
+    count = parseInt(count);
+    if (isNaN(count)) {
+      return m.reply(`Jumlah trading harus berupa angka. Contoh penggunaan: ${usedPrefix}trading 100000 gopay`);
+    }
 
-  const allowedEwallets = ['gopay', 'ovo', 'dana'];
-  ewallet = ewallet.toLowerCase();
-  if (!allowedEwallets.includes(ewallet)) {
-    return m.reply(`E-wallet tidak valid. Silakan pilih salah satu dari: ${allowedEwallets.join(', ')}`);
-  }
+    const allowedEwallets = ['gopay', 'ovo', 'dana'];
+    ewallet = ewallet.toLowerCase();
+    if (!allowedEwallets.includes(ewallet)) {
+      return m.reply(`E-wallet tidak valid. Silakan pilih salah satu dari: ${allowedEwallets.join(', ')}`);
+    }
 
-  let timers = cooldown - (new Date() - user.kerjasebelas);
+    let timers = cooldown - (new Date() - user.kerjasebelas);
 
-  if (new Date() - user.kerjasebelas <= cooldown) {
-    return m.reply(
-      `
+    if (new Date() - user.kerjasebelas <= cooldown) {
+      return m.reply(
+        `
 Kamu sudah melakukan trading. Silakan tunggu selama *🕐${new Date(timers).toISOString().substr(11, 8)}*
 `.trim()
-    );
-  }
-
-  let minimal_ewallet = 100000;
-
-  if (user[ewallet] === undefined || user[ewallet] < minimal_ewallet) {
-    let errorMessage = `Saldo ${ewallet} anda tidak mencukupi untuk melakukan trading sebesar ${toSimple(minimal_ewallet)} dan berikut adalah contoh topup:\n\n`;
-    errorMessage += `Contoh: ${usedPrefix}topup ${ewallet} ${minimal_ewallet}\n`;
-    return m.reply(errorMessage.trim());
-  }
-
-  if (count < 100000) {
-    return m.reply(`Untuk trading, dibutuhkan sedikitnya 100 ribu pada ${ewallet}! Ketik .trading 100000 ${ewallet} atau lebih sesuai budgetmu`);
-  }
-
-  if (user[ewallet] < count) {
-    return m.reply(`Untuk trading, dibutuhkan sedikitnya ${toSimple(count)} pada ${ewallet}! Ketik .trading 100000 ${ewallet} atau lebih sesuai budgetmu`);
-  }
-
-  const rewards = reward(user, count, ewallet);
-  let messageText = 'Kamu telah trading dan kehilangan:';
-  for (const lost in rewards.lost) {
-    if (user[lost]) {
-      const total = rewards.lost[lost];
-      user[lost] -= total;
-      if (total) messageText += `\n*${lost}:* ${toSimple(total)}`;
+      );
     }
-  }
-  messageText += '\n\nHasil Trading:';
-  for (const rewardItem in rewards.reward) {
-    if (rewardItem in user) {
-      const total = rewards.reward[rewardItem];
-      user[rewardItem] += total;
-      if (total) messageText += `\n*${rewardItem}:* ${toSimple(total)}`;
+
+    let minimal_ewallet = 100000;
+
+    if (user[ewallet] === undefined || user[ewallet] < minimal_ewallet) {
+      let errorMessage = `Saldo ${ewallet} anda tidak mencukupi untuk melakukan trading sebesar ${toSimple(minimal_ewallet)} dan berikut adalah contoh topup:\n\n`;
+      errorMessage += `Contoh: ${usedPrefix}topup ${ewallet} ${minimal_ewallet}\n`;
+      return m.reply(errorMessage.trim());
     }
+
+    if (count < 100000) {
+      return m.reply(`Untuk trading, dibutuhkan sedikitnya 100 ribu pada ${ewallet}! Ketik .trading 100000 ${ewallet} atau lebih sesuai budgetmu`);
+    }
+
+    if (user[ewallet] < count) {
+      return m.reply(`Untuk trading, dibutuhkan sedikitnya ${toSimple(count)} pada ${ewallet}! Ketik .trading 100000 ${ewallet} atau lebih sesuai budgetmu`);
+    }
+
+    const rewards = reward(user, count, ewallet);
+    let messageText = 'Kamu telah trading dan kehilangan:';
+    for (const lost in rewards.lost) {
+      if (user[lost]) {
+        const total = rewards.lost[lost];
+        user[lost] -= total;
+        if (total) messageText += `\n*${lost}:* ${toSimple(total)}`;
+      }
+    }
+    messageText += '\n\nHasil Trading:';
+    for (const rewardItem in rewards.reward) {
+      if (rewardItem in user) {
+        const total = rewards.reward[rewardItem];
+        user[rewardItem] += total;
+        if (total) messageText += `\n*${rewardItem}:* ${toSimple(total)}`;
+      }
+    }
+    m.reply(messageText.trim());
+    user.kerjasebelas = new Date().getTime();
+    await global.db.write();
   }
-  m.reply(messageText.trim());
-  user.kerjasebelas = new Date().getTime();
-  await global.db.write();
 };
 
-handler.help = ['trading'];
-handler.tags = ['rpg'];
-handler.command = /^(trading)$/i;
-handler.cooldown = cooldown;
-handler.disabled = false;
-handler.rpg = true;
 export default handler;
 
 function reward(user = {}, count, ewallet) {

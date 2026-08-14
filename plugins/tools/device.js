@@ -1,13 +1,14 @@
 import * as zapo from '../../lib/simple.js';
 
-let handler = async (m) => {
-  const { getDevice } = zapo;
+const handler = {
+  help: ['device'],
+  tags: ['tools'],
+  command: /^(device)$/i,
+  run: async (m) => {
+    const { getDevice } = zapo;
 
-  m.reply(await getDevice(m.quoted ? m.quoted.id : m.key.id));
+    m.reply(await getDevice(m.quoted ? m.quoted.id : m.key.id));
+  }
 };
-
-handler.help = ['device'];
-handler.tags = ['tools'];
-handler.command = /^(device)$/i;
 
 export default handler;

@@ -39,31 +39,37 @@ const sendBackup = async (conn) => {
   });
 };
 
-let handler = async (m, { conn, command, args, isOwner }) => {
-  if (!isOwner) throw 'Perintah ini hanya untuk owner bot!';
+const handler = {
+  help: ['autobackup on/off'],
+  tags: ['owner'],
+  command: /^autobackup$/i,
+  owner: true,
+  run: async (m, { conn, command, args, isOwner }) => {
+    if (!isOwner) throw 'Perintah ini hanya untuk owner bot!';
 
-  if (command === 'autobackup') {
-    if (!args[0]) throw 'Silakan masukkan parameter on/off';
+    if (command === 'autobackup') {
+      if (!args[0]) throw 'Silakan masukkan parameter on/off';
 
-    let setting = args[0].toLowerCase();
+      let setting = args[0].toLowerCase();
 
-    if (setting === 'on') {
-      global.db.data.settings = global.db.data.settings || {};
-      global.db.data.settings.autoBackup = true;
+      if (setting === 'on') {
+        global.db.data.settings = global.db.data.settings || {};
+        global.db.data.settings.autoBackup = true;
 
-      try {
-        await sendBackup(conn);
-        m.reply('Auto backup telah diaktifkan! Backup akan dilakukan setiap 6 jam sekali.');
-      } catch (error) {
-        console.error('Error during backup:', error);
-        m.reply('Terjadi kesalahan saat melakukan backup!');
+        try {
+          await sendBackup(conn);
+          m.reply('Auto backup telah diaktifkan! Backup akan dilakukan setiap 6 jam sekali.');
+        } catch (error) {
+          console.error('Error during backup:', error);
+          m.reply('Terjadi kesalahan saat melakukan backup!');
+        }
+      } else if (setting === 'off') {
+        global.db.data.settings = global.db.data.settings || {};
+        global.db.data.settings.autoBackup = false;
+        m.reply('Auto backup telah dinonaktifkan!');
+      } else {
+        throw 'Parameter tidak valid! Gunakan on/off';
       }
-    } else if (setting === 'off') {
-      global.db.data.settings = global.db.data.settings || {};
-      global.db.data.settings.autoBackup = false;
-      m.reply('Auto backup telah dinonaktifkan!');
-    } else {
-      throw 'Parameter tidak valid! Gunakan on/off';
     }
   }
 };
@@ -83,10 +89,5 @@ const backupInterval = 6 * 60 * 60 * 1000; // every 6 hours; change this to adju
 setInterval(() => {
   performAutoBackup(global.conn);
 }, backupInterval);
-
-handler.help = ['autobackup on/off'];
-handler.tags = ['owner'];
-handler.command = /^autobackup$/i;
-handler.owner = true;
 
 export default handler;

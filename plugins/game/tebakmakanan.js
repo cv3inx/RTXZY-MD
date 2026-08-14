@@ -1,17 +1,23 @@
 let timeout = 100000;
 let poin = 10000;
 
-let handler = async (m, { conn, usedPrefix, Api }) => {
-  conn.tebakmakanan = conn.tebakmakanan ? conn.tebakmakanan : {};
-  let id = m.chat;
-  if (id in conn.tebakmakanan) {
-    conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebakmakanan[id][0]);
-    throw false;
-  }
-  let src = await (await Api.get('/api/game/tebakmakanan')).json();
-  let json = src;
-  if (!json) throw 'Terjadi kesalahan, ulangi lagi perintah!';
-  let caption = `
+const handler = {
+  help: ['tebakmakanan'],
+  tags: ['game'],
+  command: /^tebakmakanan/i,
+  limit: false,
+  group: true,
+  run: async (m, { conn, usedPrefix, Api }) => {
+    conn.tebakmakanan = conn.tebakmakanan ? conn.tebakmakanan : {};
+    let id = m.chat;
+    if (id in conn.tebakmakanan) {
+      conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebakmakanan[id][0]);
+      throw false;
+    }
+    let src = await (await Api.get('/api/game/tebakmakanan')).json();
+    let json = src;
+    if (!json) throw 'Terjadi kesalahan, ulangi lagi perintah!';
+    let caption = `
 ≡ _GAME TEBAK MAKANAN_
 
 ┌─⊷ *SOAL*
@@ -23,21 +29,16 @@ let handler = async (m, { conn, usedPrefix, Api }) => {
 └──────────────
 
     `.trim();
-  conn.tebakmakanan[id] = [
-    await conn.sendMessage(m.chat, { image: { url: json.img }, caption: caption }, { quoted: m }),
-    json,
-    poin,
-    setTimeout(() => {
-      if (conn.tebakmakanan[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.tebakmakanan[id][0]);
-      delete conn.tebakmakanan[id];
-    }, timeout)
-  ];
+    conn.tebakmakanan[id] = [
+      await conn.sendMessage(m.chat, { image: { url: json.img }, caption: caption }, { quoted: m }),
+      json,
+      poin,
+      setTimeout(() => {
+        if (conn.tebakmakanan[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.tebakmakanan[id][0]);
+        delete conn.tebakmakanan[id];
+      }, timeout)
+    ];
+  }
 };
-
-handler.help = ['tebakmakanan'];
-handler.tags = ['game'];
-handler.command = /^tebakmakanan/i;
-handler.limit = false;
-handler.group = true;
 
 export default handler;

@@ -1,9 +1,15 @@
 import moment from 'moment-timezone';
 
-let handler = async (m, { text, conn, usedPrefix, command }) => {
-  try {
-    if (!text) {
-      return m.reply(`╭═══❯ *DREAM EXPLORER* ❮═══
+const handler = {
+  help: ['dreamworld', 'dream', 'mimpi', 'dreamexp'],
+  tags: ['fun'],
+  command: /^dreamworld|dream|mimpi$/i,
+  group: true,
+  limit: 1,
+  run: async (m, { text, conn, usedPrefix, command }) => {
+    try {
+      if (!text) {
+        return m.reply(`╭═══❯ *DREAM EXPLORER* ❮═══
 │
 │ 🌙 Jelajahi Dunia Mimpimu!
 │ 
@@ -15,17 +21,17 @@ let handler = async (m, { text, conn, usedPrefix, command }) => {
 │ ${usedPrefix}${command} Laut
 │
 ╰═════════════════════`);
-    }
+      }
 
-    await m.reply('🌙 *Memasuki alam mimpi...*');
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    await m.reply('✨ *Mengumpulkan esensi mimpi...*');
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+      await m.reply('🌙 *Memasuki alam mimpi...*');
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await m.reply('✨ *Mengumpulkan esensi mimpi...*');
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    const dreamData = generateDreamWorld(text);
-    const dreamInterpretation = interpretDream(dreamData);
+      const dreamData = generateDreamWorld(text);
+      const dreamInterpretation = interpretDream(dreamData);
 
-    const caption = `╭═══❯ *DREAM WORLD* ❮═══
+      const caption = `╭═══❯ *DREAM WORLD* ❮═══
 │
 │ 👤 *Explorer:* ${text}
 │ 🌙 *Dream Level:* ${dreamData.level}
@@ -49,13 +55,14 @@ let handler = async (m, { text, conn, usedPrefix, command }) => {
 🎯 *Dream Quality:* ${dreamData.quality}
 ⏰ *Dream Time:* ${moment().tz('Asia/Jakarta').format('HH:mm:ss')}`;
 
-    return m.reply(caption);
-  } catch (error) {
-    console.error('Error in dreamworld command:', error);
-    return m.reply(`╭══════════════════════
+      return m.reply(caption);
+    } catch (error) {
+      console.error('Error in dreamworld command:', error);
+      return m.reply(`╭══════════════════════
 │ ❌ *Terjadi Kesalahan*
 │ Mohon coba beberapa saat lagi
 ╰══════════════════════`);
+    }
   }
 };
 
@@ -108,11 +115,6 @@ function interpretDream(dreamData) {
 }
 
 // Metadata command
-handler.help = ['dreamworld', 'dream', 'mimpi', 'dreamexp'];
-handler.tags = ['fun'];
-handler.command = /^dreamworld|dream|mimpi$/i;
-handler.group = true;
-handler.limit = 1;
 
 export default handler;
 

@@ -1,18 +1,20 @@
-let handler = async (m, { conn, usedPrefix, text }) => {
-  let user = global.db.data.users[m.sender];
-  let time = user.lastclaimb1 + 86400000;
-  if (new Date() - user.lastclaimb1 < 86400000) throw `Kamu Sudah Ambil Bonus Hari Ini\nTunggu selama ${msToTime(time - new Date())} lagi`;
-  let money = `${Math.floor(Math.random() * 5000000)}`.trim();
-  user.money += money * 1;
-  user.lastclaimb1 = new Date() * 1;
-  m.reply(`Selamat Kamu Mendapatkan Bonus : \n+${money} Money`);
+const handler = {
+  help: ['bonus'],
+  tags: ['rpg', 'prem'],
+  command: /^(bonus)/i,
+  register: true,
+  premium: true,
+  rpg: true,
+  run: async (m, { conn, usedPrefix, text }) => {
+    let user = global.db.data.users[m.sender];
+    let time = user.lastclaimb1 + 86400000;
+    if (new Date() - user.lastclaimb1 < 86400000) throw `Kamu Sudah Ambil Bonus Hari Ini\nTunggu selama ${msToTime(time - new Date())} lagi`;
+    let money = `${Math.floor(Math.random() * 5000000)}`.trim();
+    user.money += money * 1;
+    user.lastclaimb1 = new Date() * 1;
+    m.reply(`Selamat Kamu Mendapatkan Bonus : \n+${money} Money`);
+  }
 };
-handler.help = ['bonus'];
-handler.tags = ['rpg', 'prem'];
-handler.command = /^(bonus)/i;
-handler.register = true;
-handler.premium = true;
-handler.rpg = true;
 export default handler;
 
 function msToTime(duration) {

@@ -1,160 +1,161 @@
 import fetch from 'node-fetch';
 
-let handler = (m) => m;
-handler.before = async function (m, { conn, isPrems, Api }) {
-  let chat = global.db.data.chats[m.chat];
-  if (!m.text) return;
-  if (m.text.startsWith('=>') || m.text.startsWith('>') || m.text.startsWith('.') || m.text.startsWith('#') || m.text.startsWith('!') || m.text.startsWith('/') || m.text.startsWith('\\')) return;
-  if (chat.isBanned) return;
-  if (!m.text.includes('http')) return;
-  if (global.db.data.chats[m.chat].autodl === false) return true;
-  let text = m.text.replace(/\n+/g, ' ');
-  const tiktokRegex = /^(?:https?:\/\/)?(?:www\.|vt\.|vm\.|t\.)?(?:tiktok\.com\/)(?:\S+)?$/i;
-  const douyinRegex = /^(?:https?:\/\/)?(?:www\.|vt\.|vm\.|t\.|v\.)?(?:douyin\.com\/)(?:\S+)?$/i;
-  const instagramRegex = /^(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/)(?:tv\/|p\/|reel\/)(?:\S+)?$/i;
-  const facebookRegex = /^(?:https?:\/\/(web\.|www\.|m\.)?(facebook|fb)\.(com|watch)\S+)?$/i;
-  const pinRegex = /^(?:https?:\/\/)?(?:www\.|id\.)?(?:pinterest\.(?:com|it|co\.[a-z]{2}|[a-z]{2})|pin\.it)\/(?:pin\/)?[^\/\s]+(?:\/)?$/i;
-  const youtubeRegex = /^(?:https?:\/\/)?(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]+)(?:\S+)?$/i;
-  const spotifyRegex = /^(?:https?:\/\/)?(?:open\.spotify\.com\/track\/)([a-zA-Z0-9]+)(?:\S+)?$/i;
-  const twitterRegex = /^(?:https?:\/\/)?(?:www\.)?(?:twitter\.com|x\.com)\/([A-Za-z0-9_]+)\/status\/(\d+)(?:\?[^#]*)?(?:#.*)?$/i;
-  const threadsRegex = /^(https?:\/\/)?(www\.)?(threads\.(net|com))(\/[^\s]*)?(\?[^\s]*)?$/;
-  const capcutRegex = /^https:\/\/www\.capcut\.com\/(t\/[A-Za-z0-9_-]+\/?|template-detail\/\d+\?(?:[^=]+=[^&]+&?)+)$/;
-  const snackvideoRegex = /^(https?:\/\/)?s\.snackvideo\.com\/p\/[a-zA-Z0-9]+$/i;
-  const xiaohongshuRegex = /^(https?:\/\/)?(www\.)?(xiaohongshu\.com\/discovery\/item\/[a-zA-Z0-9]+|xhslink\.com\/[a-zA-Z0-9/]+)(\?.*)?$/i;
-  const soundcloudRegex = /^(https?:\/\/)?(www\.|m\.)?soundcloud\.com\/[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?(\?.*)?$/i;
-  const cocofunRegex = /^(https?:\/\/)?(www\.)?icocofun\.com\/share\/post\/\d+(\?.*)?$/i;
-  const kuaishouRegex = /(?:https?:\/\/)?(?:www\.|v\.)?kuaishou\.com\/?.*/i;
-  const sfileRegex = /(?:https?:\/\/)?(?:www\.)?sfile\.mobi\/?.*/i;
-  if (text.match(tiktokRegex)) {
-    conn.sendMessage(m.chat, {
-      react: {
-        text: '🕒',
-        key: m.key
-      }
-    });
-    await _tiktok(text.match(tiktokRegex)[0], m, conn, Api);
-  } else if (text.match(douyinRegex)) {
-    conn.sendMessage(m.chat, {
-      react: {
-        text: '🕒',
-        key: m.key
-      }
-    });
-    await _douyin(text.match(douyinRegex)[0], m, conn, Api);
-  } else if (text.match(instagramRegex)) {
-    conn.sendMessage(m.chat, {
-      react: {
-        text: '🕒',
-        key: m.key
-      }
-    });
-    await _instagram(text.match(instagramRegex)[0], m, conn, Api);
-  } else if (text.match(facebookRegex)) {
-    conn.sendMessage(m.chat, {
-      react: {
-        text: '🕒',
-        key: m.key
-      }
-    });
-    await _facebook(text.match(facebookRegex)[0], m, conn, Api);
-  } else if (text.match(pinRegex)) {
-    conn.sendMessage(m.chat, {
-      react: {
-        text: '🕒',
-        key: m.key
-      }
-    });
-    await _pindl(text.match(pinRegex)[0], m, conn, Api);
-  } else if (text.match(youtubeRegex)) {
-    conn.sendMessage(m.chat, {
-      react: {
-        text: '🕒',
-        key: m.key
-      }
-    });
-    await _youtube(text.match(youtubeRegex)[0], m, conn, Api);
-  } else if (text.match(spotifyRegex)) {
-    conn.sendMessage(m.chat, {
-      react: {
-        text: '🕒',
-        key: m.key
-      }
-    });
-    await _spotify(text.match(spotifyRegex)[0], m, conn, Api);
-  } else if (text.match(twitterRegex)) {
-    conn.sendMessage(m.chat, {
-      react: {
-        text: '🕒',
-        key: m.key
-      }
-    });
-    await _twitter(text.match(twitterRegex)[0], m, conn, Api);
-  } else if (text.match(threadsRegex)) {
-    conn.sendMessage(m.chat, {
-      react: {
-        text: '🕒',
-        key: m.key
-      }
-    });
-    await _threads(text.match(threadsRegex)[0], m, conn, Api);
-  } else if (text.match(capcutRegex)) {
-    conn.sendMessage(m.chat, {
-      react: {
-        text: '🕒',
-        key: m.key
-      }
-    });
-    await _capcut(text.match(capcutRegex)[0], m, conn, Api);
-  } else if (text.match(snackvideoRegex)) {
-    conn.sendMessage(m.chat, {
-      react: {
-        text: '🕒',
-        key: m.key
-      }
-    });
-    await _snackvideo(text.match(snackvideoRegex)[0], m, conn, Api);
-  } else if (text.match(xiaohongshuRegex)) {
-    conn.sendMessage(m.chat, {
-      react: {
-        text: '🕒',
-        key: m.key
-      }
-    });
-    await _xiaohongshu(text.match(xiaohongshuRegex)[0], m, conn, Api);
-  } else if (text.match(soundcloudRegex)) {
-    conn.sendMessage(m.chat, {
-      react: {
-        text: '🕒',
-        key: m.key
-      }
-    });
-    await _soundcloud(text.match(soundcloudRegex)[0], m, conn, Api);
-  } else if (text.match(cocofunRegex)) {
-    conn.sendMessage(m.chat, {
-      react: {
-        text: '🕒',
-        key: m.key
-      }
-    });
-    await _cocofun(text.match(cocofunRegex)[0], m, conn, Api);
-  } else if (text.match(kuaishouRegex)) {
-    conn.sendMessage(m.chat, {
-      react: {
-        text: '🕒',
-        key: m.key
-      }
-    });
-    await _kuaishou(text.match(kuaishouRegex)[0], m, conn, Api);
-  } else if (text.match(sfileRegex)) {
-    conn.sendMessage(m.chat, {
-      react: {
-        text: '🕒',
-        key: m.key
-      }
-    });
-    await _sfile(text.match(sfileRegex)[0], m, conn, Api);
+const handler = {
+  before: async function (m, { conn, isPrems, Api }) {
+    let chat = global.db.data.chats[m.chat];
+    if (!m.text) return;
+    if (m.text.startsWith('=>') || m.text.startsWith('>') || m.text.startsWith('.') || m.text.startsWith('#') || m.text.startsWith('!') || m.text.startsWith('/') || m.text.startsWith('\\')) return;
+    if (chat.isBanned) return;
+    if (!m.text.includes('http')) return;
+    if (global.db.data.chats[m.chat].autodl === false) return true;
+    let text = m.text.replace(/\n+/g, ' ');
+    const tiktokRegex = /^(?:https?:\/\/)?(?:www\.|vt\.|vm\.|t\.)?(?:tiktok\.com\/)(?:\S+)?$/i;
+    const douyinRegex = /^(?:https?:\/\/)?(?:www\.|vt\.|vm\.|t\.|v\.)?(?:douyin\.com\/)(?:\S+)?$/i;
+    const instagramRegex = /^(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/)(?:tv\/|p\/|reel\/)(?:\S+)?$/i;
+    const facebookRegex = /^(?:https?:\/\/(web\.|www\.|m\.)?(facebook|fb)\.(com|watch)\S+)?$/i;
+    const pinRegex = /^(?:https?:\/\/)?(?:www\.|id\.)?(?:pinterest\.(?:com|it|co\.[a-z]{2}|[a-z]{2})|pin\.it)\/(?:pin\/)?[^\/\s]+(?:\/)?$/i;
+    const youtubeRegex = /^(?:https?:\/\/)?(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]+)(?:\S+)?$/i;
+    const spotifyRegex = /^(?:https?:\/\/)?(?:open\.spotify\.com\/track\/)([a-zA-Z0-9]+)(?:\S+)?$/i;
+    const twitterRegex = /^(?:https?:\/\/)?(?:www\.)?(?:twitter\.com|x\.com)\/([A-Za-z0-9_]+)\/status\/(\d+)(?:\?[^#]*)?(?:#.*)?$/i;
+    const threadsRegex = /^(https?:\/\/)?(www\.)?(threads\.(net|com))(\/[^\s]*)?(\?[^\s]*)?$/;
+    const capcutRegex = /^https:\/\/www\.capcut\.com\/(t\/[A-Za-z0-9_-]+\/?|template-detail\/\d+\?(?:[^=]+=[^&]+&?)+)$/;
+    const snackvideoRegex = /^(https?:\/\/)?s\.snackvideo\.com\/p\/[a-zA-Z0-9]+$/i;
+    const xiaohongshuRegex = /^(https?:\/\/)?(www\.)?(xiaohongshu\.com\/discovery\/item\/[a-zA-Z0-9]+|xhslink\.com\/[a-zA-Z0-9/]+)(\?.*)?$/i;
+    const soundcloudRegex = /^(https?:\/\/)?(www\.|m\.)?soundcloud\.com\/[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?(\?.*)?$/i;
+    const cocofunRegex = /^(https?:\/\/)?(www\.)?icocofun\.com\/share\/post\/\d+(\?.*)?$/i;
+    const kuaishouRegex = /(?:https?:\/\/)?(?:www\.|v\.)?kuaishou\.com\/?.*/i;
+    const sfileRegex = /(?:https?:\/\/)?(?:www\.)?sfile\.mobi\/?.*/i;
+    if (text.match(tiktokRegex)) {
+      conn.sendMessage(m.chat, {
+        react: {
+          text: '🕒',
+          key: m.key
+        }
+      });
+      await _tiktok(text.match(tiktokRegex)[0], m, conn, Api);
+    } else if (text.match(douyinRegex)) {
+      conn.sendMessage(m.chat, {
+        react: {
+          text: '🕒',
+          key: m.key
+        }
+      });
+      await _douyin(text.match(douyinRegex)[0], m, conn, Api);
+    } else if (text.match(instagramRegex)) {
+      conn.sendMessage(m.chat, {
+        react: {
+          text: '🕒',
+          key: m.key
+        }
+      });
+      await _instagram(text.match(instagramRegex)[0], m, conn, Api);
+    } else if (text.match(facebookRegex)) {
+      conn.sendMessage(m.chat, {
+        react: {
+          text: '🕒',
+          key: m.key
+        }
+      });
+      await _facebook(text.match(facebookRegex)[0], m, conn, Api);
+    } else if (text.match(pinRegex)) {
+      conn.sendMessage(m.chat, {
+        react: {
+          text: '🕒',
+          key: m.key
+        }
+      });
+      await _pindl(text.match(pinRegex)[0], m, conn, Api);
+    } else if (text.match(youtubeRegex)) {
+      conn.sendMessage(m.chat, {
+        react: {
+          text: '🕒',
+          key: m.key
+        }
+      });
+      await _youtube(text.match(youtubeRegex)[0], m, conn, Api);
+    } else if (text.match(spotifyRegex)) {
+      conn.sendMessage(m.chat, {
+        react: {
+          text: '🕒',
+          key: m.key
+        }
+      });
+      await _spotify(text.match(spotifyRegex)[0], m, conn, Api);
+    } else if (text.match(twitterRegex)) {
+      conn.sendMessage(m.chat, {
+        react: {
+          text: '🕒',
+          key: m.key
+        }
+      });
+      await _twitter(text.match(twitterRegex)[0], m, conn, Api);
+    } else if (text.match(threadsRegex)) {
+      conn.sendMessage(m.chat, {
+        react: {
+          text: '🕒',
+          key: m.key
+        }
+      });
+      await _threads(text.match(threadsRegex)[0], m, conn, Api);
+    } else if (text.match(capcutRegex)) {
+      conn.sendMessage(m.chat, {
+        react: {
+          text: '🕒',
+          key: m.key
+        }
+      });
+      await _capcut(text.match(capcutRegex)[0], m, conn, Api);
+    } else if (text.match(snackvideoRegex)) {
+      conn.sendMessage(m.chat, {
+        react: {
+          text: '🕒',
+          key: m.key
+        }
+      });
+      await _snackvideo(text.match(snackvideoRegex)[0], m, conn, Api);
+    } else if (text.match(xiaohongshuRegex)) {
+      conn.sendMessage(m.chat, {
+        react: {
+          text: '🕒',
+          key: m.key
+        }
+      });
+      await _xiaohongshu(text.match(xiaohongshuRegex)[0], m, conn, Api);
+    } else if (text.match(soundcloudRegex)) {
+      conn.sendMessage(m.chat, {
+        react: {
+          text: '🕒',
+          key: m.key
+        }
+      });
+      await _soundcloud(text.match(soundcloudRegex)[0], m, conn, Api);
+    } else if (text.match(cocofunRegex)) {
+      conn.sendMessage(m.chat, {
+        react: {
+          text: '🕒',
+          key: m.key
+        }
+      });
+      await _cocofun(text.match(cocofunRegex)[0], m, conn, Api);
+    } else if (text.match(kuaishouRegex)) {
+      conn.sendMessage(m.chat, {
+        react: {
+          text: '🕒',
+          key: m.key
+        }
+      });
+      await _kuaishou(text.match(kuaishouRegex)[0], m, conn, Api);
+    } else if (text.match(sfileRegex)) {
+      conn.sendMessage(m.chat, {
+        react: {
+          text: '🕒',
+          key: m.key
+        }
+      });
+      await _sfile(text.match(sfileRegex)[0], m, conn, Api);
+    }
+    return true;
   }
-  return true;
 };
 export default handler;
 

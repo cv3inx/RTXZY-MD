@@ -1,7 +1,13 @@
-let handler = async (m, { command, usedPrefix, args }) => {
-  let user = global.db.data.users[m.sender];
+const handler = {
+  help: ['kulkas'],
+  command: ['kulkas'],
+  tags: ['rpg'],
+  register: true,
+  rpg: true,
+  run: async (m, { command, usedPrefix, args }) => {
+    let user = global.db.data.users[m.sender];
 
-  const list = `╭───────────────
+    const list = `╭───────────────
 │⬡ 🍖 *Ayambakar* : ${user.ayambakar}
 │⬡ 🍖 *ikan bakar* : ${user.ikanbakar}
 │⬡ 🍖 *lele bakar* : ${user.lelebakar}
@@ -23,10 +29,7 @@ let handler = async (m, { command, usedPrefix, args }) => {
 │⬡ ☘️ *Ganja* : ${user.ganja}
 │⬡ 🍺 *Soda* : ${user.soda}
 ╰───────────────`;
-  m.reply(list);
+    m.reply(list);
+  }
 };
-handler.help = handler.command = ['kulkas'];
-handler.tags = ['rpg'];
-handler.register = true;
-handler.rpg = true;
 export default handler;

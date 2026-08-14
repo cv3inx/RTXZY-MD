@@ -14,41 +14,42 @@ function getPrayerTimes(jsonData) {
   return null;
 }
 
-let handler = async (m, { text, usedPrefix, command, Api }) => {
-  if (!text) throw `Gunakan contoh: ${usedPrefix}${command} semarang`;
+const handler = {
+  help: ['salat <daerah>'],
+  tags: ['islam'],
+  command: /^(jadwal)?s(a|o|ha|ho)lat$/i,
+  limit: true,
+  run: async (m, { text, usedPrefix, command, Api }) => {
+    if (!text) throw `Gunakan contoh: ${usedPrefix}${command} semarang`;
 
-  try {
-    const res = await (await Api.get('/api/tools/jadwalshalat', { kota: text })).json();
+    try {
+      const res = await (await Api.get('/api/tools/jadwalshalat', { kota: text })).json();
 
-    if (!res.status || res.result.code !== 200) {
-      throw 'Error: API response tidak valid';
-    }
+      if (!res.status || res.result.code !== 200) {
+        throw 'Error: API response tidak valid';
+      }
 
-    const prayerTimes = getPrayerTimes(res);
+      const prayerTimes = getPrayerTimes(res);
 
-    if (prayerTimes) {
-      let timings = prayerTimes.timings;
-      let jadwalSholat = Object.entries(timings)
-        .map(([name, time]) => `*${name}:* ${time}`)
-        .join('\n');
+      if (prayerTimes) {
+        let timings = prayerTimes.timings;
+        let jadwalSholat = Object.entries(timings)
+          .map(([name, time]) => `*${name}:* ${time}`)
+          .join('\n');
 
-      let message = `
+        let message = `
 Jadwal Sholat untuk *${text}*
 ${jadwalSholat}
 `.trim();
 
-      m.reply(message);
-    } else {
-      throw 'Error: Tidak ada data untuk tanggal hari ini';
+        m.reply(message);
+      } else {
+        throw 'Error: Tidak ada data untuk tanggal hari ini';
+      }
+    } catch (error) {
+      m.reply('Terjadi kesalahan: ' + error);
     }
-  } catch (error) {
-    m.reply('Terjadi kesalahan: ' + error);
   }
 };
-
-handler.help = ['salat <daerah>'];
-handler.tags = ['islam'];
-handler.command = /^(jadwal)?s(a|o|ha|ho)lat$/i;
-handler.limit = true;
 
 export default handler;

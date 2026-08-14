@@ -1,18 +1,20 @@
-let handler = async (m, { conn }) => {
-  let wm = global.wm;
-  let _uptime = process.uptime() * 1000;
-  let uptimex = clockString(_uptime);
+const handler = {
+  help: ['mode'],
+  tags: ['main'],
+  customPrefix: /^(mode)$/i,
+  command: new RegExp(),
+  limit: false,
+  run: async (m, { conn }) => {
+    let wm = global.wm;
+    let _uptime = process.uptime() * 1000;
+    let uptimex = clockString(_uptime);
 
-  let tio = `
+    let tio = `
 Mode: ${global.opts['self'] ? 'Self' : 'publik'}\nAktif: ${uptimex}\nPengguna: ${Object.keys(global.db.data.users).length}\nPengguna Terbanned: ${Object.entries(global.db.data.users).filter((user) => user[1].banned).length}\nFitur Sering Digunakan: ${Object.entries(db.data.stats).length}\n\nJika bot tidak ada balasan maka bot sedang maintenance.
     `.trim();
-  conn.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/dc5a67d724b016574129b.jpg' }, caption: tio, mentions: [m.sender] }, { quoted: m });
+    conn.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/dc5a67d724b016574129b.jpg' }, caption: tio, mentions: [m.sender] }, { quoted: m });
+  }
 };
-handler.help = ['mode'];
-handler.tags = ['main'];
-handler.customPrefix = /^(mode)$/i;
-handler.command = new RegExp();
-handler.limit = false;
 
 export default handler;
 

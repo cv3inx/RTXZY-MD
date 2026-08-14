@@ -1,6 +1,11 @@
-let handler = async (m, { conn, usedPrefix }) => {
-  let user = global.db.data.users[m.sender];
-  let cap = `*━━━ ❨ Kandang Buruan ❩ ━━┄┈*
+const handler = {
+  help: ['kandang'],
+  tags: ['rpg'],
+  command: /^(kandang)$/i,
+  rpg: true,
+  run: async (m, { conn, usedPrefix }) => {
+    let user = global.db.data.users[m.sender];
+    let cap = `*━━━ ❨ Kandang Buruan ❩ ━━┄┈*
 
 => *Berikut Kandang :*  @${m.sender.split`@`[0]}
 
@@ -19,12 +24,8 @@ let handler = async (m, { conn, usedPrefix }) => {
 
 Gunakan *${usedPrefix}pasar* untuk dijual atau *${usedPrefix}cook* untuk dijadikan bahan masakan.`;
 
-  conn.reply(m.chat, cap, m, { mentions: await conn.parseMention(cap) });
+    conn.reply(m.chat, cap, m, { mentions: await conn.parseMention(cap) });
+  }
 };
-
-handler.help = ['kandang'];
-handler.tags = ['rpg'];
-handler.command = /^(kandang)$/i;
-handler.rpg = true;
 
 export default handler;

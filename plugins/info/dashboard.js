@@ -1,21 +1,24 @@
-let handler = async (m, { conn }) => {
-  let stats = Object.entries(db.data.stats).map(([key, val]) => {
-    let name = Array.isArray(plugins[key]?.help) ? plugins[key]?.help?.join(' , ') : plugins[key]?.help || key;
-    if (/exec/.test(name)) return;
-    return { name, ...val };
-  });
-  stats = stats.sort((a, b) => b.total - a.total);
-  let handlers = stats
-    .slice(0, 50)
-    .map(({ name, total, last, success, lastSuccess }, i) => {
-      return `*${i + 1}.* *${name}*\n   • *Hits* : ${total}\n   • *Success* : ${success}\n   • *Last Used* : ${getTime(last)}\n   • *Last Success* : ${formatTime(lastSuccess)}`;
-    })
-    .join('\n\n');
-  await conn.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/cf4f28ed3b9ebdfb30adc.png' }, caption: handlers, mentions: [m.sender] }, { quoted: m });
+const handler = {
+  command: ['dashboard', 'totalhits'],
+  help: ['dashboard', 'totalhits'],
+  tags: ['info'],
+  run: async (m, { conn }) => {
+    let stats = Object.entries(db.data.stats).map(([key, val]) => {
+      let name = Array.isArray(plugins[key]?.help) ? plugins[key]?.help?.join(' , ') : plugins[key]?.help || key;
+      if (/exec/.test(name)) return;
+      return { name, ...val };
+    });
+    stats = stats.sort((a, b) => b.total - a.total);
+    let handlers = stats
+      .slice(0, 50)
+      .map(({ name, total, last, success, lastSuccess }, i) => {
+        return `*${i + 1}.* *${name}*\n   • *Hits* : ${total}\n   • *Success* : ${success}\n   • *Last Used* : ${getTime(last)}\n   • *Last Success* : ${formatTime(lastSuccess)}`;
+      })
+      .join('\n\n');
+    await conn.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/cf4f28ed3b9ebdfb30adc.png' }, caption: handlers, mentions: [m.sender] }, { quoted: m });
+  }
 };
 
-handler.command = handler.help = ['dashboard', 'totalhits'];
-handler.tags = ['info'];
 export default handler;
 
 function formatTime(time) {

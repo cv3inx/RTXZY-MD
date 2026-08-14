@@ -1,5 +1,9 @@
-let handler = async (m, { conn, command }) => {
-  let txt = `*[ Chat Dengan Creator ]*
+const handler = {
+  help: ['sewabot'],
+  tags: ['main'],
+  command: /^(sewa|sewabot)$/i,
+  run: async (m, { conn, command }) => {
+    let txt = `*[ Chat Dengan Creator ]*
 wa.me/${numberowner}
 
 ╔╣ *PREMIUM USER*
@@ -18,11 +22,8 @@ wa.me/${numberowner}
 - Whatsapp Multi Device
 - Run via Panel (Always ON)`;
 
-  await m.reply(txt);
+    await m.reply(txt);
+  }
 };
-
-handler.help = ['sewabot'];
-handler.tags = ['main'];
-handler.command = /^(sewa|sewabot)$/i;
 
 export default handler;

@@ -1,56 +1,58 @@
 import axios from 'axios';
 
-let handler = async (m, { conn, text, args, usedPrefix, command }) => {
-  let [title, style, ...lyricsArr] = text.split('|').map((s) => s.trim());
-  let lyrics = lyricsArr.join('|');
+const handler = {
+  command: ['aimusic', 'musicgen', 'sunoai'],
+  help: ['aimusic', 'musicgen', 'sunoai'],
+  tags: ['ai'],
+  limit: true,
+  run: async (m, { conn, text, args, usedPrefix, command }) => {
+    let [title, style, ...lyricsArr] = text.split('|').map((s) => s.trim());
+    let lyrics = lyricsArr.join('|');
 
-  if (!title || !style || !lyrics) return m.reply(`Contoh penggunaan:\n${usedPrefix + command} Judul Lagu | Style Musik | Lirik\n\nContoh:\n${usedPrefix + command} Sahabat | Chinese song, donghua sound, female singing | kembalilah untuk bersama...`);
+    if (!title || !style || !lyrics) return m.reply(`Contoh penggunaan:\n${usedPrefix + command} Judul Lagu | Style Musik | Lirik\n\nContoh:\n${usedPrefix + command} Sahabat | Chinese song, donghua sound, female singing | kembalilah untuk bersama...`);
 
-  await m.reply('⏳ Membuat lagu, mohon tunggu...\n*Pembuatan lagu bisa lebih dari 2-5 menit*');
+    await m.reply('⏳ Membuat lagu, mohon tunggu...\n*Pembuatan lagu bisa lebih dari 2-5 menit*');
 
-  try {
-    const result = await generateMusic(title, style, lyrics);
+    try {
+      const result = await generateMusic(title, style, lyrics);
 
-    if (!result?.data || !result.data.length) {
-      throw '❌ Gagal mendapatkan audio.';
-    }
+      if (!result?.data || !result.data.length) {
+        throw '❌ Gagal mendapatkan audio.';
+      }
 
-    let listInfo = result.data
-      .map((item, i) => {
-        return `🎵 *Audio ${i + 1}*\n*Judul:* ${item.title}\n*Style:* ${item.tags}\n*Audio URL:* ${item.audio_url}`;
-      })
-      .join('\n\n');
-
-    await m.reply(`✅ Berikut semua hasil yang tersedia:\n\n${listInfo}`);
-
-    for (let i = 0; i < result.data.length; i++) {
-      const audioItem = result.data[i];
-      const audioBuffer = await axios
-        .get(audioItem.audio_url, {
-          responseType: 'arraybuffer'
+      let listInfo = result.data
+        .map((item, i) => {
+          return `🎵 *Audio ${i + 1}*\n*Judul:* ${item.title}\n*Style:* ${item.tags}\n*Audio URL:* ${item.audio_url}`;
         })
-        .then((res) => res.data);
+        .join('\n\n');
 
-      await conn.sendMessage(
-        m.chat,
-        {
-          audio: audioBuffer,
-          mimetype: 'audio/mpeg',
-          fileName: `${audioItem.title}_${i + 1}.mp3`,
-          ptt: false
-        },
-        { quoted: m }
-      );
+      await m.reply(`✅ Berikut semua hasil yang tersedia:\n\n${listInfo}`);
+
+      for (let i = 0; i < result.data.length; i++) {
+        const audioItem = result.data[i];
+        const audioBuffer = await axios
+          .get(audioItem.audio_url, {
+            responseType: 'arraybuffer'
+          })
+          .then((res) => res.data);
+
+        await conn.sendMessage(
+          m.chat,
+          {
+            audio: audioBuffer,
+            mimetype: 'audio/mpeg',
+            fileName: `${audioItem.title}_${i + 1}.mp3`,
+            ptt: false
+          },
+          { quoted: m }
+        );
+      }
+    } catch (e) {
+      console.error(e);
+      m.reply('❌ Gagal membuat lagu');
     }
-  } catch (e) {
-    console.error(e);
-    m.reply('❌ Gagal membuat lagu');
   }
 };
-
-handler.command = handler.help = ['aimusic', 'musicgen', 'sunoai'];
-handler.tags = ['ai'];
-handler.limit = true;
 
 export default handler;
 

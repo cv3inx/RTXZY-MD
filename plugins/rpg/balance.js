@@ -1,10 +1,15 @@
-let handler = async (m, { conn, usedPrefix }) => {
-  let who = m.quoted ? m.quoted.sender : m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender;
-  let user = global.db.data.users[who];
-  if (!(who in global.db.data.users)) throw `✳️ Pengguna hilang dari database saya`;
-  conn.reply(
-    m.chat,
-    `
+const handler = {
+  help: ['balance'],
+  tags: ['econ'],
+  command: ['bal', 'balance'],
+  rpg: true,
+  run: async (m, { conn, usedPrefix }) => {
+    let who = m.quoted ? m.quoted.sender : m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender;
+    let user = global.db.data.users[who];
+    if (!(who in global.db.data.users)) throw `✳️ Pengguna hilang dari database saya`;
+    conn.reply(
+      m.chat,
+      `
 ┌───⊷ *BALANCE* ⊶
 ▢ *📌Nama* : _@${who.split('@')[0]}_
 ▢ *💎Diamonds* : _${user.diamond}_
@@ -16,12 +21,9 @@ let handler = async (m, { conn, usedPrefix }) => {
 Anda dapat membeli 💎 berlian menggunakan perintah
 ❏ *${usedPrefix}buydm <jumlah dm>*
 ❏ *${usedPrefix}buyalldm*`,
-    m,
-    { mentions: [who] }
-  );
+      m,
+      { mentions: [who] }
+    );
+  }
 };
-handler.help = ['balance'];
-handler.tags = ['econ'];
-handler.command = ['bal', 'balance'];
-handler.rpg = true;
 export default handler;

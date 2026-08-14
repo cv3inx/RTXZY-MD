@@ -51,43 +51,49 @@ const items = {
   }
 };
 
-const handler = async (m, { conn, command, usedPrefix, args, text, isPrems }) => {
-  global.db.users = global.db.users || {}; // Ensure the users object is initialized
-  let user = (global.db.users[m.sender] = global.db.users[m.sender] || {});
+const handler = {
+  help: ['gunshop'].map((v) => v + ''),
+  tags: ['rpg'],
+  command: /^(gunshop|buygun|sellgun)$/i,
+  cooldown: cooldown,
+  rpg: true,
+  run: async (m, { conn, command, usedPrefix, args, text, isPrems }) => {
+    global.db.users = global.db.users || {}; // Ensure the users object is initialized
+    let user = (global.db.users[m.sender] = global.db.users[m.sender] || {});
 
-  if (user.jail === true) {
-    throw '*Kamu tidak bisa melakukan aktivitas karena masih dalam penjara!*';
-  }
+    if (user.jail === true) {
+      throw '*Kamu tidak bisa melakukan aktivitas karena masih dalam penjara!*';
+    }
 
-  if (new Date() - user.pekerjaantiga < cooldown) {
-    const remainingTime = new Date(user.pekerjaantiga + cooldown) - new Date();
-    const formattedTime = new Date(remainingTime).toISOString().substr(11, 8);
-    throw `Kamu baru saja pergi ke toko! Tunggu selama *${formattedTime}*`;
-  }
+    if (new Date() - user.pekerjaantiga < cooldown) {
+      const remainingTime = new Date(user.pekerjaantiga + cooldown) - new Date();
+      const formattedTime = new Date(remainingTime).toISOString().substr(11, 8);
+      throw `Kamu baru saja pergi ke toko! Tunggu selama *${formattedTime}*`;
+    }
 
-  if (command.toLowerCase() == 'gunshop') {
-    let text = `
+    if (command.toLowerCase() == 'gunshop') {
+      let text = `
 *🏪 Gun Shop*
 
 Ingin menggunakan *Toko Senjata*?
 Ketik _.buygun_ bila ingin membeli senjata!
 Ketik _.sellgun_ bila ingin menjual senjata!
     `.trim();
-    conn.reply(m.chat, text, m);
-    return;
-  }
+      conn.reply(m.chat, text, m);
+      return;
+    }
 
-  const listItems = Object.fromEntries(
-    Object.entries(items[command.toLowerCase()]).filter(([v, { money, dana, gopay, ovo }]) => {
-      if (money && user.money < money) return false;
-      if (dana && user.dana < dana) return false;
-      if (gopay && user.gopay < gopay) return false;
-      if (ovo && user.ovo < ovo) return false;
-      return v && v in user;
-    })
-  );
+    const listItems = Object.fromEntries(
+      Object.entries(items[command.toLowerCase()]).filter(([v, { money, dana, gopay, ovo }]) => {
+        if (money && user.money < money) return false;
+        if (dana && user.dana < dana) return false;
+        if (gopay && user.gopay < gopay) return false;
+        if (ovo && user.ovo < ovo) return false;
+        return v && v in user;
+      })
+    );
 
-  const info = `
+    const info = `
 *Contoh penggunaan:* ${usedPrefix}${command} ak47 1
     
 *Daftar Senjata:* 
@@ -99,58 +105,54 @@ ${Object.keys(items[command.toLowerCase()])
   .join('\n')}
 `.trim();
 
-  const item = (args[0] || '').toLowerCase();
+    const item = (args[0] || '').toLowerCase();
 
-  if (!items[command.toLowerCase()][item]) {
-    return m.reply(info);
-  }
+    if (!items[command.toLowerCase()][item]) {
+      return m.reply(info);
+    }
 
-  if (!args[1]) {
-    m.reply(info);
+    if (!args[1]) {
+      m.reply(info);
+      return;
+    }
+
+    let total = Math.floor(isNumber(args[1]) ? Math.min(Math.max(parseInt(args[1]), 1)) : 1) * ({ K: 1e3, M: 1e6, B: 1e9, T: 1e12, QA: 1e15, QI: 1e18, SX: 1e21, SP: 1e24, OC: 1e27, N: 1e30, DC: 1e33, UD: 1e36, DD: 1e39, TD: 1e42, QUA: 1e45, QUI: 1e48, SXD: 1e51, SPD: 1e54, OCD: 1e57, NOD: 1e60, VG: 1e63 }[args[1].toUpperCase().replace(/[^KMBTQAISXONDCUP]/g, '')] || 1);
+
+    if (command.toLowerCase() == 'buygun') {
+      const paymentMethods = ['money', 'dana', 'gopay', 'ovo'];
+      const paymentMethod = paymentMethods[Math.floor(Math.random() * paymentMethods.length)];
+      if (user[paymentMethod] < items[command.toLowerCase()][item][paymentMethod] * total) {
+        return m.reply(`Kamu tidak memiliki cukup ${emojis(paymentMethod)}${paymentMethod} untuk membeli *${toSimple(total)}* ${emojis(item)}${capitalizeFirstLetter(item)}. Kamu memerlukan *${toSimple(items[command.toLowerCase()][item][paymentMethod] * total - user[paymentMethod])}* ${paymentMethod} lagi untuk dapat membeli`);
+      }
+
+      user[paymentMethod] -= items[command.toLowerCase()][item][paymentMethod] * total;
+      user[item] = (user[item] || 0) + total;
+      user.pekerjaantiga = new Date() * 1;
+
+      return m.reply(`Kamu telah membeli *${toSimple(total)}* ${emojis(item)}${capitalizeFirstLetter(item)} menggunakan ${emojis(paymentMethod)}${paymentMethod}`);
+    } else if (command.toLowerCase() == 'sellgun') {
+      if (isPrems && /all/i.test(args[1])) {
+        total = user[item];
+      }
+      if (user[item] < total) {
+        return m.reply(`Kamu tidak memiliki cukup *${emojis(item)}${capitalizeFirstLetter(item)}* untuk dijual. Anda hanya memiliki ${toSimple(user[item])} item`);
+      }
+      const reward = items[command.toLowerCase()][item];
+      const rewardKey = Object.keys(reward)[0];
+      if (!(rewardKey in user)) {
+        throw new Error(`Pengguna tidak memiliki ${rewardKey} dalam database mereka, tetapi hadiah memberikannya!`);
+      }
+
+      user[item] -= total;
+      user[rewardKey] += items[command.toLowerCase()][item][rewardKey] * total;
+      user.pekerjaantiga = new Date() * 1;
+
+      return m.reply(`Kamu telah menjual *${toSimple(total)}* ${emojis(item)}${capitalizeFirstLetter(item)} dan mendapatkan *${toSimple(items[command.toLowerCase()][item][rewardKey] * total)}* ${emojis(rewardKey)}`);
+    }
     return;
   }
-
-  let total = Math.floor(isNumber(args[1]) ? Math.min(Math.max(parseInt(args[1]), 1)) : 1) * ({ K: 1e3, M: 1e6, B: 1e9, T: 1e12, QA: 1e15, QI: 1e18, SX: 1e21, SP: 1e24, OC: 1e27, N: 1e30, DC: 1e33, UD: 1e36, DD: 1e39, TD: 1e42, QUA: 1e45, QUI: 1e48, SXD: 1e51, SPD: 1e54, OCD: 1e57, NOD: 1e60, VG: 1e63 }[args[1].toUpperCase().replace(/[^KMBTQAISXONDCUP]/g, '')] || 1);
-
-  if (command.toLowerCase() == 'buygun') {
-    const paymentMethods = ['money', 'dana', 'gopay', 'ovo'];
-    const paymentMethod = paymentMethods[Math.floor(Math.random() * paymentMethods.length)];
-    if (user[paymentMethod] < items[command.toLowerCase()][item][paymentMethod] * total) {
-      return m.reply(`Kamu tidak memiliki cukup ${emojis(paymentMethod)}${paymentMethod} untuk membeli *${toSimple(total)}* ${emojis(item)}${capitalizeFirstLetter(item)}. Kamu memerlukan *${toSimple(items[command.toLowerCase()][item][paymentMethod] * total - user[paymentMethod])}* ${paymentMethod} lagi untuk dapat membeli`);
-    }
-
-    user[paymentMethod] -= items[command.toLowerCase()][item][paymentMethod] * total;
-    user[item] = (user[item] || 0) + total;
-    user.pekerjaantiga = new Date() * 1;
-
-    return m.reply(`Kamu telah membeli *${toSimple(total)}* ${emojis(item)}${capitalizeFirstLetter(item)} menggunakan ${emojis(paymentMethod)}${paymentMethod}`);
-  } else if (command.toLowerCase() == 'sellgun') {
-    if (isPrems && /all/i.test(args[1])) {
-      total = user[item];
-    }
-    if (user[item] < total) {
-      return m.reply(`Kamu tidak memiliki cukup *${emojis(item)}${capitalizeFirstLetter(item)}* untuk dijual. Anda hanya memiliki ${toSimple(user[item])} item`);
-    }
-    const reward = items[command.toLowerCase()][item];
-    const rewardKey = Object.keys(reward)[0];
-    if (!(rewardKey in user)) {
-      throw new Error(`Pengguna tidak memiliki ${rewardKey} dalam database mereka, tetapi hadiah memberikannya!`);
-    }
-
-    user[item] -= total;
-    user[rewardKey] += items[command.toLowerCase()][item][rewardKey] * total;
-    user.pekerjaantiga = new Date() * 1;
-
-    return m.reply(`Kamu telah menjual *${toSimple(total)}* ${emojis(item)}${capitalizeFirstLetter(item)} dan mendapatkan *${toSimple(items[command.toLowerCase()][item][rewardKey] * total)}* ${emojis(rewardKey)}`);
-  }
-  return;
 };
 
-handler.help = ['gunshop'].map((v) => v + '');
-handler.tags = ['rpg'];
-handler.command = /^(gunshop|buygun|sellgun)$/i;
-handler.cooldown = cooldown;
-handler.rpg = true;
 export default handler;
 
 function isNumber(number) {

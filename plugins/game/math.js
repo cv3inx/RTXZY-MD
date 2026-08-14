@@ -11,47 +11,51 @@ const modes = {
   god: { bonus: 5000, time: 200000, money: 100000 }
 };
 
-let handler = async (m, { conn, args, usedPrefix, Api }) => {
-  conn.math = conn.math ? conn.math : {};
+const handler = {
+  help: ['math <mode>'],
+  tags: ['game'],
+  command: /^math/i,
+  run: async (m, { conn, args, usedPrefix, Api }) => {
+    conn.math = conn.math ? conn.math : {};
 
-  const modeList = Object.keys(modes);
-  if (args.length < 1) {
-    throw `
+    const modeList = Object.keys(modes);
+    if (args.length < 1) {
+      throw `
 Silakan pilih tingkat kesulitan.
 ${modeList.join(' | ')}
 
 Contoh penggunaan: ${usedPrefix}math medium
 `.trim();
-  }
-
-  let mode = args[0].toLowerCase();
-  if (!(mode in modes)) {
-    throw `Mode tidak ditemukan!\n${modeList.join(' | ')}`;
-  }
-
-  let id = m.chat;
-  if (id in conn.math) {
-    return conn.reply(m.chat, 'Masih ada soal yang belum terjawab di chat ini.', conn.math[id][0]);
-  }
-
-  try {
-    const url = Api.url('/api/game/math');
-    const res = await fetch(url);
-    const json = await res.json();
-    const soalDitemukan = json.filter((q) => q.level && q.level.toLowerCase() === mode);
-    const data = soalDitemukan[Math.floor(Math.random() * soalDitemukan.length)];
-
-    if (!data || !data.soal || !data.jawaban || !data.jawabanGanda) {
-      throw new Error('Format API tidak sesuai.');
     }
 
-    const { bonus, time, money } = modes[mode];
-    let pilihan = data.jawabanGanda;
-    let options = pilihan.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`).join('\n');
-    let indexJawaban = pilihan.indexOf(data.jawaban);
-    let hurufJawaban = String.fromCharCode(65 + indexJawaban);
+    let mode = args[0].toLowerCase();
+    if (!(mode in modes)) {
+      throw `Mode tidak ditemukan!\n${modeList.join(' | ')}`;
+    }
 
-    let caption = `
+    let id = m.chat;
+    if (id in conn.math) {
+      return conn.reply(m.chat, 'Masih ada soal yang belum terjawab di chat ini.', conn.math[id][0]);
+    }
+
+    try {
+      const url = Api.url('/api/game/math');
+      const res = await fetch(url);
+      const json = await res.json();
+      const soalDitemukan = json.filter((q) => q.level && q.level.toLowerCase() === mode);
+      const data = soalDitemukan[Math.floor(Math.random() * soalDitemukan.length)];
+
+      if (!data || !data.soal || !data.jawaban || !data.jawabanGanda) {
+        throw new Error('Format API tidak sesuai.');
+      }
+
+      const { bonus, time, money } = modes[mode];
+      let pilihan = data.jawabanGanda;
+      let options = pilihan.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`).join('\n');
+      let indexJawaban = pilihan.indexOf(data.jawaban);
+      let hurufJawaban = String.fromCharCode(65 + indexJawaban);
+
+      let caption = `
 Berapa jawaban dari *${data.soal}*?
 
 ${options}
@@ -65,32 +69,29 @@ ${options}
 
 `.trim();
 
-    conn.math[id] = [
-      await conn.reply(m.chat, caption, m),
-      {
-        jawaban: hurufJawaban,
-        jawabanAsli: data.jawaban,
-        pilihan: pilihan,
-        bonus,
-        money,
-        time
-      },
-      4,
-      setTimeout(() => {
-        if (conn.math[id]) {
-          conn.reply(m.chat, `Waktu habis!\nJawaban: *${hurufJawaban} (${data.jawaban})*`, conn.math[id][0]);
-          delete conn.math[id];
-        }
-      }, time)
-    ];
-  } catch (e) {
-    console.error(e);
-    m.reply('Error ambil soal.');
+      conn.math[id] = [
+        await conn.reply(m.chat, caption, m),
+        {
+          jawaban: hurufJawaban,
+          jawabanAsli: data.jawaban,
+          pilihan: pilihan,
+          bonus,
+          money,
+          time
+        },
+        4,
+        setTimeout(() => {
+          if (conn.math[id]) {
+            conn.reply(m.chat, `Waktu habis!\nJawaban: *${hurufJawaban} (${data.jawaban})*`, conn.math[id][0]);
+            delete conn.math[id];
+          }
+        }, time)
+      ];
+    } catch (e) {
+      console.error(e);
+      m.reply('Error ambil soal.');
+    }
   }
 };
-
-handler.help = ['math <mode>'];
-handler.tags = ['game'];
-handler.command = /^math/i;
 
 export default handler;

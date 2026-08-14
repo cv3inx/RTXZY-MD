@@ -1,12 +1,14 @@
-let handler = async (m, { conn }) => {
-  let ye = `@${m.sender.split`@`[0]}`;
-  let esce = `
+const handler = {
+  help: ['sc', 'sourcecode'],
+  tags: ['info'],
+  command: /^(sc|sourcecode)$/i,
+  run: async (m, { conn }) => {
+    let ye = `@${m.sender.split`@`[0]}`;
+    let esce = `
 Hai ${ye} Bot Ini Menggunakan Script :\n• https://github.com/BOTCAHX/RTXZY-MD
 `;
-  m.reply(esce);
+    m.reply(esce);
+  }
 };
-handler.help = ['sc', 'sourcecode'];
-handler.tags = ['info'];
-handler.command = /^(sc|sourcecode)$/i;
 
 export default handler;

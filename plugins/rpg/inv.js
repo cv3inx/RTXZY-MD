@@ -1,16 +1,21 @@
-let handler = async (m, { conn, args }) => {
-  let target = m.mentionedJid[0] || m.sender;
-  let user = global.db.data.users[target];
+const handler = {
+  help: ['inventory *@user*'],
+  tags: ['rpg'],
+  command: /^inv|inventory$/i,
+  rpg: true,
+  run: async (m, { conn, args }) => {
+    let target = m.mentionedJid[0] || m.sender;
+    let user = global.db.data.users[target];
 
-  let armor = user.armor;
-  let sword = user.sword;
-  let fishingrod = user.fishingrod;
-  let pickaxe = user.pickaxe;
-  let katana = user.katana;
-  let bow = user.bow;
-  let axe = user.axe;
+    let armor = user.armor;
+    let sword = user.sword;
+    let fishingrod = user.fishingrod;
+    let pickaxe = user.pickaxe;
+    let katana = user.katana;
+    let bow = user.bow;
+    let axe = user.axe;
 
-  let capt = `
+    let capt = `
 *INVENTORY - USER*
 
 *Username* : ${user.name}
@@ -81,11 +86,8 @@ let handler = async (m, { conn, args }) => {
 *Phonix* : Lv. ${user.phonix}
 `;
 
-  conn.fakeReply(m.chat, capt, '0@s.whatsapp.net', 'Inventory', 'status@broadcast');
+    conn.fakeReply(m.chat, capt, '0@s.whatsapp.net', 'Inventory', 'status@broadcast');
+  }
 };
 
-handler.help = ['inventory *@user*'];
-handler.tags = ['rpg'];
-handler.command = /^inv|inventory$/i;
-handler.rpg = true;
 export default handler;

@@ -1,24 +1,24 @@
-let handler = async (m, { conn, Api }) => {
-  const res = await Api.get('/api/random/katasenja').then((result) => result.json());
-  let anu = `─────〔 *Galau* 〕─────
+const handler = {
+  help: ['galau'],
+  tags: ['quotes'],
+  command: /^(galau)$/i,
+  owner: false,
+  mods: false,
+  premium: false,
+  group: false,
+  private: false,
+  register: false,
+  admin: false,
+  botAdmin: false,
+  fail: null,
+  run: async (m, { conn, Api }) => {
+    const res = await Api.get('/api/random/katasenja').then((result) => result.json());
+    let anu = `─────〔 *Galau* 〕─────
 
 ${res.senja}
 `;
-  m.reply(anu);
+    m.reply(anu);
+  }
 };
-handler.help = ['galau'];
-handler.tags = ['quotes'];
-handler.command = /^(galau)$/i;
-handler.owner = false;
-handler.mods = false;
-handler.premium = false;
-handler.group = false;
-handler.private = false;
-handler.register = false;
-
-handler.admin = false;
-handler.botAdmin = false;
-
-handler.fail = null;
 
 export default handler;

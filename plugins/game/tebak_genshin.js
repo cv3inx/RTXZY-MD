@@ -1,16 +1,22 @@
 let timeout = 100000;
 let poin = 10000;
-let handler = async (m, { conn, usedPrefix, Api }) => {
-  conn.tebakgenshin = conn.tebakgenshin ? conn.tebakgenshin : {};
-  let id = m.chat;
-  if (id in conn.tebakgenshin) {
-    conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebakgenshin[id][0]);
-    throw false;
-  }
-  let src = await (await Api.get('/api/game/tebak-genshin')).json();
-  let json = src;
-  if (!json) throw 'Terjadi kesalahan, ulangi lagi perintah!';
-  let caption = `
+const handler = {
+  help: ['tebakgenshin'],
+  tags: ['game'],
+  command: /^tebakgenshin/i,
+  limit: false,
+  group: true,
+  run: async (m, { conn, usedPrefix, Api }) => {
+    conn.tebakgenshin = conn.tebakgenshin ? conn.tebakgenshin : {};
+    let id = m.chat;
+    if (id in conn.tebakgenshin) {
+      conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebakgenshin[id][0]);
+      throw false;
+    }
+    let src = await (await Api.get('/api/game/tebak-genshin')).json();
+    let json = src;
+    if (!json) throw 'Terjadi kesalahan, ulangi lagi perintah!';
+    let caption = `
 ≡ _GAME TEBAK GENSHIN_
 
 ┌─⊷ *SOAL*
@@ -22,21 +28,16 @@ let handler = async (m, { conn, usedPrefix, Api }) => {
 └──────────────
 
     `.trim();
-  conn.tebakgenshin[id] = [
-    await conn.sendMessage(m.chat, { image: { url: json.img }, caption: caption }, { quoted: m }),
-    json,
-    poin,
-    setTimeout(() => {
-      if (conn.tebakgenshin[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.tebakgenshin[id][0]);
-      delete conn.tebakgenshin[id];
-    }, timeout)
-  ];
+    conn.tebakgenshin[id] = [
+      await conn.sendMessage(m.chat, { image: { url: json.img }, caption: caption }, { quoted: m }),
+      json,
+      poin,
+      setTimeout(() => {
+        if (conn.tebakgenshin[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.tebakgenshin[id][0]);
+        delete conn.tebakgenshin[id];
+      }, timeout)
+    ];
+  }
 };
-
-handler.help = ['tebakgenshin'];
-handler.tags = ['game'];
-handler.command = /^tebakgenshin/i;
-handler.limit = false;
-handler.group = true;
 
 export default handler;

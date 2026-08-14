@@ -1,17 +1,23 @@
 let timeout = 100000;
 let poin = 1000;
-let handler = async (m, { conn, usedPrefix, Api }) => {
-  conn.tebakemoji = conn.tebakemoji ? conn.tebakemoji : {};
-  let id = m.chat;
-  if (id in conn.tebakemoji) {
-    conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebakemoji[id][0]);
-    throw false;
-  }
-  // di sini dia ngambil data dari api
-  let src = await (await Api.get('/api/game/tebakemoji')).json();
-  let json = src;
-  // buat caption buat di tampilin di wa
-  let caption = `
+const handler = {
+  help: ['tebakemoji'],
+  tags: ['game'],
+  command: /^tebakemoji/i,
+  register: false,
+  group: true,
+  run: async (m, { conn, usedPrefix, Api }) => {
+    conn.tebakemoji = conn.tebakemoji ? conn.tebakemoji : {};
+    let id = m.chat;
+    if (id in conn.tebakemoji) {
+      conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.tebakemoji[id][0]);
+      throw false;
+    }
+    // di sini dia ngambil data dari api
+    let src = await (await Api.get('/api/game/tebakemoji')).json();
+    let json = src;
+    // buat caption buat di tampilin di wa
+    let caption = `
     *TEBAK EMOJI*
 Emoji nya: ${json.emoticon} 
 
@@ -23,21 +29,17 @@ Emoji nya: ${json.emoticon}
 ▢ *Balas/ reply soal ini untuk menjawab*
 └──────────────
 `.trim();
-  conn.tebakemoji[id] = [
-    await conn.reply(m.chat, caption, m),
-    json,
-    poin,
-    setTimeout(() => {
-      if (conn.tebakemoji[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*\n\nDeskripsi: ${json.deskripsi}`, conn.tebakemoji[id][0]);
-      delete conn.tebakemoji[id];
-    }, timeout)
-  ];
+    conn.tebakemoji[id] = [
+      await conn.reply(m.chat, caption, m),
+      json,
+      poin,
+      setTimeout(() => {
+        if (conn.tebakemoji[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*\n\nDeskripsi: ${json.deskripsi}`, conn.tebakemoji[id][0]);
+        delete conn.tebakemoji[id];
+      }, timeout)
+    ];
+  }
 };
-handler.help = ['tebakemoji'];
-handler.tags = ['game'];
-handler.command = /^tebakemoji/i;
-handler.register = false;
-handler.group = true;
 
 export default handler;
 

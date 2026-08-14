@@ -2,28 +2,29 @@ import moment from 'moment-timezone';
 
 const timeZone = 'Asia/Jakarta';
 
-let handler = async (m, { conn, command, args, isOwner, isAdmin, usedPrefix }) => {
-  let chat = global.db.data.chats[m.chat];
-  if (!m.isGroup) throw 'Perintah ini hanya bisa digunakan di grup!';
-  if (!(isAdmin || isOwner)) throw 'Perintah ini hanya bisa digunakan oleh admin grup!';
+const handler = {
+  command: /^(aktif|mati)$/i,
+  help: ['aktif closegc jam tutup|jam buka', 'mati closegc'],
+  tags: ['group'],
+  admin: true,
+  group: true,
+  run: async (m, { conn, command, args, isOwner, isAdmin, usedPrefix }) => {
+    let chat = global.db.data.chats[m.chat];
+    if (!m.isGroup) throw 'Perintah ini hanya bisa digunakan di grup!';
+    if (!(isAdmin || isOwner)) throw 'Perintah ini hanya bisa digunakan oleh admin grup!';
 
-  if (command === 'aktif' && args[0] === 'closegc') {
-    if (args.length < 2) throw `Format salah! Gunakan *${usedPrefix + command} jam tutup|jam buka*\nContoh: ${usedPrefix + command} 21|5`;
-    let [closeTime, openTime] = args[1].split('|').map(Number);
-    if (isNaN(closeTime) || isNaN(openTime)) throw 'Jam tutup dan buka harus berupa angka!';
-    chat.autoGc = { closeTime, openTime };
-    m.reply(`Auto group close/open diaktifkan. Grup akan tutup pukul ${closeTime}:00 dan buka pukul ${openTime}:00.`);
-  } else if (command === 'mati' && args[0] === 'closegc') {
-    delete chat.autoGc;
-    m.reply('Auto group close/open dinonaktifkan.');
+    if (command === 'aktif' && args[0] === 'closegc') {
+      if (args.length < 2) throw `Format salah! Gunakan *${usedPrefix + command} jam tutup|jam buka*\nContoh: ${usedPrefix + command} 21|5`;
+      let [closeTime, openTime] = args[1].split('|').map(Number);
+      if (isNaN(closeTime) || isNaN(openTime)) throw 'Jam tutup dan buka harus berupa angka!';
+      chat.autoGc = { closeTime, openTime };
+      m.reply(`Auto group close/open diaktifkan. Grup akan tutup pukul ${closeTime}:00 dan buka pukul ${openTime}:00.`);
+    } else if (command === 'mati' && args[0] === 'closegc') {
+      delete chat.autoGc;
+      m.reply('Auto group close/open dinonaktifkan.');
+    }
   }
 };
-
-handler.command = /^(aktif|mati)$/i;
-handler.help = ['aktif closegc jam tutup|jam buka', 'mati closegc'];
-handler.tags = ['group'];
-handler.admin = true;
-handler.group = true;
 
 export default handler;
 

@@ -1,38 +1,39 @@
 import moment from 'moment-timezone';
 
-let handler = async (m, { conn, noPrefix, command, groupMetadata }) => {
-  let msgs = db.data.chats[m.chat].listStr;
-  let msg = Object.entries(db.data.chats[m.chat].listStr)
-    .map(([nama, isi]) => ({ nama, ...isi }))
-    .map((v) => v.nama);
-  let name = msg.sort();
-  let ucapanni = ucapan();
-  let wibh = moment.tz('Asia/Jakarta').format('HH');
-  let wibm = moment.tz('Asia/Jakarta').format('mm');
-  let wktuwib = `_Jam ${wibh} : ${wibm} Menit_`;
-  let teks = name
-    .map((v) => `○ ${v.toUpperCase()}`)
-    .filter((v) => v)
-    .join('\n');
-  let cap = `${ucapanni} @${m.sender.split`@`[0]}\nDi bawah ini adalah list Store\n*${groupMetadata.subject}*\n\nUntuk melihat List\nKetik *Tulisan* di bawah ini\n*——————— 𝙻𝙸𝚂𝚃 𝚂𝚃𝙾𝚁𝙴 ———————*\n\n${teks}\n`;
+const handler = {
+  help: ['list'],
+  tags: ['store'],
+  customPrefix: /^(menu|list)$/i,
+  command: new RegExp(),
+  group: true,
+  run: async (m, { conn, noPrefix, command, groupMetadata }) => {
+    let msgs = db.data.chats[m.chat].listStr;
+    let msg = Object.entries(db.data.chats[m.chat].listStr)
+      .map(([nama, isi]) => ({ nama, ...isi }))
+      .map((v) => v.nama);
+    let name = msg.sort();
+    let ucapanni = ucapan();
+    let wibh = moment.tz('Asia/Jakarta').format('HH');
+    let wibm = moment.tz('Asia/Jakarta').format('mm');
+    let wktuwib = `_Jam ${wibh} : ${wibm} Menit_`;
+    let teks = name
+      .map((v) => `○ ${v.toUpperCase()}`)
+      .filter((v) => v)
+      .join('\n');
+    let cap = `${ucapanni} @${m.sender.split`@`[0]}\nDi bawah ini adalah list Store\n*${groupMetadata.subject}*\n\nUntuk melihat List\nKetik *Tulisan* di bawah ini\n*——————— 𝙻𝙸𝚂𝚃 𝚂𝚃𝙾𝚁𝙴 ———————*\n\n${teks}\n`;
 
-  if (msg[0]) {
-    return await conn.sendMessage(m.chat, {
-      text: cap,
-      contextInfo: {
-        mentionedJid: [m.sender]
-      }
-    });
-  } else {
-    throw `\nBelum Ada List Yang Ditambahkan Admin\nketik *.addlist <text>* untuk menambahkan daftar menu.\n\nJika kamu ingin melihat allfitur tulis *.allmenu*`;
+    if (msg[0]) {
+      return await conn.sendMessage(m.chat, {
+        text: cap,
+        contextInfo: {
+          mentionedJid: [m.sender]
+        }
+      });
+    } else {
+      throw `\nBelum Ada List Yang Ditambahkan Admin\nketik *.addlist <text>* untuk menambahkan daftar menu.\n\nJika kamu ingin melihat allfitur tulis *.allmenu*`;
+    }
   }
 };
-
-handler.help = ['list'];
-handler.tags = ['store'];
-handler.customPrefix = /^(menu|list)$/i;
-handler.command = new RegExp();
-handler.group = true;
 
 export default handler;
 

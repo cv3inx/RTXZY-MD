@@ -1,12 +1,17 @@
-let handler = async (m, { conn, usedPrefix }) => {
-  let user = global.db.data.users[m.sender];
-  if (user.job !== 'polisi') throw 'Anda harus menjadi polisi untuk melakukan tindakan ini.';
+const handler = {
+  help: ['listpenjara'],
+  tags: ['rpg'],
+  command: /^penjaralist|listpenjara$/i,
+  rpg: true,
+  run: async (m, { conn, usedPrefix }) => {
+    let user = global.db.data.users[m.sender];
+    if (user.job !== 'polisi') throw 'Anda harus menjadi polisi untuk melakukan tindakan ini.';
 
-  let penjaraList = Object.entries(global.db.data.users).filter((user) => user[1].jail);
+    let penjaraList = Object.entries(global.db.data.users).filter((user) => user[1].jail);
 
-  conn.reply(
-    m.chat,
-    `
+    conn.reply(
+      m.chat,
+      `
 乂 • *P E N J A R A*\n
 - Total : _${penjaraList.length} User_
  ${
@@ -22,11 +27,8 @@ let handler = async (m, { conn, usedPrefix }) => {
      : ''
  }
 `,
-    m
-  );
+      m
+    );
+  }
 };
-handler.help = ['listpenjara'];
-handler.tags = ['rpg'];
-handler.command = /^penjaralist|listpenjara$/i;
-handler.rpg = true;
 export default handler;

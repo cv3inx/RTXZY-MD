@@ -1,56 +1,58 @@
 import uploadImage from '../../lib/media/uploadImage.js';
-let handler = async (m, { conn, usedPrefix, command, Api }) => {
-  try {
-    const q = m.quoted ? m.quoted : m;
-    const mime = (q.msg || q).mimetype || q.mediaType || '';
-    if (/^image/.test(mime) && !/webp/.test(mime)) {
-      const img = await q.download();
-      const out = await uploadImage(img);
-      m.reply(wait);
-      if (command === 'hd') {
-        const api = await Api.get('/api/tools/remini', { url: out });
-        const image = await api.json();
-        const { url } = image;
-        conn.sendFile(m.chat, url, null, wm, m);
-      } else if (command === 'hd2') {
-        try {
-          const api = await Api.get('/api/tools/remini-v2', { url: out });
-          const response = await api.text();
-          let image;
-          try {
-            image = JSON.parse(response);
-          } catch (error) {
-            console.error(`parse: ${error}`);
-            return;
-          }
+const handler = {
+  command: ['hd', 'hd2', 'hd3', 'removebg', 'nobg'],
+  help: ['hd', 'hd2', 'hd3', 'removebg', 'nobg'],
+  tags: ['tools'],
+  premium: false,
+  limit: true,
+  run: async (m, { conn, usedPrefix, command, Api }) => {
+    try {
+      const q = m.quoted ? m.quoted : m;
+      const mime = (q.msg || q).mimetype || q.mediaType || '';
+      if (/^image/.test(mime) && !/webp/.test(mime)) {
+        const img = await q.download();
+        const out = await uploadImage(img);
+        m.reply(wait);
+        if (command === 'hd') {
+          const api = await Api.get('/api/tools/remini', { url: out });
+          const image = await api.json();
           const { url } = image;
           conn.sendFile(m.chat, url, null, wm, m);
-        } catch (error) {
-          throw error;
+        } else if (command === 'hd2') {
+          try {
+            const api = await Api.get('/api/tools/remini-v2', { url: out });
+            const response = await api.text();
+            let image;
+            try {
+              image = JSON.parse(response);
+            } catch (error) {
+              console.error(`parse: ${error}`);
+              return;
+            }
+            const { url } = image;
+            conn.sendFile(m.chat, url, null, wm, m);
+          } catch (error) {
+            throw error;
+          }
+        } else if (command === 'hd3') {
+          const api = await Api.get('/api/tools/remini-v3', { url: out, resolusi: '4' });
+          const image = await api.json();
+          const url = image.url;
+          conn.sendFile(m.chat, url, null, wm, m);
+        } else if (command === 'removebg' || command === 'nobg') {
+          const api = await Api.get('/api/tools/removebg', { url: out });
+          const image = await api.json();
+          const url = image.url;
+          conn.sendFile(m.chat, url, null, wm, m);
         }
-      } else if (command === 'hd3') {
-        const api = await Api.get('/api/tools/remini-v3', { url: out, resolusi: '4' });
-        const image = await api.json();
-        const url = image.url;
-        conn.sendFile(m.chat, url, null, wm, m);
-      } else if (command === 'removebg' || command === 'nobg') {
-        const api = await Api.get('/api/tools/removebg', { url: out });
-        const image = await api.json();
-        const url = image.url;
-        conn.sendFile(m.chat, url, null, wm, m);
+      } else {
+        m.reply(`Kirim gambar dengan caption *${usedPrefix + command}* atau tag gambar yang sudah dikirim.`);
       }
-    } else {
-      m.reply(`Kirim gambar dengan caption *${usedPrefix + command}* atau tag gambar yang sudah dikirim.`);
+    } catch (e) {
+      console.error(e);
+      throw `🚩 *Server Error*`;
     }
-  } catch (e) {
-    console.error(e);
-    throw `🚩 *Server Error*`;
   }
 };
-
-handler.command = handler.help = ['hd', 'hd2', 'hd3', 'removebg', 'nobg'];
-handler.tags = ['tools'];
-handler.premium = false;
-handler.limit = true;
 
 export default handler;

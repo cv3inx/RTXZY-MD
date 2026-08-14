@@ -1,122 +1,123 @@
 import uploadImage from '../../lib/media/uploadImage.js';
 import axios from 'axios';
 
-let handler = async (m, { conn, usedPrefix, command, args, text, Api }) => {
-  var q = m.quoted ? m.quoted : m;
-  var mime = (q.msg || q).mimetype || q.mediaType || '';
+const handler = {
+  help: ['todisney', 'topixar', 'tocartoon', 'tocyberpunk', 'tovangogh', 'topixelart', 'tocomicbook', 'tohijab', 'tohitam', 'hitamkan', 'hytamkan', 'toputih', 'toghibli', 'imgedit'],
+  command: ['todisney', 'topixar', 'tocartoon', 'tocyberpunk', 'tovangogh', 'topixelart', 'tocomicbook', 'tohijab', 'tohitam', 'hitamkan', 'hytamkan', 'toputih', 'toghibli', 'imgedit'],
+  tags: ['maker'],
+  premium: false,
+  limit: 5,
+  run: async (m, { conn, usedPrefix, command, args, text, Api }) => {
+    var q = m.quoted ? m.quoted : m;
+    var mime = (q.msg || q).mimetype || q.mediaType || '';
 
-  let endpoint = '';
-  let isImgEdit = command === 'imgedit';
-  let promptText = isImgEdit ? text || args.join(' ') : '';
+    let endpoint = '';
+    let isImgEdit = command === 'imgedit';
+    let promptText = isImgEdit ? text || args.join(' ') : '';
 
-  if (isImgEdit && !promptText) {
-    return m.reply(`Please provide text for editing the image.`);
-  }
-
-  switch (command) {
-    case 'todisney':
-      endpoint = 'jadidisney';
-      break;
-    case 'topixar':
-      endpoint = 'jadipixar';
-      break;
-    case 'tocartoon':
-      endpoint = 'jadicartoon';
-      break;
-    case 'tocyberpunk':
-      endpoint = 'jadicyberpunk';
-      break;
-    case 'tovangogh':
-      endpoint = 'jadivangogh';
-      break;
-    case 'topixelart':
-      endpoint = 'jadipixelart';
-      break;
-    case 'tocomicbook':
-      endpoint = 'jadicomicbook';
-      break;
-    case 'tohijab':
-      endpoint = 'jadihijab';
-      break;
-    case 'tohitam':
-    case 'hitamkan':
-    case 'hytamkan':
-      endpoint = 'jadihitam';
-      break;
-    case 'toputih':
-      endpoint = 'jadiputih';
-      break;
-    case 'toghibli':
-      endpoint = 'jadighibili';
-      break;
-    case 'imgedit':
-      endpoint = 'imgedit';
-      break;
-    default:
-      return m.reply(`Command *${command}* not recognized. Please use a valid one.`);
-  }
-
-  if (/image/g.test(mime) && !/webp/g.test(mime)) {
-    await conn.reply(m.chat, '🍟 *Processing...*', m);
-    try {
-      const img = await q.download?.();
-      let out = await uploadImage(img);
-      let old = new Date();
-
-      // Step 1: submit job
-      let submitData;
-
-      if (isImgEdit) {
-        const data = await (await Api.post('/api/maker/imgedit', { text: promptText, url: out })).json();
-        submitData = data;
-      } else {
-        const data = await (await Api.get(`/api/maker/${endpoint}`, { url: out })).json();
-        submitData = data;
-      }
-
-      if (!submitData.status || !submitData.jobId) {
-        throw new Error(submitData.message || 'Gagal submit job.');
-      }
-
-      let jobId = submitData.jobId;
-      let jobType = submitData.type;
-
-      // Step 2: poll until done
-      let convert = await pollJobResult(jobType, jobId, { isJsonResult: isImgEdit }, Api);
-
-      if (isImgEdit) {
-        await conn.sendMessage(
-          m.chat,
-          {
-            image: convert,
-            caption: `🍟 *Fetching* : ${(new Date() - old) * 1} ms\n📋 *Prompt*: ${promptText}`
-          },
-          { quoted: m }
-        );
-      } else {
-        await conn.sendMessage(
-          m.chat,
-          {
-            image: convert,
-            caption: `🍟 *Fetching* : ${(new Date() - old) * 1} ms`
-          },
-          { quoted: m }
-        );
-      }
-    } catch (e) {
-      console.log(e);
-      m.reply(`[ ! ] Identifikasi Gagal.`);
+    if (isImgEdit && !promptText) {
+      return m.reply(`Please provide text for editing the image.`);
     }
-  } else {
-    m.reply(`Please send an image with caption *${usedPrefix + command}* or reply to an image.`);
+
+    switch (command) {
+      case 'todisney':
+        endpoint = 'jadidisney';
+        break;
+      case 'topixar':
+        endpoint = 'jadipixar';
+        break;
+      case 'tocartoon':
+        endpoint = 'jadicartoon';
+        break;
+      case 'tocyberpunk':
+        endpoint = 'jadicyberpunk';
+        break;
+      case 'tovangogh':
+        endpoint = 'jadivangogh';
+        break;
+      case 'topixelart':
+        endpoint = 'jadipixelart';
+        break;
+      case 'tocomicbook':
+        endpoint = 'jadicomicbook';
+        break;
+      case 'tohijab':
+        endpoint = 'jadihijab';
+        break;
+      case 'tohitam':
+      case 'hitamkan':
+      case 'hytamkan':
+        endpoint = 'jadihitam';
+        break;
+      case 'toputih':
+        endpoint = 'jadiputih';
+        break;
+      case 'toghibli':
+        endpoint = 'jadighibili';
+        break;
+      case 'imgedit':
+        endpoint = 'imgedit';
+        break;
+      default:
+        return m.reply(`Command *${command}* not recognized. Please use a valid one.`);
+    }
+
+    if (/image/g.test(mime) && !/webp/g.test(mime)) {
+      await conn.reply(m.chat, '🍟 *Processing...*', m);
+      try {
+        const img = await q.download?.();
+        let out = await uploadImage(img);
+        let old = new Date();
+
+        // Step 1: submit job
+        let submitData;
+
+        if (isImgEdit) {
+          const data = await (await Api.post('/api/maker/imgedit', { text: promptText, url: out })).json();
+          submitData = data;
+        } else {
+          const data = await (await Api.get(`/api/maker/${endpoint}`, { url: out })).json();
+          submitData = data;
+        }
+
+        if (!submitData.status || !submitData.jobId) {
+          throw new Error(submitData.message || 'Gagal submit job.');
+        }
+
+        let jobId = submitData.jobId;
+        let jobType = submitData.type;
+
+        // Step 2: poll until done
+        let convert = await pollJobResult(jobType, jobId, { isJsonResult: isImgEdit }, Api);
+
+        if (isImgEdit) {
+          await conn.sendMessage(
+            m.chat,
+            {
+              image: convert,
+              caption: `🍟 *Fetching* : ${(new Date() - old) * 1} ms\n📋 *Prompt*: ${promptText}`
+            },
+            { quoted: m }
+          );
+        } else {
+          await conn.sendMessage(
+            m.chat,
+            {
+              image: convert,
+              caption: `🍟 *Fetching* : ${(new Date() - old) * 1} ms`
+            },
+            { quoted: m }
+          );
+        }
+      } catch (e) {
+        console.log(e);
+        m.reply(`[ ! ] Identifikasi Gagal.`);
+      }
+    } else {
+      m.reply(`Please send an image with caption *${usedPrefix + command}* or reply to an image.`);
+    }
   }
 };
-
-handler.help = ['todisney', 'topixar', 'tocartoon', 'tocyberpunk', 'tovangogh', 'topixelart', 'tocomicbook', 'tohijab', 'tohitam', 'hitamkan', 'hytamkan', 'toputih', 'toghibli', 'imgedit'];
-handler.command = ['todisney', 'topixar', 'tocartoon', 'tocyberpunk', 'tovangogh', 'topixelart', 'tocomicbook', 'tohijab', 'tohitam', 'hitamkan', 'hytamkan', 'toputih', 'toghibli', 'imgedit'];
-handler.tags = ['maker'];
-handler.premium = false;
-handler.limit = 5;
 
 export default handler;
 

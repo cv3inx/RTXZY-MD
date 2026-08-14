@@ -1,4 +1,4 @@
-import * as zapo from '../../lib/simple.js';
+import * as zapo from '../../../lib/simple.js';
 const loadZapo = async () => zapo;
 
 import pkg from 'node-webpmux';

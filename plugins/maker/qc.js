@@ -5,43 +5,44 @@ import { fileTypeFromBuffer as fromBuffer } from 'file-type';
 import sharp from 'sharp';
 import fetch from 'node-fetch';
 
-let handler = async (m, { conn, text, usedPrefix, command, isOwner }) => {
-  try {
-    let q = m.quoted ? m.quoted : m;
-    let mime = (q.msg || q).mimetype || q.mediaType || '';
-    let txt = text ? text : typeof q.text == 'string' ? q.text : '';
-    let name = await (typeof q.name === 'string' ? q.name : conn.getName(q.sender));
-    let avatar;
+const handler = {
+  help: ['qc'].map((v) => v + ' <text & reply>'),
+  tags: ['sticker'],
+  command: /^(qc|quotely)$/i,
+  premium: false,
+  limit: true,
+  run: async (m, { conn, text, usedPrefix, command, isOwner }) => {
     try {
-      avatar = await conn.profilePictureUrl(q.sender, 'image').catch((_) => 'https://telegra.ph/file/320b066dc81928b782c7b.png');
-      if (!/tele/.test(avatar)) avatar = await uploadImage((await conn.getFile(avatar)).data);
-    } catch {
-      avatar = 'https://telegra.ph/file/320b066dc81928b782c7b.png';
-    }
-    if (!avatar) avatar = 'https://telegra.ph/file/320b066dc81928b782c7b.png';
+      let q = m.quoted ? m.quoted : m;
+      let mime = (q.msg || q).mimetype || q.mediaType || '';
+      let txt = text ? text : typeof q.text == 'string' ? q.text : '';
+      let name = await (typeof q.name === 'string' ? q.name : conn.getName(q.sender));
+      let avatar;
+      try {
+        avatar = await conn.profilePictureUrl(q.sender, 'image').catch((_) => 'https://telegra.ph/file/320b066dc81928b782c7b.png');
+        if (!/tele/.test(avatar)) avatar = await uploadImage((await conn.getFile(avatar)).data);
+      } catch {
+        avatar = 'https://telegra.ph/file/320b066dc81928b782c7b.png';
+      }
+      if (!avatar) avatar = 'https://telegra.ph/file/320b066dc81928b782c7b.png';
 
-    if (!/image\/(jpe?g|png|webp)/.test(mime)) {
-      let req = await ___qctext(txt, name, avatar);
-      let stiker = await createWebp(req, false, global.packname, global.author);
-      conn.sendFile(m.chat, stiker, 'sticker.webp', '', m);
-    } else {
-      let img = await q.download();
-      let decodedBuffer = await sharp(img).toFormat('png').toBuffer();
-      let url = await uploadImage(decodedBuffer);
-      let req = await ___qcimg(url, txt, name, avatar);
-      let stiker = await createWebp(req, false, global.packname, global.author);
-      conn.sendFile(m.chat, stiker, 'sticker.webp', '', m);
+      if (!/image\/(jpe?g|png|webp)/.test(mime)) {
+        let req = await ___qctext(txt, name, avatar);
+        let stiker = await createWebp(req, false, global.packname, global.author);
+        conn.sendFile(m.chat, stiker, 'sticker.webp', '', m);
+      } else {
+        let img = await q.download();
+        let decodedBuffer = await sharp(img).toFormat('png').toBuffer();
+        let url = await uploadImage(decodedBuffer);
+        let req = await ___qcimg(url, txt, name, avatar);
+        let stiker = await createWebp(req, false, global.packname, global.author);
+        conn.sendFile(m.chat, stiker, 'sticker.webp', '', m);
+      }
+    } catch (e) {
+      throw e;
     }
-  } catch (e) {
-    throw e;
   }
 };
-
-handler.help = ['qc'].map((v) => v + ' <text & reply>');
-handler.tags = ['sticker'];
-handler.command = /^(qc|quotely)$/i;
-handler.premium = false;
-handler.limit = true;
 
 export default handler;
 

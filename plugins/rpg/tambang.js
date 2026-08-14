@@ -29,109 +29,109 @@ function formatTime(ms) {
   return ['\n' + d, ' *Hari ☀️*\n', h, ' *Jam 🕐*\n', m, ' *Menit ⏰*\n', s, ' *Detik ⏱️*'].map((v) => v.toString().padStart(2, 0)).join('');
 }
 
-async function handler(m, { conn, text }) {
-  conn.tambang = conn.tambang || {};
-  let user = global.db.data.users[m.sender];
+const handler = {
+  before: async (m) => {
+    conn.tambang = conn.tambang || {};
+    if (!(m.sender in conn.tambang)) return;
+    if (m.isZapo) return;
 
-  if (m.sender in conn.tambang) {
-    if (conn.tambang[m.sender].currentArea >= conn.tambang[m.sender].areas.length) {
-      return m.reply('🏆 Anda telah menyelesaikan semua area pertambangan.');
-    }
-    return m.reply('⏳ Anda masih memiliki area pertambangan yang belum selesai. Silakan selesaikan terlebih dahulu.');
-  } else {
-    if (text === 'start') {
-      let tambangs = createTambangs();
+    let { areas, currentArea, hasilTambang, lastTambangTime, totalReward } = conn.tambang[m.sender];
+    const cooldown = 5 * 60 * 1000; // 5 menit cooldown
+    let user = global.db.data.users[m.sender];
 
-      if (!user) return m.reply('📝 Silakan daftar untuk bermain game.');
-      if (user.healt === 0 || user.stamina === 0) return m.reply('❗ Stamina/healt Anda kurang dari 100.');
-      if (typeof user.exp !== 'number') global.db.data.users[m.sender].exp = 0;
-      if (typeof user.resources !== 'object') global.db.data.users[m.sender].resources = { diamond: 0, emerald: 0, coal: 0, iron: 0 };
-      if (typeof user.kerjasatu !== 'number') global.db.data.users[m.sender].kerjasatu = 0;
+    let msg = m.text.toLowerCase();
+    if (msg === 'stop') {
+      m.reply("❌ Pertambangan telah dihentikan. Ketik *'tambang start'* untuk memulai pertambangan kembali.");
+      delete conn.tambang[m.sender];
+      return false;
+    } else if (currentArea < areas.length) {
+      if (areas[currentArea].txt === msg) {
+        let { area, reward } = areas[currentArea];
+        user.exp += reward.exp;
 
-      const cooldown = 5 * 60 * 1000; // 5 menit cooldown
-      let timers = cooldown - (Date.now() - (user.kerjasatu || 0));
-      if (timers > 0) return m.reply(`Silakan tunggu ${formatTime(timers)} lagi sebelum memulai pertambangan baru.`);
+        // Update resources
+        for (let resource in reward.resources) {
+          user.resources[resource] += reward.resources[resource];
+          totalReward[resource] += reward.resources[resource];
 
-      let { area, txt, reward } = tambangs[0]; // Start with the first area
-      let currentArea = 0;
-      let hasilTambang = 0;
-      let totalReward = { diamond: 0, emerald: 0, coal: 0, iron: 0 };
+          // Ensure the updated resources are saved to the database
+          global.db.data.users[m.sender][resource] += reward.resources[resource];
+        }
 
-      conn.tambang[m.sender] = {
-        areas: tambangs,
-        currentArea,
-        hasilTambang,
-        lastTambangTime: Date.now(),
-        totalReward
-      };
+        hasilTambang++;
+        currentArea++;
+        conn.tambang[m.sender].currentArea = currentArea;
+        conn.tambang[m.sender].hasilTambang = hasilTambang;
+        conn.tambang[m.sender].totalReward = totalReward;
+        conn.tambang[m.sender].lastTambangTime = Date.now();
 
-      let caption = `🏞️ *AREA PERTAMBANGAN:* ${area}\n\n🪨 Ketik *'${txt}'* untuk memulai pertambangan di area ini.\n🔍 Jumlah hasil tambang yang didapatkan: ${hasilTambang}\n💰 Exp yang didapatkan: ${reward.exp}\n💎 Resources yang didapatkan: Diamond: ${reward.resources.diamond}, Emerald: ${reward.resources.emerald}, Coal: ${reward.resources.coal}, Iron: ${reward.resources.iron}`;
-
-      return m.reply(caption);
-    } else {
-      let instructions = '🏅 Selamat datang di game pertambangan!\n';
-      instructions += "Ketik *'tambang start'* untuk memulai pertambangan.\n";
-      instructions += "Ketik *'stop'* untuk menghentikan pertambangan saat sedang bermain.";
-
-      return m.reply(instructions);
-    }
-  }
-}
-
-handler.before = async (m) => {
-  conn.tambang = conn.tambang || {};
-  if (!(m.sender in conn.tambang)) return;
-  if (m.isZapo) return;
-
-  let { areas, currentArea, hasilTambang, lastTambangTime, totalReward } = conn.tambang[m.sender];
-  const cooldown = 5 * 60 * 1000; // 5 menit cooldown
-  let user = global.db.data.users[m.sender];
-
-  let msg = m.text.toLowerCase();
-  if (msg === 'stop') {
-    m.reply("❌ Pertambangan telah dihentikan. Ketik *'tambang start'* untuk memulai pertambangan kembali.");
-    delete conn.tambang[m.sender];
-    return false;
-  } else if (currentArea < areas.length) {
-    if (areas[currentArea].txt === msg) {
-      let { area, reward } = areas[currentArea];
-      user.exp += reward.exp;
-
-      // Update resources
-      for (let resource in reward.resources) {
-        user.resources[resource] += reward.resources[resource];
-        totalReward[resource] += reward.resources[resource];
-
-        // Ensure the updated resources are saved to the database
-        global.db.data.users[m.sender][resource] += reward.resources[resource];
+        if (currentArea >= areas.length) {
+          m.reply(`🎉 Selamat! Anda telah menyelesaikan semua area pertambangan.\nTotal hasil tambang: ${hasilTambang}\nExp yang didapatkan: ${reward.exp}\nTotal resources yang didapatkan: Diamond: ${totalReward.diamond}, Emerald: ${totalReward.emerald}, Coal: ${totalReward.coal}, Iron: ${totalReward.iron}`);
+          delete conn.tambang[m.sender];
+          return false;
+        } else {
+          let nextArea = areas[currentArea].area;
+          let caption = `🏞️ *AREA PERTAMBANGAN:* ${nextArea}\n\n🪨 Ketik *'${areas[currentArea].txt}'* untuk memulai pertambangan di area ini.\n🔍 Jumlah hasil tambang yang didapatkan: ${hasilTambang}\n💰 Exp yang didapatkan: ${reward.exp}\n💎 Resources yang didapatkan: Diamond: ${reward.resources.diamond}, Emerald: ${reward.resources.emerald}, Coal: ${reward.resources.coal}, Iron: ${reward.resources.iron}\n\n> ketik *stop* untuk berhenti`;
+          m.reply(caption);
+          return false;
+        }
       }
+    }
+  },
+  help: ['tambang'],
+  tags: ['rpg'],
+  command: /^(tambang)$/i,
+  group: true,
+  register: true,
+  rpg: true,
+  run: async function (m, { conn, text }) {
+    conn.tambang = conn.tambang || {};
+    let user = global.db.data.users[m.sender];
 
-      hasilTambang++;
-      currentArea++;
-      conn.tambang[m.sender].currentArea = currentArea;
-      conn.tambang[m.sender].hasilTambang = hasilTambang;
-      conn.tambang[m.sender].totalReward = totalReward;
-      conn.tambang[m.sender].lastTambangTime = Date.now();
+    if (m.sender in conn.tambang) {
+      if (conn.tambang[m.sender].currentArea >= conn.tambang[m.sender].areas.length) {
+        return m.reply('🏆 Anda telah menyelesaikan semua area pertambangan.');
+      }
+      return m.reply('⏳ Anda masih memiliki area pertambangan yang belum selesai. Silakan selesaikan terlebih dahulu.');
+    } else {
+      if (text === 'start') {
+        let tambangs = createTambangs();
 
-      if (currentArea >= areas.length) {
-        m.reply(`🎉 Selamat! Anda telah menyelesaikan semua area pertambangan.\nTotal hasil tambang: ${hasilTambang}\nExp yang didapatkan: ${reward.exp}\nTotal resources yang didapatkan: Diamond: ${totalReward.diamond}, Emerald: ${totalReward.emerald}, Coal: ${totalReward.coal}, Iron: ${totalReward.iron}`);
-        delete conn.tambang[m.sender];
-        return false;
+        if (!user) return m.reply('📝 Silakan daftar untuk bermain game.');
+        if (user.healt === 0 || user.stamina === 0) return m.reply('❗ Stamina/healt Anda kurang dari 100.');
+        if (typeof user.exp !== 'number') global.db.data.users[m.sender].exp = 0;
+        if (typeof user.resources !== 'object') global.db.data.users[m.sender].resources = { diamond: 0, emerald: 0, coal: 0, iron: 0 };
+        if (typeof user.kerjasatu !== 'number') global.db.data.users[m.sender].kerjasatu = 0;
+
+        const cooldown = 5 * 60 * 1000; // 5 menit cooldown
+        let timers = cooldown - (Date.now() - (user.kerjasatu || 0));
+        if (timers > 0) return m.reply(`Silakan tunggu ${formatTime(timers)} lagi sebelum memulai pertambangan baru.`);
+
+        let { area, txt, reward } = tambangs[0]; // Start with the first area
+        let currentArea = 0;
+        let hasilTambang = 0;
+        let totalReward = { diamond: 0, emerald: 0, coal: 0, iron: 0 };
+
+        conn.tambang[m.sender] = {
+          areas: tambangs,
+          currentArea,
+          hasilTambang,
+          lastTambangTime: Date.now(),
+          totalReward
+        };
+
+        let caption = `🏞️ *AREA PERTAMBANGAN:* ${area}\n\n🪨 Ketik *'${txt}'* untuk memulai pertambangan di area ini.\n🔍 Jumlah hasil tambang yang didapatkan: ${hasilTambang}\n💰 Exp yang didapatkan: ${reward.exp}\n💎 Resources yang didapatkan: Diamond: ${reward.resources.diamond}, Emerald: ${reward.resources.emerald}, Coal: ${reward.resources.coal}, Iron: ${reward.resources.iron}`;
+
+        return m.reply(caption);
       } else {
-        let nextArea = areas[currentArea].area;
-        let caption = `🏞️ *AREA PERTAMBANGAN:* ${nextArea}\n\n🪨 Ketik *'${areas[currentArea].txt}'* untuk memulai pertambangan di area ini.\n🔍 Jumlah hasil tambang yang didapatkan: ${hasilTambang}\n💰 Exp yang didapatkan: ${reward.exp}\n💎 Resources yang didapatkan: Diamond: ${reward.resources.diamond}, Emerald: ${reward.resources.emerald}, Coal: ${reward.resources.coal}, Iron: ${reward.resources.iron}\n\n> ketik *stop* untuk berhenti`;
-        m.reply(caption);
-        return false;
+        let instructions = '🏅 Selamat datang di game pertambangan!\n';
+        instructions += "Ketik *'tambang start'* untuk memulai pertambangan.\n";
+        instructions += "Ketik *'stop'* untuk menghentikan pertambangan saat sedang bermain.";
+
+        return m.reply(instructions);
       }
     }
   }
 };
-
-handler.help = ['tambang'];
-handler.tags = ['rpg'];
-handler.command = /^(tambang)$/i;
-handler.group = true;
-handler.register = true;
-handler.rpg = true;
 
 export default handler;

@@ -1,17 +1,23 @@
 let timeout = 100000;
 let poin = 10000;
-let handler = async (m, { conn, usedPrefix, Api }) => {
-  conn.asahotak = conn.asahotak ? conn.asahotak : {};
-  let id = m.chat;
-  if (id in conn.asahotak) {
-    conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.asahotak[id][0]);
-    throw false;
-  }
-  // di sini dia ngambil data dari api
-  let src = await (await Api.get('/api/game/asahotak')).json();
-  let json = src;
-  // buat caption buat di tampilin di wa
-  let caption = `
+const handler = {
+  help: ['asahotak'],
+  tags: ['game'],
+  command: /^asahotak/i,
+  register: false,
+  group: true,
+  run: async (m, { conn, usedPrefix, Api }) => {
+    conn.asahotak = conn.asahotak ? conn.asahotak : {};
+    let id = m.chat;
+    if (id in conn.asahotak) {
+      conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.asahotak[id][0]);
+      throw false;
+    }
+    // di sini dia ngambil data dari api
+    let src = await (await Api.get('/api/game/asahotak')).json();
+    let json = src;
+    // buat caption buat di tampilin di wa
+    let caption = `
 ${json.soal}
 
 ┌─⊷ *SOAL*
@@ -21,21 +27,17 @@ ${json.soal}
 ▢ *Balas/ Reply soal ini untuk menjawab*
 └──────────────
 `.trim();
-  conn.asahotak[id] = [
-    await conn.reply(m.chat, caption, m),
-    json,
-    poin,
-    setTimeout(() => {
-      if (conn.asahotak[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.asahotak[id][0]);
-      delete conn.asahotak[id];
-    }, timeout)
-  ];
+    conn.asahotak[id] = [
+      await conn.reply(m.chat, caption, m),
+      json,
+      poin,
+      setTimeout(() => {
+        if (conn.asahotak[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.asahotak[id][0]);
+        delete conn.asahotak[id];
+      }, timeout)
+    ];
+  }
 };
-handler.help = ['asahotak'];
-handler.tags = ['game'];
-handler.command = /^asahotak/i;
-handler.register = false;
-handler.group = true;
 
 export default handler;
 

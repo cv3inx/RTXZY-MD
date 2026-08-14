@@ -1,22 +1,29 @@
-let handler = async (m, { conn }) => {
-  let __timers = new Date() - global.db.data.users[m.sender].lasttaxi;
-  let _timers = 3600000 - __timers;
-  let order = global.db.data.users[m.sender].taxi;
-  let timers = clockString(_timers);
-  let name = await conn.getName(m.sender);
-  let user = global.db.data.users[m.sender];
-  let id = m.sender;
-  let kerja = 'taxi';
-  conn.misi = conn.misi ? conn.misi : {};
-  if (id in conn.misi) {
-    conn.reply(m.chat, `Selesaikan orderan taxi kamu ${conn.misi[id][0]} Terlebih Dahulu`, m);
-    throw false;
-  }
-  if (new Date() - user.lasttaxi > 3600000) {
-    let randomaku1 = Math.floor(Math.random() * 1000000);
-    let randomaku2 = Math.floor(Math.random() * 10000);
+const handler = {
+  help: ['taxi'],
+  tags: ['rpg'],
+  command: /^(taxi)$/i,
+  register: true,
+  group: true,
+  rpg: true,
+  run: async (m, { conn }) => {
+    let __timers = new Date() - global.db.data.users[m.sender].lasttaxi;
+    let _timers = 3600000 - __timers;
+    let order = global.db.data.users[m.sender].taxi;
+    let timers = clockString(_timers);
+    let name = await conn.getName(m.sender);
+    let user = global.db.data.users[m.sender];
+    let id = m.sender;
+    let kerja = 'taxi';
+    conn.misi = conn.misi ? conn.misi : {};
+    if (id in conn.misi) {
+      conn.reply(m.chat, `Selesaikan orderan taxi kamu ${conn.misi[id][0]} Terlebih Dahulu`, m);
+      throw false;
+    }
+    if (new Date() - user.lasttaxi > 3600000) {
+      let randomaku1 = Math.floor(Math.random() * 1000000);
+      let randomaku2 = Math.floor(Math.random() * 10000);
 
-    var njir = `
+      var njir = `
 🚶⬛⬛⬛⬛⬛⬛⬛⬛⬛
 ⬛⬜⬜⬜⬛⬜⬜⬜⬛⬛
 ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
@@ -26,7 +33,7 @@ let handler = async (m, { conn }) => {
 ✔️ Mendapatkan orderan....
 `.trim();
 
-    var njirr = `
+      var njirr = `
 🚶⬛⬛⬛⬛⬛🚐⬛⬛⬛🚓🚚
 🚖⬜⬜⬜⬛⬜⬜⬜🚓⬛🚑
 ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛🚙
@@ -36,7 +43,7 @@ let handler = async (m, { conn }) => {
 🚖 Mengantar Ke tujuan.....
 `.trim();
 
-    var njirrr = `
+      var njirrr = `
 ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛🚓
 ⬛⬜🚗⬜⬜⬛⬜🚐⬜⬜⬛🚙🚚🚑
 ⬛⬛⬛⬛🚒⬛⬛⬛⬛⬛⬛🚚
@@ -46,11 +53,11 @@ let handler = async (m, { conn }) => {
 🚖 Selesai Mengantar Pelanggan....
 `.trim();
 
-    var njirrrr = `
+      var njirrrr = `
 ➕ 💹Menerima gaji....
 `.trim();
 
-    var hasil = `
+      var hasil = `
 *—[ Hasil taxi ${name} ]—*
 ➕ 💹 Uang = [ ${randomaku1} ]
 ➕ ✨ Exp = [ ${randomaku2} ]
@@ -58,49 +65,44 @@ let handler = async (m, { conn }) => {
 ➕ 📥Total Order Sebelumnya : ${order}
 `.trim();
 
-    user.money += randomaku1;
-    user.exp += randomaku2;
-    user.taxi += 1;
+      user.money += randomaku1;
+      user.exp += randomaku2;
+      user.taxi += 1;
 
-    conn.misi[id] = [
-      kerja,
+      conn.misi[id] = [
+        kerja,
+        setTimeout(() => {
+          delete conn.misi[id];
+        }, 27000)
+      ];
+
       setTimeout(() => {
-        delete conn.misi[id];
-      }, 27000)
-    ];
+        m.reply(hasil);
+      }, 27000);
 
-    setTimeout(() => {
-      m.reply(hasil);
-    }, 27000);
+      setTimeout(() => {
+        m.reply(njirrrr);
+      }, 25000);
 
-    setTimeout(() => {
-      m.reply(njirrrr);
-    }, 25000);
+      setTimeout(() => {
+        m.reply(njirrr);
+      }, 20000);
 
-    setTimeout(() => {
-      m.reply(njirrr);
-    }, 20000);
+      setTimeout(() => {
+        m.reply(njirr);
+      }, 15000);
 
-    setTimeout(() => {
-      m.reply(njirr);
-    }, 15000);
+      setTimeout(() => {
+        m.reply(njir);
+      }, 10000);
 
-    setTimeout(() => {
-      m.reply(njir);
-    }, 10000);
-
-    setTimeout(() => {
-      m.reply('🔍Mencari orderan buat kamu.....');
-    }, 0);
-    user.lasttaxi = new Date() * 1;
-  } else m.reply(`kamu kecapean, istirahat dulu selama ${timers}, baru gas ngorder lagi`);
+      setTimeout(() => {
+        m.reply('🔍Mencari orderan buat kamu.....');
+      }, 0);
+      user.lasttaxi = new Date() * 1;
+    } else m.reply(`kamu kecapean, istirahat dulu selama ${timers}, baru gas ngorder lagi`);
+  }
 };
-handler.help = ['taxi'];
-handler.tags = ['rpg'];
-handler.command = /^(taxi)$/i;
-handler.register = true;
-handler.group = true;
-handler.rpg = true;
 export default handler;
 
 function clockString(ms) {

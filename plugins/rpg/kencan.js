@@ -1,55 +1,56 @@
-let handler = async (m, { conn, text }) => {
-  const userId = m.sender;
-  const user = global.db.data.users[userId];
-  const lastDate = user.lastdate || 0;
-  const currentTime = new Date().getTime();
-  const timeDiff = currentTime - lastDate;
+const handler = {
+  help: ['kencan'],
+  tags: ['rpg'],
+  command: /^kencan$/i,
+  register: true,
+  group: true,
+  rpg: true,
+  run: async (m, { conn, text }) => {
+    const userId = m.sender;
+    const user = global.db.data.users[userId];
+    const lastDate = user.lastdate || 0;
+    const currentTime = new Date().getTime();
+    const timeDiff = currentTime - lastDate;
 
-  if (timeDiff < 600000) {
-    const remainingTime = 600000 - timeDiff;
-    conn.reply(m.chat, `Anda harus menunggu ${remainingTime / 1000} detik lagi sebelum berkencan lagi. ⏳`, m);
-    return;
-  }
+    if (timeDiff < 600000) {
+      const remainingTime = 600000 - timeDiff;
+      conn.reply(m.chat, `Anda harus menunggu ${remainingTime / 1000} detik lagi sebelum berkencan lagi. ⏳`, m);
+      return;
+    }
 
-  if (text) {
-    const selectedCharacterIndex = parseInt(text) - 1;
-    const characterOptions = getCharacterOptions();
+    if (text) {
+      const selectedCharacterIndex = parseInt(text) - 1;
+      const characterOptions = getCharacterOptions();
 
-    if (selectedCharacterIndex >= 0 && selectedCharacterIndex < characterOptions.length) {
-      const selectedCharacter = characterOptions[selectedCharacterIndex];
-      const partnerName = selectedCharacter;
-      const dateLocation = generateRandomLocation();
-      const dateInfo = `
+      if (selectedCharacterIndex >= 0 && selectedCharacterIndex < characterOptions.length) {
+        const selectedCharacter = characterOptions[selectedCharacterIndex];
+        const partnerName = selectedCharacter;
+        const dateLocation = generateRandomLocation();
+        const dateInfo = `
 💑 *Informasi Kencan* 💑
 👤 Nama Pasangan: ${partnerName}
 📍 Tempat Kencan: ${dateLocation}
       `;
 
-      setTimeout(() => {
-        let ending = 'Akhir yang Bahagia';
-        conn.reply(m.chat, `Kencan selesai!\n\n${dateInfo}\n\n${ending}`, m);
-      }, 30000);
+        setTimeout(() => {
+          let ending = 'Akhir yang Bahagia';
+          conn.reply(m.chat, `Kencan selesai!\n\n${dateInfo}\n\n${ending}`, m);
+        }, 30000);
 
-      conn.reply(m.chat, `Anda sedang berkencan dengan ${partnerName}!\n\n${dateInfo}`, m);
+        conn.reply(m.chat, `Anda sedang berkencan dengan ${partnerName}!\n\n${dateInfo}`, m);
 
-      user.lastdate = currentTime;
+        user.lastdate = currentTime;
+      } else {
+        conn.reply(m.chat, 'Pilihan karakter tidak valid. Berkencan dibatalkan.', m);
+      }
     } else {
-      conn.reply(m.chat, 'Pilihan karakter tidak valid. Berkencan dibatalkan.', m);
+      const characterList = getCharacterOptions()
+        .map((char, index) => `${index + 1}. ${char}`)
+        .join('\n');
+      conn.reply(m.chat, `Silakan pilih karakter dengan format .kencan [nomor karakter].\n\nList Karakter:\n${characterList}`, m);
     }
-  } else {
-    const characterList = getCharacterOptions()
-      .map((char, index) => `${index + 1}. ${char}`)
-      .join('\n');
-    conn.reply(m.chat, `Silakan pilih karakter dengan format .kencan [nomor karakter].\n\nList Karakter:\n${characterList}`, m);
   }
 };
-
-handler.help = ['kencan'];
-handler.tags = ['rpg'];
-handler.command = /^kencan$/i;
-handler.register = true;
-handler.group = true;
-handler.rpg = true;
 
 export default handler;
 

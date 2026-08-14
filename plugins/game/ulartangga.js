@@ -26,38 +26,50 @@ let data = [
   }
 ];
 
-let handler = async (m, { conn, text, command }) => {
-  conn.ulartangga = conn.ulartangga ? conn.ulartangga : {};
-  const ut = conn.ulartangga;
-  const nazz_cmd = {
-    create: () => {
-      if (ut[m.chat]) throw 'Masih ada sesi permainan di chat ini!';
-      let anu = getRandom(data);
-      ut[m.chat] = { date: Date.now(), status: 'WAITING', host: m.sender, players: {}, map: anu.map, map_name: anu.name, ular_tangga: anu.nazz, stabil_x: anu.stabil_x, stabil_y: anu.stabil_y };
-      ut[m.chat].players[m.sender] = { rank: 'HOST', langkah: 1 };
-      return m.reply(`Sukses membuat room ular tangga dengan id "${m.chat}"`);
-    },
-    join: () => {
-      if (!ut[m.chat]) throw 'Tidak ada sesi permainan di chat ini!';
-      if (ut[m.chat].players[m.sender]) return conn.sendMessage(m.chat, { text: `Anda sudah bergabung ke room @${ut[m.chat].host.split('@')[0]}`, mentions: [ut[m.chat].host] }, { quoted: m });
-      if (Object.keys(ut[m.chat].players).length >= 4) throw 'Player sudah melebihi limit!';
-      if (ut[m.chat].status === 'PLAYING') throw 'Game sedang berjalan, tidak dapat bergabung';
-      ut[m.chat].players[m.sender] = { rank: 'MEMBER', langkah: 1 };
-      return conn.sendMessage(m.chat, { text: `Sukses bergabung ke room @${ut[m.chat].host.split('@')[0]}`, mentions: [ut[m.chat].host] }, { quoted: m });
-    },
-    delete: () => {
-      if (!ut[m.chat]) throw 'Tidak ada sesi permainan di chat ini!';
-      if (ut[m.chat].host !== m.sender && Date.now() - ut[m.chat].date < 300000) throw 'Anda tidak dapat menghapus sesi permainan, karena anda bukanlah host, anda dapat menghapus session setelah ' + timeToFixed(300000 - (Date.now() - ut[m.chat].date));
-      if (ut[m.chat].host !== m.sender && ut[m.chat].status === 'PLAYING' && Date.now() - ut[m.chat].date < 1000000) throw 'Anda tidak dapat menghapus sesi permainan, karena anda bukanlah host dan permainan sedang berlangsung, anda dapat menghapus session setelah ' + timeToFixed(1000000 - (Date.now() - ut[m.chat].date));
-      delete ut[m.chat];
-      m.reply(`Sukses menghapus sesi permainan dengan id "${m.chat}"`);
-    },
-    info: async () => {
-      if (!ut[m.chat]) throw 'Tidak ada sesi permainan di chat ini!';
-      return conn.sendMessage(
-        m.chat,
-        {
-          text: `*Room Info*:
+const handler = {
+  command: /^(ulartangga|ut)$/i,
+  help: 'ulartangga',
+  tags: 'game',
+  owner: false,
+  before: async function (m, { conn, text, command }) {
+    var body = m.mtype === 'conversation' ? m.message.conversation : m.mtype == 'imageMessage' ? m.message.imageMessage.caption : m.mtype == 'videoMessage' ? m.message.videoMessage.caption : m.mtype == 'extendedTextMessage' ? m.message.extendedTextMessage.text : m.mtype == 'buttonsResponseMessage' ? m.message.buttonsResponseMessage.selectedButtonId : m.mtype == 'listResponseMessage' ? m.message.listResponseMessage.singleSelectReply.selectedRowId : m.mtype == 'templateButtonReplyMessage' ? m.message.templateButtonReplyMessage.selectedId : m.mtype === 'messageContextInfo' ? m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectReply.selectedRowId || m.text : '';
+    conn.ulartangga = conn.ulartangga ? conn.ulartangga : {};
+    const ut = conn.ulartangga;
+    if (!body || body.toLowerCase().split(' ')[0] !== 'kocok' || !ut.hasOwnProperty(m.chat)) return;
+    await kocok(m, ut, conn);
+  },
+  run: async (m, { conn, text, command }) => {
+    conn.ulartangga = conn.ulartangga ? conn.ulartangga : {};
+    const ut = conn.ulartangga;
+    const nazz_cmd = {
+      create: () => {
+        if (ut[m.chat]) throw 'Masih ada sesi permainan di chat ini!';
+        let anu = getRandom(data);
+        ut[m.chat] = { date: Date.now(), status: 'WAITING', host: m.sender, players: {}, map: anu.map, map_name: anu.name, ular_tangga: anu.nazz, stabil_x: anu.stabil_x, stabil_y: anu.stabil_y };
+        ut[m.chat].players[m.sender] = { rank: 'HOST', langkah: 1 };
+        return m.reply(`Sukses membuat room ular tangga dengan id "${m.chat}"`);
+      },
+      join: () => {
+        if (!ut[m.chat]) throw 'Tidak ada sesi permainan di chat ini!';
+        if (ut[m.chat].players[m.sender]) return conn.sendMessage(m.chat, { text: `Anda sudah bergabung ke room @${ut[m.chat].host.split('@')[0]}`, mentions: [ut[m.chat].host] }, { quoted: m });
+        if (Object.keys(ut[m.chat].players).length >= 4) throw 'Player sudah melebihi limit!';
+        if (ut[m.chat].status === 'PLAYING') throw 'Game sedang berjalan, tidak dapat bergabung';
+        ut[m.chat].players[m.sender] = { rank: 'MEMBER', langkah: 1 };
+        return conn.sendMessage(m.chat, { text: `Sukses bergabung ke room @${ut[m.chat].host.split('@')[0]}`, mentions: [ut[m.chat].host] }, { quoted: m });
+      },
+      delete: () => {
+        if (!ut[m.chat]) throw 'Tidak ada sesi permainan di chat ini!';
+        if (ut[m.chat].host !== m.sender && Date.now() - ut[m.chat].date < 300000) throw 'Anda tidak dapat menghapus sesi permainan, karena anda bukanlah host, anda dapat menghapus session setelah ' + timeToFixed(300000 - (Date.now() - ut[m.chat].date));
+        if (ut[m.chat].host !== m.sender && ut[m.chat].status === 'PLAYING' && Date.now() - ut[m.chat].date < 1000000) throw 'Anda tidak dapat menghapus sesi permainan, karena anda bukanlah host dan permainan sedang berlangsung, anda dapat menghapus session setelah ' + timeToFixed(1000000 - (Date.now() - ut[m.chat].date));
+        delete ut[m.chat];
+        m.reply(`Sukses menghapus sesi permainan dengan id "${m.chat}"`);
+      },
+      info: async () => {
+        if (!ut[m.chat]) throw 'Tidak ada sesi permainan di chat ini!';
+        return conn.sendMessage(
+          m.chat,
+          {
+            text: `*Room Info*:
 Host: @${ut[m.chat].host.split('@')[0]}
 Status: ${ut[m.chat].status}
 Map: ${ut[m.chat].map_name}
@@ -65,62 +77,50 @@ Players: ${Object.keys(ut[m.chat].players).length}/4
 ${Object.keys(ut[m.chat].players)
   .map((v) => '- @' + v.split('@')[0])
   .join('\n')}`,
-          mentions: Object.keys(ut[m.chat].players)
-        },
-        { quoted: m }
+            mentions: Object.keys(ut[m.chat].players)
+          },
+          { quoted: m }
+        );
+      },
+      start: () => {
+        if (!ut[m.chat]) throw 'Tidak ada sesi permainan di chat ini!';
+        if (ut[m.chat].status === 'PLAYING') throw 'Pemainan sedang berjalan!';
+        if (ut[m.chat].host !== m.sender) throw 'Hanya host yang dapat memulai permainan!';
+        ut[m.chat].status = 'PLAYING';
+        m.reply('Permainan dimulai!');
+        start(m, ut, conn);
+      },
+      exit: () => {
+        if (!ut[m.chat]) throw 'Tidak ada sesi permainan di chat ini!';
+        if (!Object.keys(ut[m.chat].players).includes(m.sender)) throw 'Anda tidak bergabung di pemainan!';
+        delete ut[m.chat].players[m.sender];
+        m.reply('Sukses keluar dari permainan');
+        if (!Object.keys(ut[m.chat].players).length) {
+          delete ut[m.chat];
+          return m.reply('Karena tidak ada players, maka sesi permainan akan di hapus');
+        }
+        if (ut[m.chat].status === 'PLAYING') {
+          const players = Object.keys(ut[m.chat].players);
+          conn.sendMessage(m.chat, { text: `Giliran @${players[(ut[m.chat].turn %= players.length)].split('@')[0]} untuk mengetik *kocok*`, mentions: [players[(ut[m.chat].turn %= players.length)]] }, { quoted: m });
+        }
+        if (!Object.keys(ut[m.chat].players).includes(ut[m.chat].host)) {
+          let host = Object.keys(ut[m.chat].players)[0];
+          ut[m.chat].host = host;
+          ut[m.chat].players[host].rank = 'HOST';
+          conn.sendMessage(m.chat, { text: `Di karenakan host keluar, kedudukan host akan di pindah ke @${host.split('@')[0]}`, mentions: [host] }, { quoted: m });
+        }
+      }
+    };
+    if (!text || !Object.keys(nazz_cmd).includes(text))
+      return conn.reply(
+        m.chat,
+        `Halo! Selamat datang di Ular Tangga, permainan klasik yang penuh petualangan dan tantangan! Di sini, pemain harus melewati rintangan dan naik tangga untuk mencapai angka 100 dan menjadi pemenang. Tapi hati-hati, ada ular licin yang bisa membuatmu turun kembali, dan tangga yang akan membantumu meloncat lebih cepat ke puncak! 🐍🎲\n\nAyo, bergabunglah dalam petualangan seru di Ular Tangga dan rasakan keseruannya! 🎯🎮\n\nBerikut ini beberapa command ular tangga:\n${Object.keys(nazz_cmd)
+          .map((v) => '⬡ ' + v)
+          .join('\n')}\n\nContoh penggunaan: .ulartangga create`,
+        m
       );
-    },
-    start: () => {
-      if (!ut[m.chat]) throw 'Tidak ada sesi permainan di chat ini!';
-      if (ut[m.chat].status === 'PLAYING') throw 'Pemainan sedang berjalan!';
-      if (ut[m.chat].host !== m.sender) throw 'Hanya host yang dapat memulai permainan!';
-      ut[m.chat].status = 'PLAYING';
-      m.reply('Permainan dimulai!');
-      start(m, ut, conn);
-    },
-    exit: () => {
-      if (!ut[m.chat]) throw 'Tidak ada sesi permainan di chat ini!';
-      if (!Object.keys(ut[m.chat].players).includes(m.sender)) throw 'Anda tidak bergabung di pemainan!';
-      delete ut[m.chat].players[m.sender];
-      m.reply('Sukses keluar dari permainan');
-      if (!Object.keys(ut[m.chat].players).length) {
-        delete ut[m.chat];
-        return m.reply('Karena tidak ada players, maka sesi permainan akan di hapus');
-      }
-      if (ut[m.chat].status === 'PLAYING') {
-        const players = Object.keys(ut[m.chat].players);
-        conn.sendMessage(m.chat, { text: `Giliran @${players[(ut[m.chat].turn %= players.length)].split('@')[0]} untuk mengetik *kocok*`, mentions: [players[(ut[m.chat].turn %= players.length)]] }, { quoted: m });
-      }
-      if (!Object.keys(ut[m.chat].players).includes(ut[m.chat].host)) {
-        let host = Object.keys(ut[m.chat].players)[0];
-        ut[m.chat].host = host;
-        ut[m.chat].players[host].rank = 'HOST';
-        conn.sendMessage(m.chat, { text: `Di karenakan host keluar, kedudukan host akan di pindah ke @${host.split('@')[0]}`, mentions: [host] }, { quoted: m });
-      }
-    }
-  };
-  if (!text || !Object.keys(nazz_cmd).includes(text))
-    return conn.reply(
-      m.chat,
-      `Halo! Selamat datang di Ular Tangga, permainan klasik yang penuh petualangan dan tantangan! Di sini, pemain harus melewati rintangan dan naik tangga untuk mencapai angka 100 dan menjadi pemenang. Tapi hati-hati, ada ular licin yang bisa membuatmu turun kembali, dan tangga yang akan membantumu meloncat lebih cepat ke puncak! 🐍🎲\n\nAyo, bergabunglah dalam petualangan seru di Ular Tangga dan rasakan keseruannya! 🎯🎮\n\nBerikut ini beberapa command ular tangga:\n${Object.keys(nazz_cmd)
-        .map((v) => '⬡ ' + v)
-        .join('\n')}\n\nContoh penggunaan: .ulartangga create`,
-      m
-    );
-  await nazz_cmd[text]();
-};
-
-handler.command = /^(ulartangga|ut)$/i;
-handler.help = 'ulartangga';
-handler.tags = 'game';
-handler.owner = false;
-
-handler.before = async function (m, { conn, text, command }) {
-  var body = m.mtype === 'conversation' ? m.message.conversation : m.mtype == 'imageMessage' ? m.message.imageMessage.caption : m.mtype == 'videoMessage' ? m.message.videoMessage.caption : m.mtype == 'extendedTextMessage' ? m.message.extendedTextMessage.text : m.mtype == 'buttonsResponseMessage' ? m.message.buttonsResponseMessage.selectedButtonId : m.mtype == 'listResponseMessage' ? m.message.listResponseMessage.singleSelectReply.selectedRowId : m.mtype == 'templateButtonReplyMessage' ? m.message.templateButtonReplyMessage.selectedId : m.mtype === 'messageContextInfo' ? m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectReply.selectedRowId || m.text : '';
-  conn.ulartangga = conn.ulartangga ? conn.ulartangga : {};
-  const ut = conn.ulartangga;
-  if (!body || body.toLowerCase().split(' ')[0] !== 'kocok' || !ut.hasOwnProperty(m.chat)) return;
-  await kocok(m, ut, conn);
+    await nazz_cmd[text]();
+  }
 };
 
 export default handler;

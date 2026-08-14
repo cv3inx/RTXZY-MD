@@ -1,17 +1,23 @@
 let timeout = 100000;
 let poin = 10000;
-let handler = async (m, { conn, usedPrefix, Api }) => {
-  conn.siapakahaku = conn.siapakahaku ? conn.siapakahaku : {};
-  let id = m.chat;
-  if (id in conn.siapakahaku) {
-    conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.siapakahaku[id][0]);
-    throw false;
-  }
-  // di sini dia ngambil data dari api
-  let src = await (await Api.get('/api/game/siapakahaku')).json();
-  let json = src;
-  // buat caption buat di tampilin di wa
-  let caption = `
+const handler = {
+  help: ['siapakahaku'],
+  tags: ['game'],
+  command: /^siapakahaku/i,
+  register: false,
+  group: true,
+  run: async (m, { conn, usedPrefix, Api }) => {
+    conn.siapakahaku = conn.siapakahaku ? conn.siapakahaku : {};
+    let id = m.chat;
+    if (id in conn.siapakahaku) {
+      conn.reply(m.chat, 'Masih ada soal belum terjawab di chat ini', conn.siapakahaku[id][0]);
+      throw false;
+    }
+    // di sini dia ngambil data dari api
+    let src = await (await Api.get('/api/game/siapakahaku')).json();
+    let json = src;
+    // buat caption buat di tampilin di wa
+    let caption = `
 ${json.soal}
 
 ┌─⊷ *SOAL*
@@ -21,21 +27,17 @@ ${json.soal}
 ▢ *Balas/ REPLY soal ini untuk menjawab*
 └──────────────
 `.trim();
-  conn.siapakahaku[id] = [
-    await conn.reply(m.chat, caption, m),
-    json,
-    poin,
-    setTimeout(() => {
-      if (conn.siapakahaku[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.siapakahaku[id][0]);
-      delete conn.siapakahaku[id];
-    }, timeout)
-  ];
+    conn.siapakahaku[id] = [
+      await conn.reply(m.chat, caption, m),
+      json,
+      poin,
+      setTimeout(() => {
+        if (conn.siapakahaku[id]) conn.reply(m.chat, `Waktu habis!\nJawabannya adalah *${json.jawaban}*`, conn.siapakahaku[id][0]);
+        delete conn.siapakahaku[id];
+      }, timeout)
+    ];
+  }
 };
-handler.help = ['siapakahaku'];
-handler.tags = ['game'];
-handler.command = /^siapakahaku/i;
-handler.register = false;
-handler.group = true;
 
 export default handler;
 

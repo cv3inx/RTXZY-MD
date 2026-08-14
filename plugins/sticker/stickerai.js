@@ -1,27 +1,29 @@
 import fs from 'fs';
 import fetch from 'node-fetch';
-let handler = async (m, { conn, command, usedPrefix, text, Api }) => {
-  if (!text) throw `Kirim prompt dengan cara ${usedPrefix + command} <prompt>`;
+const handler = {
+  help: ['aistiker <prompt>'],
+  tags: ['sticker'],
+  command: /^(aistiker|ai?s|aisticker|stickerai)$/i,
+  limit: true,
+  run: async (m, { conn, command, usedPrefix, text, Api }) => {
+    if (!text) throw `Kirim prompt dengan cara ${usedPrefix + command} <prompt>`;
 
-  let apiUrl = Api.url('/api/search/openai-image', { text });
-  let res = await fetch(apiUrl);
-  if (!res.ok) throw 'Gagal mengambil gambar dari API';
-  let buffer = await res.buffer();
+    let apiUrl = Api.url('/api/search/openai-image', { text });
+    let res = await fetch(apiUrl);
+    if (!res.ok) throw 'Gagal mengambil gambar dari API';
+    let buffer = await res.buffer();
 
-  let filePath = './tmp/tmp-sticker.png';
-  fs.writeFileSync(filePath, buffer);
+    let filePath = './tmp/tmp-sticker.png';
+    fs.writeFileSync(filePath, buffer);
 
-  m.reply(stiker_wait);
-  let encmedia = await conn.sendImageAsSticker(m.chat, buffer, m, { packname: global.packname, author: global.author });
+    m.reply(stiker_wait);
+    let encmedia = await conn.sendImageAsSticker(m.chat, buffer, m, { packname: global.packname, author: global.author });
 
-  await fs.unlinkSync(encmedia);
-  await fs.unlinkSync(filePath);
+    await fs.unlinkSync(encmedia);
+    await fs.unlinkSync(filePath);
+  }
 };
 
-handler.help = ['aistiker <prompt>'];
-handler.tags = ['sticker'];
-handler.command = /^(aistiker|ai?s|aisticker|stickerai)$/i;
-handler.limit = true;
 export default handler;
 
 const isUrl = (text) => {

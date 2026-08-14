@@ -1,27 +1,29 @@
 const timeout = 28800000;
 
-let handler = async (m, { conn, usedPrefix, text }) => {
-  let time = global.db.data.users[m.sender].lastturu + 28800000;
-  if (new Date() - global.db.data.users[m.sender].lastturu < 28800000) throw `Anda sudah memulung\nMohon tunggu selama ${msToTime(time - new Date())} untuk mulung lagi`;
-  let botolnye = `${Math.floor(Math.random() * 1000)}`.trim();
-  let kalengnye = `${Math.floor(Math.random() * 1000)}`.trim();
-  let kardusnye = `${Math.floor(Math.random() * 1000)}`.trim();
-  global.db.data.users[m.sender].botol += botolnye * 1;
-  global.db.data.users[m.sender].kaleng += kalengnye * 1;
-  global.db.data.users[m.sender].kardus += kardusnye * 1;
-  global.db.data.users[m.sender].lastturu = new Date() * 1;
-  conn.reply(m.chat, `Selamat kamu mendapatkan : \n+${botolnye} Botol\n+${kardusnye} Kardus\n+${kalengnye} Kaleng`, m);
+const handler = {
+  help: ['mulung'],
+  tags: ['rpg'],
+  command: /^(mulung)/i,
+  group: true,
+  fail: null,
+  limit: true,
+  exp: 0,
+  money: 0,
+  rpg: true,
+  run: async (m, { conn, usedPrefix, text }) => {
+    let time = global.db.data.users[m.sender].lastturu + 28800000;
+    if (new Date() - global.db.data.users[m.sender].lastturu < 28800000) throw `Anda sudah memulung\nMohon tunggu selama ${msToTime(time - new Date())} untuk mulung lagi`;
+    let botolnye = `${Math.floor(Math.random() * 1000)}`.trim();
+    let kalengnye = `${Math.floor(Math.random() * 1000)}`.trim();
+    let kardusnye = `${Math.floor(Math.random() * 1000)}`.trim();
+    global.db.data.users[m.sender].botol += botolnye * 1;
+    global.db.data.users[m.sender].kaleng += kalengnye * 1;
+    global.db.data.users[m.sender].kardus += kardusnye * 1;
+    global.db.data.users[m.sender].lastturu = new Date() * 1;
+    conn.reply(m.chat, `Selamat kamu mendapatkan : \n+${botolnye} Botol\n+${kardusnye} Kardus\n+${kalengnye} Kaleng`, m);
+  }
 };
-handler.help = ['mulung'];
-handler.tags = ['rpg'];
-handler.command = /^(mulung)/i;
-handler.group = true;
 
-handler.fail = null;
-handler.limit = true;
-handler.exp = 0;
-handler.money = 0;
-handler.rpg = true;
 export default handler;
 
 function msToTime(duration) {
