@@ -13,7 +13,7 @@ import syntaxerror from 'syntax-error';
 import fetch from 'node-fetch';
 import chalk from 'chalk';
 import QRCode from 'qrcode';
-import simple from './lib/simple.js';
+import simple, { buildPrefixRegex } from './lib/simple.js';
 import mongoDB from './lib/database/mongoDB.js';
 import cloudDBAdapter from './lib/database/cloudDBAdapter.js';
 import readline from 'readline';
@@ -65,7 +65,7 @@ const { Low, JSONFile } = low;
 
   global.opts = new Object(yargs(process.argv.slice(2)).exitProcess(false).parse());
   // console.log({ opts })
-  global.prefix = new RegExp('^[' + (opts['prefix'] || '‎xzXZ/i!#$%+£¢€¥^°=¶∆×÷π√✓©®:;?&.\\-').replace(/[|\\{}()[\]^$+*?.\-\^]/g, '\\$&') + ']');
+  global.prefix = buildPrefixRegex(opts['prefix'] || global.config.prefix);
 
   global.db = new Low(/https?:\/\//.test(opts['db'] || '') ? new cloudDBAdapter(opts['db']) : /mongodb/.test(opts['db']) ? new mongoDB(opts['db']) : new JSONFile(`${opts._[0] ? opts._[0] + '_' : ''}database.json`));
   global.DATABASE = global.db;

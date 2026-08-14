@@ -1,10 +1,12 @@
+import { buildPrefixRegex } from '../../lib/simple.js';
+
 const handler = {
   help: ['resetprefix'],
   tags: ['owner'],
   command: 'resetprefix',
   rowner: true,
   run: async (m, { conn }) => {
-    global.prefix = new RegExp('^[' + (opts['prefix'] || '‎xzXZ/i!#$%+£¢€¥^°=¶∆×÷π√✓©®:;?&.\\-').replace(/[|\\{}()[\]^$+*?.\-\^]/g, '\\$&') + ']');
+    global.prefix = buildPrefixRegex(global.opts['prefix'] || global.config.prefix);
     await m.reply(`Prefix berhasil direset`);
   }
 };

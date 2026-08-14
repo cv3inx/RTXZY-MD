@@ -16,6 +16,9 @@ const config = {
   // tetep diinput manual / pake QR (--qr).
   botNumber: '',
 
+  // Karakter prefix yang dikenali bot, satu karakter per entry.
+  prefix: ['.', '#', '!', '/'],
+
   access: {
     owner: ['62895331520602'], // wajib diisi
     mods: ['62895331520602'], // wajib diisi
