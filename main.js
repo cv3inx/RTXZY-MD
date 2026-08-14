@@ -207,18 +207,23 @@ const { Low, JSONFile } = low;
       console.log(chalk.blueBright('QR Mode is active. Please scan the QR code that will appear below.'));
       rl.close();
     } else {
-      let phoneNumber;
+      let phoneNumber = (global.botNumber || '').replace(/\D/g, '');
 
-      do {
-        phoneNumber = await question(chalk.blueBright('ENTER A VALID NUMBER START WITH REGION CODE. Example : 62xxx:\n'));
+      if (phoneNumber.length >= 10) {
+        console.log(chalk.blueBright(`Using bot number from config.js: ${phoneNumber}`));
+        rl.close();
+      } else {
+        do {
+          phoneNumber = await question(chalk.blueBright('ENTER A VALID NUMBER START WITH REGION CODE. Example : 62xxx:\n'));
 
-        if (!/^\d+$/.test(phoneNumber) || phoneNumber.length < 10) {
-          console.log(chalk.red('Invalid phone number. Please enter a valid number.'));
-        }
-      } while (!/^\d+$/.test(phoneNumber) || phoneNumber.length < 10);
+          if (!/^\d+$/.test(phoneNumber) || phoneNumber.length < 10) {
+            console.log(chalk.red('Invalid phone number. Please enter a valid number.'));
+          }
+        } while (!/^\d+$/.test(phoneNumber) || phoneNumber.length < 10);
 
-      rl.close();
-      phoneNumber = phoneNumber.replace(/\D/g, '');
+        rl.close();
+        phoneNumber = phoneNumber.replace(/\D/g, '');
+      }
       console.log(chalk.bgWhite(chalk.blue('-- Please wait, generating code... --')));
       setTimeout(async () => {
         let customPairingCode = 'RTXZYBOT';
