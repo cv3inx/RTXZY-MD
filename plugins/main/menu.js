@@ -53,7 +53,7 @@ I am an automated system (WhatsApp Bot) that can help to do something, search an
 └  ◦ Prefix Used : *[ %p ]*
 `.trimStart(),
   header: '┌  ◦ *%category*',
-  body: '│  ◦ %cmd %islimit %isPremium',
+  body: '│  ◦ %cmd %usage %islimit %isPremium',
   footer: '└  ',
   after: `*Note:* Ketik .menu <category> untuk melihat menu spesifik\nContoh: .menu tools`
 };
@@ -93,6 +93,7 @@ const handler = {
         .map((plugin) => {
           return {
             help: Array.isArray(plugin.help) ? plugin.help : [plugin.help],
+            usage: plugin.usage || '',
             tags: Array.isArray(plugin.tags) ? plugin.tags : [plugin.tags],
             prefix: 'customPrefix' in plugin,
             limit: plugin.limit,
@@ -142,6 +143,7 @@ const handler = {
                 menuCategory +=
                   defaultMenu.body
                     .replace(/%cmd/g, menu.prefix ? help : _p + help)
+                    .replace(/%usage/g, menu.usage)
                     .replace(/%islimit/g, menu.limit ? '(Ⓛ)' : '')
                     .replace(/%isPremium/g, menu.premium ? '(Ⓟ)' : '') + '\n';
               }
@@ -158,6 +160,7 @@ const handler = {
             menuCategory +=
               defaultMenu.body
                 .replace(/%cmd/g, menu.prefix ? help : _p + help)
+                .replace(/%usage/g, menu.usage)
                 .replace(/%islimit/g, menu.limit ? '(Ⓛ)' : '')
                 .replace(/%isPremium/g, menu.premium ? '(Ⓟ)' : '') + '\n';
           }
