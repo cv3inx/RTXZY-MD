@@ -81,9 +81,8 @@ const { Low, JSONFile } = low;
   loadDatabase();
 
   const authFile = `${opts._[0] || 'sessions'}`;
-  global.isInit = !fs.existsSync(authFile);
-  const { conn, connectionOptions, saveCreds } = await createClient(authFile);
-  global.conn = conn;
+  const { conn: initialConn, connectionOptions, storeSqlitePath } = await createClient(authFile);
+  global.conn = initialConn;
 
   if (!opts['test']) {
     if (global.db)
@@ -96,7 +95,10 @@ const { Low, JSONFile } = low;
       }, 30 * 1000);
   }
 
-  await authenticate(conn, { rl, question });
+  // `conn` below is deliberately not a local binding - it resolves to
+  // global.conn (bare identifiers reach the global object in this codebase),
+  // so it keeps working after reloadHandler swaps global.conn on reconnect.
+  global.conn = await authenticate(conn, { rl, question, connectionOptions, storeSqlitePath });
 
   process.on('uncaughtException', console.error);
 
@@ -108,21 +110,19 @@ const { Low, JSONFile } = low;
   let isInit = true;
   global.reloadHandler = async function (restatConn) {
     let handler = await imports('./handler.js');
+    const oldConn = global.conn;
     if (restatConn) {
       try {
-        global.conn.ws.close();
+        oldConn.ws.close();
       } catch {}
-      global.conn = {
-        ...global.conn,
-        ...makeSocket(connectionOptions)
-      };
+      global.conn = makeSocket(connectionOptions);
     }
     if (!isInit) {
-      conn.ev.off('messages.upsert', conn.handler);
-      conn.ev.off('group-participants.update', conn.participantsUpdate);
-      conn.ev.off('message.delete', conn.onDelete);
-      conn.ev.off('connection.update', conn.connectionUpdate);
-      conn.ev.off('creds.update', conn.credsUpdate);
+      oldConn.ev.off('messages.upsert', oldConn.handler);
+      oldConn.ev.off('group-participants.update', oldConn.participantsUpdate);
+      oldConn.ev.off('message.delete', oldConn.onDelete);
+      oldConn.ev.off('connection.update', oldConn.connectionUpdate);
+      oldConn.ev.off('creds.update', oldConn.credsUpdate);
     }
 
     conn.welcome = 'Selamat datang @user di group @subject utamakan baca desk ya \n@desc';
@@ -133,7 +133,7 @@ const { Low, JSONFile } = low;
     conn.participantsUpdate = handler.participantsUpdate.bind(conn);
     conn.onDelete = handler.delete.bind(conn);
     conn.connectionUpdate = connectionUpdate.bind(conn);
-    conn.credsUpdate = saveCreds.bind(conn);
+    conn.credsUpdate = async () => {}; // no-op: the zapo-js store persists creds automatically
 
     conn.ev.on('messages.upsert', conn.handler);
     conn.ev.on('group-participants.update', conn.participantsUpdate);
@@ -157,7 +157,8 @@ const { Low, JSONFile } = low;
       delete global.plugins[filename];
     }
   }
-  console.log(Object.keys(global.plugins));
+  console.log(Object.keys(global.plugins).length + ' plugins loaded.');
+
   global.reload = async (_ev, filename) => {
     if (pluginFilter(filename)) {
       let dir = path.join(pluginFolder, filename);
@@ -204,7 +205,7 @@ const { Low, JSONFile } = low;
       })
     );
     let [ffmpeg, ffprobe, ffmpegWebp, convert, magick, gm, find] = test;
-    console.log(test);
+    console.log(`${test.filter(Boolean).length}/${test.length} tools found.`);
     let s = (global.support = {
       ffmpeg,
       ffprobe,
@@ -223,5 +224,5 @@ const { Low, JSONFile } = low;
 
   _quickTest()
     .then(() => conn.logger.info('Quick Test Done'))
-    .catch('done');
+    .catch((err) => conn.logger.error('Quick Test Failed', err));
 })();
