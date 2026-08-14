@@ -10,7 +10,7 @@ import { buildPrefixRegex } from './lib/simple.js';
 import mongoDB from './lib/database/mongoDB.js';
 import cloudDBAdapter from './lib/database/cloudDBAdapter.js';
 import readline from 'readline';
-import { createClient, authenticate, connectionUpdate, makeSocket } from './client.js';
+import { createClient, authenticate, connectionUpdate, makeSocket } from './lib/system/connection.js';
 import { pathToFileURL, fileURLToPath } from 'url';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
