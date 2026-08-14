@@ -1,6 +1,6 @@
 const handler = {
   help: ['emailcheck'],
-  usage: '<email1, email2, ...>',
+  usage: 'email1, email2, ...',
   tags: ['tools'],
   command: ['emailcheck', 'emailcek', 'cekmail'],
   limit: true,

@@ -2,7 +2,7 @@
 
 const handler = {
   help: ['transfer'],
-  usage: '<Args>',
+  usage: 'Args',
   tags: ['rpg'],
   command: ['transfer', 'tf'],
   owner: false,

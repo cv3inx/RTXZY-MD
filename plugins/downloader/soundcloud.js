@@ -1,6 +1,6 @@
 const handler = {
   help: ['soundcloud'],
-  usage: '<url>',
+  usage: 'url',
   tags: ['downloader'],
   command: ['scloud', 'soundcloud'],
   run: async (m, { conn, text, usedPrefix, command, Api }) => {

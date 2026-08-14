@@ -1,6 +1,6 @@
 const handler = {
   help: ['lirik'],
-  usage: '<Title>',
+  usage: 'Title',
   tags: ['internet'],
   command: ['lirik', 'lyrics', 'lyric'],
   run: async (m, { conn, text, usedPrefix, command, Api }) => {

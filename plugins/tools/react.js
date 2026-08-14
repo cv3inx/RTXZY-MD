@@ -1,7 +1,7 @@
 const __dirname = import.meta.dirname;
 const handler = {
   help: ['react'],
-  usage: '<emoji>',
+  usage: 'emoji',
   tags: ['tools'],
   command: 'react',
   run: async (m, { conn, usedPrefix: _p, __dirname, args, text, usedPrefix }) => {

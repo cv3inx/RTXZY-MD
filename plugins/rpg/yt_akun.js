@@ -1,6 +1,6 @@
 const handler = {
   help: ['akunyt'],
-  usage: '[nomor]',
+  usage: 'nomor',
   tags: ['rpg'],
   command: 'akunyt',
   register: true,

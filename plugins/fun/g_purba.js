@@ -1,6 +1,6 @@
 const handler = {
   help: ['purba'],
-  usage: '<teks>',
+  usage: 'teks',
   tags: ['fun'],
   command: 'purba',
   run: function (m, { text }) {

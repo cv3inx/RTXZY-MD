@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const handler = {
   help: ['binary'],
-  usage: '<teks>',
+  usage: 'teks',
   tags: ['tools'],
   command: 'binary',
   owner: false,

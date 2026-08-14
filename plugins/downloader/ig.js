@@ -1,6 +1,6 @@
 const handler = {
   help: ['instagram'],
-  usage: '<url>',
+  usage: 'url',
   tags: ['downloader'],
   command: ['ig', 'instagram', 'igdl', 'instagramdl', 'igstory'],
   limit: true,

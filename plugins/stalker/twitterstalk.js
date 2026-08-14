@@ -1,6 +1,6 @@
 const handler = {
   help: ['twitterstalk'],
-  usage: '<username>',
+  usage: 'username',
   tags: ['stalk'],
   command: ['twstalk', 'twitterstalk'],
   limit: true,

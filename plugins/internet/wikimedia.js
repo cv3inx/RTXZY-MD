@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 const handler = {
   tags: ['internet'],
   help: ['wikimedia'],
-  usage: '<kata kunci>',
+  usage: 'kata kunci',
   command: 'wikimedia',
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {

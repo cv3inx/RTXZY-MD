@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 const handler = {
   help: ['ava'],
-  usage: '<@tag/reply>',
+  usage: '@tag/reply',
   tags: ['group'],
   command: ['avatar', 'ava'],
   group: true,

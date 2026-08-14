@@ -6,7 +6,7 @@ import { spawn } from 'child_process';
 let fontPath = 'src/font/Zahraaa.ttf';
 const handler = {
   help: ['nulis'],
-  usage: '<teks>',
+  usage: 'teks',
   tags: ['tools'],
   command: 'nulis',
   run: async (m, { conn, args }) => {

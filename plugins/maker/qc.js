@@ -7,7 +7,7 @@ import fetch from 'node-fetch';
 
 const handler = {
   help: ['qc'],
-  usage: '<text & reply>',
+  usage: 'text & reply',
   tags: ['sticker'],
   command: ['qc', 'quotely'],
   premium: false,

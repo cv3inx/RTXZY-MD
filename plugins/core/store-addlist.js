@@ -2,7 +2,7 @@ import * as zapo from '../../lib/simple.js';
 
 const handler = {
   help: ['addlist'],
-  usage: '<teks>',
+  usage: 'teks',
   tags: ['store'],
   command: 'addlist',
   group: true,

@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as cheerio from 'cheerio';
 const handler = {
   help: ['alkitab'],
-  usage: '<pencarian>',
+  usage: 'pencarian',
   tags: ['internet'],
   command: 'alkitab',
   run: async (m, { text, usedPrefix, command }) => {

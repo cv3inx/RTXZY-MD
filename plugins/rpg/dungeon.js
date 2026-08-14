@@ -333,7 +333,7 @@ Nyawa ${P} masing masing berkurang *-${healt * 1}*, dan durability Sword kalian 
     return;
   },
   help: ['dungeon'],
-  usage: '*[nama room]*',
+  usage: '*nama room*',
   tags: ['rpg'],
   command: 'dungeon',
   rpg: true,

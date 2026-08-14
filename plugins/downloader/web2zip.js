@@ -1,6 +1,6 @@
 const handler = {
   help: ['web2zip'],
-  usage: '<url>',
+  usage: 'url',
   tags: ['downloader'],
   command: ['web2zip', 'w2z'],
   limit: true,

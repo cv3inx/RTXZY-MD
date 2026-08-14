@@ -1,6 +1,6 @@
 const handler = {
   help: ['simulate'],
-  usage: '<event> [@mention]',
+  usage: 'event @mention',
   tags: ['owner'],
   command: ['simulate', 'simulasi'],
   owner: false,

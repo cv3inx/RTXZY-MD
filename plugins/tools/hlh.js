@@ -1,6 +1,6 @@
 const handler = {
   help: [...'aiueo'].map((v) => `h${v}l${v}h`),
-  usage: '<teks>',
+  usage: 'teks',
   tags: ['tools'],
   command: /^h([aiueo])l\1h/i,
   run: async (m, { command, text, usedPrefix }) => {

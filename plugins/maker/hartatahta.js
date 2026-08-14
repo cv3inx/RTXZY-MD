@@ -2,7 +2,7 @@ const __dirname = import.meta.dirname;
 import fs from 'fs';
 const handler = {
   help: ['tahta'],
-  usage: '<teks>',
+  usage: 'teks',
   tags: ['tools'],
   command: ['tahta', 'hartatahta'],
   limit: false,

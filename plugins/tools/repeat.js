@@ -1,6 +1,6 @@
 const handler = {
   help: ['repeat'],
-  usage: '<teks>',
+  usage: 'teks',
   tags: ['tools'],
   command: 'repeat',
   owner: false,

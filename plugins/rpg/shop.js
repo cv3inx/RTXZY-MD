@@ -114,7 +114,7 @@ const BnStock = 9999;
 const WeapStock = 50;
 const handler = {
   help: ['shop'],
-  usage: '<sell|buy> <args>',
+  usage: 'sell|buy args',
   tags: ['rpg'],
   command: ['shop', 'toko', 'buy', 'beli', 'sell', 'jual'],
   limit: true,

@@ -2,7 +2,7 @@ import fs from 'fs';
 import fetch from 'node-fetch';
 const handler = {
   help: ['aistiker'],
-  usage: '<prompt>',
+  usage: 'prompt',
   tags: ['sticker'],
   command: ['aistiker', 'as', 'ais', 'aisticker', 'stickerai'],
   limit: true,

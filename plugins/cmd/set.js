@@ -3,7 +3,7 @@ const { Image } = pkg;
 
 const handler = {
   help: ['setcmd'],
-  usage: '<teks>',
+  usage: 'teks',
   tags: ['database', 'premium'],
   command: ['setcmd'],
   premium: true,

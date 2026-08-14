@@ -1,6 +1,6 @@
 const handler = {
   help: ['leaderboard'],
-  usage: '<jumlah user>',
+  usage: 'jumlah user',
   tags: ['info'],
   command: ['leaderboard', 'lb'],
   owner: false,

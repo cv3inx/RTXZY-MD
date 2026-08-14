@@ -8,7 +8,7 @@ function clockString(ms) {
 
 const handler = {
   help: ['berlatih'],
-  usage: '<atribut>',
+  usage: 'atribut',
   tags: ['rpg'],
   command: 'berlatih',
   limit: true,

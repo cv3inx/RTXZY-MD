@@ -2,7 +2,7 @@ import { buildPrefixRegex } from '../../lib/simple.js';
 
 const handler = {
   help: ['setprefix'],
-  usage: '[prefix]',
+  usage: 'prefix',
   tags: ['owner'],
   command: 'setprefix',
   rowner: true,

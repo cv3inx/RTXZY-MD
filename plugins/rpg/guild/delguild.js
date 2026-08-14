@@ -3,7 +3,7 @@ const dbPath = './database.json'; // Path ke database file
 
 const handler = {
   help: ['delguild'],
-  usage: '<nomor_guild>',
+  usage: 'nomor_guild',
   tags: ['rpgG'],
   command: 'delguild',
   owner: false,

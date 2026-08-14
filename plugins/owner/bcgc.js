@@ -1,6 +1,6 @@
 const handler = {
   help: ['bcgcbot'],
-  usage: '<teks>',
+  usage: 'teks',
   tags: ['owner'],
   command: ['broadcastgcbot', 'bcgcbot'],
   owner: true,

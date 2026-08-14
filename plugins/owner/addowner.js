@@ -1,6 +1,6 @@
 const handler = {
   help: ['addowner'],
-  usage: '[@user]',
+  usage: '@user',
   tags: ['owner'],
   command: /^(add|tambah|\+)owner$/i,
   owner: true,

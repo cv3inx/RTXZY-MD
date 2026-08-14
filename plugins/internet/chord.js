@@ -1,6 +1,6 @@
 const handler = {
   help: ['chord'],
-  usage: '<judul lagu>',
+  usage: 'judul lagu',
   tags: ['internet'],
   command: 'chord',
   limit: true,

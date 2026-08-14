@@ -1,6 +1,6 @@
 const handler = {
   help: ['mulaigiveaway'],
-  usage: '<text>',
+  usage: 'text',
   tags: ['group'],
   command: ['startgiveaway', 'mulaigiveaway'],
   group: true,

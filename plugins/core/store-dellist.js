@@ -1,6 +1,6 @@
 const handler = {
   help: ['dellist'],
-  usage: '<teks>',
+  usage: 'teks',
   tags: ['store'],
   command: 'dellist',
   admin: true,

@@ -1,6 +1,6 @@
 const handler = {
   help: ['apakah'],
-  usage: '<teks>?',
+  usage: 'teks?',
   tags: ['kerang'],
   customPrefix: /(\?$)/,
   command: 'apakah',

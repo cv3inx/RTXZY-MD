@@ -1,6 +1,6 @@
 const handler = {
   help: ['cocofun'],
-  usage: '<url>',
+  usage: 'url',
   command: ['cocofun', 'cocofundl', 'dlcocofun'],
   tags: ['downloader'],
   limit: true,

@@ -1,6 +1,6 @@
 const handler = {
   help: ['moneytopoin'],
-  usage: '*<amount>*',
+  usage: '*amount*',
   tags: ['rpg'],
   command: 'moneytopoin',
   register: true,

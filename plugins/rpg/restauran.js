@@ -22,7 +22,7 @@ const Hpb = 200000;
 const Hkb = 20000;
 const handler = {
   help: ['resto'],
-  usage: '*<beli> <args>*',
+  usage: '*beli args*',
   tags: ['rpg'],
   command: ['resto', 'beli'],
   rpg: true,

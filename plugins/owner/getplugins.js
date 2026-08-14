@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 const handler = {
   help: ['getplugin'],
-  usage: '[filename]',
+  usage: 'filename',
   tags: ['owner'],
   command: ['getplugin', 'get plugin', 'gp'],
   rowner: true,

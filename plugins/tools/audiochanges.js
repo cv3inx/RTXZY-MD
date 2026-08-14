@@ -5,7 +5,7 @@ import { exec } from 'child_process';
 
 const handler = {
   help: ['bass', 'blown', 'deep', 'earrape', 'fast', 'fat', 'nightcore', 'reverse', 'robot', 'slow', 'smooth', 'tupai', 'vibra'],
-  usage: '[vn]',
+  usage: 'vn',
   tags: ['voice'],
   command: ['bass', 'blown', 'deep', 'earrape', 'fat', 'fast', 'nightcore', 'reverse', 'robot', 'slow', 'smooth', 'tupai', 'squirrel', 'chipmunk', 'vibra'],
   run: async (m, { conn, args, usedPrefix, command }) => {

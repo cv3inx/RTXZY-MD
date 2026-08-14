@@ -1,6 +1,6 @@
 const handler = {
   help: ['delowner'],
-  usage: '[@user]',
+  usage: '@user',
   tags: ['owner'],
   command: ['delowner', 'hapusowner', '-owner'],
   owner: true,

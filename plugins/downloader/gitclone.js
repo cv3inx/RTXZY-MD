@@ -2,7 +2,7 @@ let regex = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i;
 import fetch from 'node-fetch';
 const handler = {
   help: ['gitclone'],
-  usage: '<url>',
+  usage: 'url',
   tags: ['github'],
   command: 'gitclone',
   limit: true,

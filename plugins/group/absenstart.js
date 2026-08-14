@@ -1,6 +1,6 @@
 const handler = {
   help: ['mulaiabsen'],
-  usage: '[teks]',
+  usage: 'teks',
   tags: ['group'],
   command: ['startabsen', 'mulaiabsen'],
   group: true,

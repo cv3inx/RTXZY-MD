@@ -4,7 +4,7 @@ import { createHash } from 'crypto';
 
 const handler = {
   help: ['profile', 'profil'],
-  usage: '[@user]',
+  usage: '@user',
   tags: ['info'],
   command: ['profil', 'profile'],
   run: async (m, { conn, usedPrefix, command, text }) => {

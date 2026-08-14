@@ -1,6 +1,6 @@
 const handler = {
   help: ['setwelcome'],
-  usage: '<teks>',
+  usage: 'teks',
   tags: ['owner', 'group'],
   command: 'setwelcome',
   botAdmin: true,

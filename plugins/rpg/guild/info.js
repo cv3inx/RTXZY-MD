@@ -1,6 +1,6 @@
 const handler = {
   help: ['guildinfo'],
-  usage: '[@user]',
+  usage: '@user',
   tags: ['rpgG'],
   command: 'guildinfo',
   rpg: true,

@@ -1,6 +1,6 @@
 const handler = {
   help: ['ttsearch'],
-  usage: '<username>',
+  usage: 'username',
   tags: ['downloader'],
   command: ['tiktoksearch', 'ttsearch'],
   limit: true,

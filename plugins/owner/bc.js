@@ -1,6 +1,6 @@
 const handler = {
   help: ['broadcast', 'bc'],
-  usage: '<teks>',
+  usage: 'teks',
   tags: ['owner'],
   command: ['broadcast', 'bc'],
   owner: true,

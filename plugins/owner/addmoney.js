@@ -2,7 +2,7 @@ import * as zapo from '../../lib/simple.js';
 
 const handler = {
   help: ['addmoney'],
-  usage: '@user <jumlah money>',
+  usage: '@user jumlah money',
   tags: ['xp'],
   command: 'addmoney',
   owner: true,

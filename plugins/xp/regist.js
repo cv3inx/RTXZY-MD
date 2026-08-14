@@ -2,7 +2,7 @@ import { createHash } from 'crypto';
 let Reg = /\|?(.*)([.|] *?)([0-9]*)$/i;
 const handler = {
   help: ['daftar', 'reg', 'register'],
-  usage: '<nama>.<umur>',
+  usage: 'nama.umur',
   tags: ['xp'],
   command: ['daftar', 'reg', 'register'],
   run: async function (m, { text, usedPrefix }) {

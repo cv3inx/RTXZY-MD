@@ -3,7 +3,7 @@ import uploadImage from '../../lib/media/uploadImage.js';
 
 const handler = {
   help: ['tourl'],
-  usage: '<reply image>',
+  usage: 'reply image',
   tags: ['tools'],
   command: ['upload', 'tourl'],
   limit: true,

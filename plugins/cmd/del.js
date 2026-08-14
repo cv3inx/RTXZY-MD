@@ -1,6 +1,6 @@
 const handler = {
   help: ['delcmd'],
-  usage: '<teks>',
+  usage: 'teks',
   tags: ['database', 'premium'],
   command: ['delcmd'],
   premium: true,

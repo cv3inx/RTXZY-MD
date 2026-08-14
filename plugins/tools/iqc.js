@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 const handler = {
   help: ['iqc'],
-  usage: '<text>',
+  usage: 'text',
   tags: ['tools'],
   command: ['iqc'],
   limit: true,

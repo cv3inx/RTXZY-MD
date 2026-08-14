@@ -3,7 +3,7 @@ const dbPath = './database.json'; // Path ke database file
 
 const handler = {
   help: ['createguild'],
-  usage: '<nama_guild>',
+  usage: 'nama_guild',
   tags: ['rpgG'],
   command: 'createguild',
   owner: false,

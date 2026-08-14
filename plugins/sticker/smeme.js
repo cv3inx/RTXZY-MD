@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 
 const handler = {
   help: ['stickermeme'],
-  usage: '<teks>|<teks>',
+  usage: 'teks|teks',
   tags: ['sticker'],
   command: ['sme', 'smeme', 'stikerme', 'stikermeme', 'stickerme', 'stickermeme'],
   limit: false,

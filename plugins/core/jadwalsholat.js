@@ -16,7 +16,7 @@ function getPrayerTimes(jsonData) {
 
 const handler = {
   help: ['salat'],
-  usage: '<daerah>',
+  usage: 'daerah',
   tags: ['islam'],
   command: ['salat', 'solat', 'shalat', 'sholat', 'jadwalsalat', 'jadwalsolat', 'jadwalshalat', 'jadwalsholat'],
   limit: true,

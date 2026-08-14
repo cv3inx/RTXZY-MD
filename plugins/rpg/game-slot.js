@@ -2,7 +2,7 @@
 let reg = 100;
 const handler = {
   help: ['slot'],
-  usage: '<apuesta>',
+  usage: 'apuesta',
   tags: ['game'],
   command: ['slot'],
   group: true,

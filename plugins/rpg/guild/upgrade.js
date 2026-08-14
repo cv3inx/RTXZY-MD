@@ -1,6 +1,6 @@
 const handler = {
   help: ['guildupgrade'],
-  usage: '<level/eliksir/harta/guardian/attack>',
+  usage: 'level/eliksir/harta/guardian/attack',
   tags: ['rpgG'],
   command: 'guildupgrade',
   rpg: true,

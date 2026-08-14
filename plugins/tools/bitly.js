@@ -1,6 +1,6 @@
 const handler = {
   help: ['bitly'],
-  usage: '<link>',
+  usage: 'link',
   tags: ['shortlink'],
   command: 'bitly',
   run: async (m, { text, Api }) => {

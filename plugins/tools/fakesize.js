@@ -2,7 +2,7 @@ import uploadImage from '../../lib/media/uploadImage.js';
 
 const handler = {
   help: ['fakesize'],
-  usage: '<angka>',
+  usage: 'angka',
   tags: ['tools'],
   command: ['fakesize'],
   premium: false,

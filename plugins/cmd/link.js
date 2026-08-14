@@ -1,6 +1,6 @@
 const handler = {
   help: ['linkcmd'],
-  usage: '<teks>',
+  usage: 'teks',
   tags: ['database'],
   command: ['linkcmd'],
   fail: null,

@@ -1,6 +1,6 @@
 const handler = {
   help: ['cuttly'],
-  usage: '<link>',
+  usage: 'link',
   tags: ['shortlink'],
   command: 'cuttly',
   run: async (m, { text, Api }) => {

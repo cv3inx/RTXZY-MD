@@ -1,6 +1,6 @@
 const handler = {
   help: ['masak', 'cook'],
-  usage: '<masakan> <args>',
+  usage: 'masakan args',
   tags: ['rpg'],
   group: true,
   command: ['masak', 'cook'],

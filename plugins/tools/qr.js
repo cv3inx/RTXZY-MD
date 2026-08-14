@@ -2,7 +2,7 @@ import qrcode from 'qrcode';
 
 const handler = {
   help: ['qr', 'qrcode'],
-  usage: '<teks>',
+  usage: 'teks',
   tags: ['tools'],
   command: ['qr', 'qrcode'],
   admin: false,

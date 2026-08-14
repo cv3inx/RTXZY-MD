@@ -2,7 +2,7 @@ import * as zapo from '../../lib/simple.js';
 
 const handler = {
   help: ['updatelist'],
-  usage: '<nama>',
+  usage: 'nama',
   tags: ['store'],
   command: 'updatelist',
   group: true,

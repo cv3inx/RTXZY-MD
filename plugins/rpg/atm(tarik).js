@@ -1,7 +1,7 @@
 const moneymins = 1;
 const handler = {
   help: ['pull', 'pullall'],
-  usage: '*<amount>*',
+  usage: '*amount*',
   tags: ['rpg'],
   command: /^pull([0-9]+)|pull|pullall$/i,
   owner: false,

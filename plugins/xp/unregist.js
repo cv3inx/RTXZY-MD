@@ -3,7 +3,7 @@
 import { createHash } from 'crypto';
 const handler = {
   help: ['unreg'],
-  usage: '<Nomor Seri>',
+  usage: 'Nomor Seri',
   tags: ['xp'],
   command: ['unreg'],
   register: true,

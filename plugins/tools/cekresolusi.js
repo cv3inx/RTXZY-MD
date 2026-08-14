@@ -4,7 +4,7 @@ import uploadFile from '../../lib/media/uploadFile.js';
 
 const handler = {
   help: ['cekresolution', 'cekreso'],
-  usage: '*<foto>*',
+  usage: '*foto*',
   tags: ['tools'],
   command: ['cekreso', 'cekresolution'],
   run: async (m, { conn, usedPrefix }) => {

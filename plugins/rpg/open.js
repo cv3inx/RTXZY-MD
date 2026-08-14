@@ -1,6 +1,6 @@
 const handler = {
   help: ['open'],
-  usage: '<crate>',
+  usage: 'crate',
   tags: ['rpg'],
   command: ['open', 'buka'],
   register: true,

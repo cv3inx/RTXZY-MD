@@ -2,7 +2,7 @@ import * as zapo from '../../lib/simple.js';
 
 const handler = {
   help: ['addlevel'],
-  usage: '@user <jumlah level>',
+  usage: '@user jumlah level',
   tags: ['rpg'],
   command: 'addlevel',
   owner: true,

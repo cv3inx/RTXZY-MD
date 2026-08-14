@@ -1,6 +1,6 @@
 const handler = {
   help: ['sfile'],
-  usage: '<url>',
+  usage: 'url',
   tags: ['downloader'],
   command: ['sfile', 'sfilemobi'],
   limit: true,

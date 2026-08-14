@@ -1,6 +1,6 @@
 const handler = {
   help: ['readmore'],
-  usage: '<teks>|<teks>',
+  usage: 'teks|teks',
   tags: ['tools'],
   command: ['spoiler', 'hidetext', 'readmore', 'selengkapnya'],
   owner: false,

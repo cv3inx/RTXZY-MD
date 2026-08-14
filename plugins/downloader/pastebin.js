@@ -2,7 +2,7 @@ const handler = {
   command: ['pastebindl', 'pastebin'],
   tags: ['downloader'],
   help: ['pastebindl', 'pastebin'],
-  usage: '<url>',
+  usage: 'url',
   limit: true,
   run: async (m, { text, usedPrefix, command, Api }) => {
     if (!text) throw `Masukkan URL Pastebin!\n\n*Contoh:* ${usedPrefix + command} https://pastebin.com/z77zNeZb`;

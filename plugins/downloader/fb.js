@@ -1,6 +1,6 @@
 const handler = {
   help: ['facebook'],
-  usage: '<url>',
+  usage: 'url',
   command: ['fb', 'facebook', 'facebookdl', 'fbdl', 'fbdown', 'dlfb'],
   tags: ['downloader'],
   limit: true,

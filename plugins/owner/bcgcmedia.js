@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 const handler = {
   help: ['broadcastgroup', 'bcgc'],
-  usage: '<teks>',
+  usage: 'teks',
   tags: ['owner'],
   command: ['broadcastgroup', 'broadcastgrup', 'broadcastgc', 'bcgroup', 'bcgrup', 'bcgc'],
   owner: true,

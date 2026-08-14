@@ -1,6 +1,6 @@
 const handler = {
   help: ['font', 'styletext'],
-  usage: '<text>',
+  usage: 'text',
   tags: ['tools'],
   command: ['font', 'styletext'],
   owner: false,

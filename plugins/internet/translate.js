@@ -2,7 +2,7 @@ import { translate } from '@vitalets/google-translate-api';
 const defaultLang = 'id';
 const handler = {
   help: ['tr'],
-  usage: '<leng> <text>',
+  usage: 'leng text',
   tags: ['tools'],
   command: ['translate', 'tl', 'trid', 'tr'],
   run: async (m, { args, usedPrefix, command }) => {

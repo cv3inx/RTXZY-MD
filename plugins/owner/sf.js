@@ -1,7 +1,7 @@
 import fs from 'fs';
 const handler = {
   help: ['sf'],
-  usage: '<teks>',
+  usage: 'teks',
   tags: ['owner'],
   command: 'sf',
   rowner: true,

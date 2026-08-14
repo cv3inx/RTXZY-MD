@@ -13,7 +13,7 @@ const modes = {
 
 const handler = {
   help: ['math'],
-  usage: '<mode>',
+  usage: 'mode',
   tags: ['game'],
   command: 'math',
   run: async (m, { conn, args, usedPrefix, Api }) => {

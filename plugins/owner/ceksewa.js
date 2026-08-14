@@ -14,7 +14,7 @@ function msToDate(ms) {
 
 const handler = {
   help: ['listsewa', 'ceksewa'],
-  usage: '<nomor urut>',
+  usage: 'nomor urut',
   tags: ['owner'],
   command: ['listsewa', 'ceksewa', 'csewa'],
   owner: true,

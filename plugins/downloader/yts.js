@@ -1,7 +1,7 @@
 import yts from 'yt-search';
 const handler = {
   help: ['yts', 'ytsearch'],
-  usage: '<pencarian>',
+  usage: 'pencarian',
   tags: ['tools', 'internet', 'downloader'],
   command: ['yts', 'ytsearch'],
   limit: true,

@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 const handler = {
   help: ['guildstaff'],
-  usage: '<tambah/hapus> <@user>',
+  usage: 'tambah/hapus @user',
   tags: ['rpgG'],
   command: 'guildstaff',
   rpg: true,

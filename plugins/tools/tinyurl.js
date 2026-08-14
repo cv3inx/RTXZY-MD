@@ -1,6 +1,6 @@
 const handler = {
   help: ['tinyurl'],
-  usage: '<link>',
+  usage: 'link',
   tags: ['shortlink'],
   command: 'tinyurl',
   run: async (m, { text, usedPrefix, command, Api }) => {

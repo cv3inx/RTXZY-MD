@@ -1,6 +1,6 @@
 const handler = {
   help: ['kuaishou'],
-  usage: '<url>',
+  usage: 'url',
   tags: ['downloader'],
   command: ['kuaishou', 'ks'],
   limit: true,

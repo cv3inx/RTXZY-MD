@@ -1,7 +1,7 @@
 import uploadImage from '../../lib/media/uploadImage.js';
 const handler = {
   help: ['faketele'],
-  usage: '<bio|nama|ponsel|username>',
+  usage: 'bio|nama|ponsel|username',
   tags: ['maker'],
   command: 'faketele',
   limit: true,

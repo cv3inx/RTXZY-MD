@@ -1,6 +1,6 @@
 const handler = {
   help: ['asupantiktok'],
-  usage: '<username>',
+  usage: 'username',
   tags: ['downloader'],
   command: 'asupantiktok',
   limit: true,

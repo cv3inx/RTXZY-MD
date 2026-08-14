@@ -1,6 +1,6 @@
 const handler = {
   help: ['fake'],
-  usage: '<text> @user <text2>',
+  usage: 'text @user text2',
   tags: ['tools'],
   command: ['fitnah', 'fakereply', 'fake'],
   run: async (m, { conn, text, usedPrefix, command }) => {

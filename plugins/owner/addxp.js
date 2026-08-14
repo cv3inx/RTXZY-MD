@@ -2,7 +2,7 @@ import * as zapo from '../../lib/simple.js';
 
 const handler = {
   help: ['addxp'],
-  usage: '@user <jumlah xp>',
+  usage: '@user jumlah xp',
   tags: ['xp'],
   command: 'addxp',
   owner: true,
