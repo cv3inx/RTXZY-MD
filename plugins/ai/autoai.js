@@ -46,7 +46,8 @@ const handler = {
   },
   command: ['autoai'],
   tags: ['ai'],
-  help: ['autoai'].map((a) => a + ' *enable/disable*'),
+  help: ['autoai'],
+  usage: '*enable/disable*',
   limit: true,
   run: async (m, { conn, text, usedPrefix, command }) => {
     conn.sessionAI = conn.sessionAI ? conn.sessionAI : {};

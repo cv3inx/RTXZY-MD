@@ -1,7 +1,8 @@
 import fetch from 'node-fetch';
 const handler = {
   tags: ['internet'],
-  help: ['wallpapersearch <kata kunci>'],
+  help: ['wallpapersearch'],
+  usage: '<kata kunci>',
   command: ['wallpapersearch', 'wps'],
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {

@@ -1,5 +1,6 @@
 const handler = {
-  help: ['pinterest <keyword>'],
+  help: ['pinterest'],
+  usage: '<keyword>',
   tags: ['internet'],
   command: 'pinterest',
   run: async (m, { usedPrefix, command, conn, text, Api }) => {

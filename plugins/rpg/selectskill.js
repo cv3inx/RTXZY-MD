@@ -1,5 +1,6 @@
 const handler = {
-  help: ['selectskill <type>'],
+  help: ['selectskill'],
+  usage: '<type>',
   tags: ['rpg'],
   command: 'selectskill',
   register: true,

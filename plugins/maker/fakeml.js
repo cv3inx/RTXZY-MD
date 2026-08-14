@@ -1,6 +1,7 @@
 import uploadImage from '../../lib/media/uploadImage.js';
 const handler = {
-  help: ['fakeml <username|rank|border>'],
+  help: ['fakeml'],
+  usage: '<username|rank|border>',
   tags: ['maker'],
   command: 'fakeml',
   limit: true,

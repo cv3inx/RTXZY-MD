@@ -1,5 +1,6 @@
 const handler = {
-  help: ['heal *jumlah*'],
+  help: ['heal'],
+  usage: '*jumlah*',
   tags: ['rpg'],
   command: ['heal', 'use'],
   limit: true,

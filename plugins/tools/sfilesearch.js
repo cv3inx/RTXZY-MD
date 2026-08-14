@@ -1,5 +1,6 @@
 const handler = {
-  help: ['sfilesearch <query>'],
+  help: ['sfilesearch'],
+  usage: '<query>',
   tags: ['tools'],
   command: ['sfilesearch', 'carisfile'],
   limit: true,

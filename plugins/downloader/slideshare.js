@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 const handler = {
-  help: ['slideshare'].map((v) => v + ' <url>'),
+  help: ['slideshare'],
+  usage: '<url>',
   tags: ['downloader'],
   command: ['slideshare', 'dlslideshare', 'slidesdl'],
   limit: true,

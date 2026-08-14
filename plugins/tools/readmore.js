@@ -1,5 +1,6 @@
 const handler = {
-  help: ['readmore'].map((v) => v + ' <teks>|<teks>'),
+  help: ['readmore'],
+  usage: '<teks>|<teks>',
   tags: ['tools'],
   command: ['spoiler', 'hidetext', 'readmore', 'selengkapnya'],
   owner: false,

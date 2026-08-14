@@ -1,5 +1,6 @@
 const handler = {
-  help: ['tinyurl'].map((v) => v + ' <link>'),
+  help: ['tinyurl'],
+  usage: '<link>',
   tags: ['shortlink'],
   command: 'tinyurl',
   run: async (m, { text, usedPrefix, command, Api }) => {

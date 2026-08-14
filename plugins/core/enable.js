@@ -1,5 +1,6 @@
 const handler = {
-  help: ['en', 'dis'].map((v) => v + 'able <option>'),
+  help: ['enable', 'disable'],
+  usage: '<option>',
   tags: ['group', 'owner'],
   command: ['enable', 'disable', 'true', 'false', 'on', 'off', 'turnon', 'turnoff'],
   run: async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isROwner }) => {

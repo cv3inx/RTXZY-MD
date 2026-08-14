@@ -1,5 +1,6 @@
 const handler = {
-  help: ['cekewallet'].map((v) => v + ' nomor|ewallet'),
+  help: ['cekewallet'],
+  usage: 'nomor|ewallet',
   tags: ['tools'],
   command: ['cekewallet', 'cekwallet', 'saldoewallet'],
   limit: true,

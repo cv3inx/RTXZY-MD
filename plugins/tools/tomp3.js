@@ -1,7 +1,8 @@
 import { toPTT, toAudio } from '../../lib/media/converter.js';
 
 const handler = {
-  help: ['toaudio (reply)'],
+  help: ['toaudio'],
+  usage: '(reply)',
   tags: ['tools'],
   command: ['toa', 'toaudio'],
   run: async (m, { conn, usedPrefix, command }) => {

@@ -1,5 +1,6 @@
 const handler = {
-  help: ['mulaigiveaway'].map((v) => v + ' <text>'),
+  help: ['mulaigiveaway'],
+  usage: '<text>',
   tags: ['group'],
   command: ['startgiveaway', 'mulaigiveaway'],
   group: true,

@@ -1,6 +1,7 @@
 import yts from 'yt-search';
 const handler = {
-  help: ['', 'earch'].map((v) => 'yts' + v + ' <pencarian>'),
+  help: ['yts', 'ytsearch'],
+  usage: '<pencarian>',
   tags: ['tools', 'internet', 'downloader'],
   command: ['yts', 'ytsearch'],
   limit: true,

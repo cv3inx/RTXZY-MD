@@ -1,5 +1,6 @@
 const handler = {
-  help: ['fakedana <nominal>'],
+  help: ['fakedana'],
+  usage: '<nominal>',
   tags: ['maker'],
   command: 'fakedana',
   limit: true,

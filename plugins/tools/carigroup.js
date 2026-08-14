@@ -1,5 +1,6 @@
 const handler = {
-  help: ['carigrup <pencarian>'],
+  help: ['carigrup'],
+  usage: '<pencarian>',
   tags: ['tools'],
   command: ['carigrup', 'carigroup', 'carigc'],
   limit: true,

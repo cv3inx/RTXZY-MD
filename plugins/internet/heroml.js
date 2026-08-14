@@ -1,7 +1,8 @@
 const handler = {
   command: 'heroml',
   tags: ['internet'],
-  help: ['heroml <hero_name>'],
+  help: ['heroml'],
+  usage: '<hero_name>',
   limit: true,
   run: async (m, { conn, usedPrefix, text, command, Api }) => {
     if (!text) throw `Example: \`${usedPrefix + command} kadita\``;

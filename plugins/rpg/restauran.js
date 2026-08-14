@@ -21,7 +21,8 @@ const Hub = 15000;
 const Hpb = 200000;
 const Hkb = 20000;
 const handler = {
-  help: ['resto *<beli> <args>*'],
+  help: ['resto'],
+  usage: '*<beli> <args>*',
   tags: ['rpg'],
   command: ['resto', 'beli'],
   rpg: true,

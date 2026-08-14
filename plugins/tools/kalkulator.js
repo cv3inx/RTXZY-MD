@@ -1,5 +1,6 @@
 const handler = {
-  help: ['kalkulator <soal>'],
+  help: ['kalkulator'],
+  usage: '<soal>',
   tags: ['tools'],
   command: ['calc', 'calculate', 'calculator', 'kalk', 'kalkulator'],
   exp: 5,

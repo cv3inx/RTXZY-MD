@@ -1,7 +1,8 @@
 import TicTacToe from '../../lib/games/tictactoe.js';
 
 const handler = {
-  help: ['tictactoe', 'ttt'].map((v) => v + ' [custom room name]'),
+  help: ['tictactoe', 'ttt'],
+  usage: '[custom room name]',
   tags: ['game'],
   command: /^(tictactoe|t{3})$/,
   run: async (m, { conn, usedPrefix, command, text }) => {

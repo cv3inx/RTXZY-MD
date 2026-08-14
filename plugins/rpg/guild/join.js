@@ -1,5 +1,6 @@
 const handler = {
-  help: ['joinguild <nomor_guild>'],
+  help: ['joinguild'],
+  usage: '<nomor_guild>',
   tags: ['rpgG'],
   command: 'joinguild',
   rpg: true,

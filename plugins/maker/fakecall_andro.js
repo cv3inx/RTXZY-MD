@@ -1,6 +1,7 @@
 import uploadImage from '../../lib/media/uploadImage.js';
 const handler = {
-  help: ['fakecall <nama|durasi>'],
+  help: ['fakecall'],
+  usage: '<nama|durasi>',
   tags: ['maker'],
   command: ['fakecall', 'fakecallandro'],
   limit: true,

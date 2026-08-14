@@ -1,5 +1,6 @@
 const handler = {
-  help: ['comparephone <phone1|phone2>'],
+  help: ['comparephone'],
+  usage: '<phone1|phone2>',
   tags: ['tools'],
   command: ['comparephone', 'comparehp', 'cp'],
   limit: true,

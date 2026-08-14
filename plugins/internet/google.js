@@ -1,5 +1,6 @@
 const handler = {
-  help: ['google <pencarian>'],
+  help: ['google'],
+  usage: '<pencarian>',
   tags: ['internet'],
   command: 'google',
   limit: true,

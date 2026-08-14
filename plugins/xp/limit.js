@@ -1,5 +1,6 @@
 const handler = {
-  help: ['limit [@user]'],
+  help: ['limit'],
+  usage: '[@user]',
   tags: ['xp'],
   command: 'limit',
   run: async (m) => {

@@ -1,5 +1,6 @@
 const handler = {
-  help: ['list'].map((v) => 'del' + v + ' <teks>'),
+  help: ['dellist'],
+  usage: '<teks>',
   tags: ['store'],
   command: 'dellist',
   admin: true,

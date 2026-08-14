@@ -6,7 +6,8 @@ import sharp from 'sharp';
 import fetch from 'node-fetch';
 
 const handler = {
-  help: ['qc'].map((v) => v + ' <text & reply>'),
+  help: ['qc'],
+  usage: '<text & reply>',
   tags: ['sticker'],
   command: ['qc', 'quotely'],
   premium: false,

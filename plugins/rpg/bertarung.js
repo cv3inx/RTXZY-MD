@@ -1,5 +1,6 @@
 const handler = {
-  help: ['bertarung *@user*', 'fight *@user*'],
+  help: ['bertarung', 'fight'],
+  usage: '*@user*',
   tags: ['rpg'],
   command: ['fight', 'bertarung'],
   group: true,

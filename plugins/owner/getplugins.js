@@ -2,7 +2,8 @@ const __dirname = import.meta.dirname;
 import fs from 'fs';
 import path from 'path';
 const handler = {
-  help: ['getplugin'].map((v) => v + ' [filename]'),
+  help: ['getplugin'],
+  usage: '[filename]',
   tags: ['owner'],
   command: ['getplugin', 'get plugin', 'gp'],
   rowner: true,

@@ -1,6 +1,7 @@
 const items = ['money', 'diamond', 'emas', 'berlian'];
 const handler = {
-  help: ['judipvp <type> <count> <tag>'],
+  help: ['judipvp'],
+  usage: '<type> <count> <tag>',
   tags: ['rpg'],
   command: 'judipvp',
   register: true,

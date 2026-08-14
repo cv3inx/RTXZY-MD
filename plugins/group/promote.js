@@ -1,5 +1,6 @@
 const handler = {
-  help: ['promote @user'],
+  help: ['promote'],
+  usage: '@user',
   tags: ['group', 'owner'],
   command: /^(promo?te|admin|\^)$/i,
   group: true,

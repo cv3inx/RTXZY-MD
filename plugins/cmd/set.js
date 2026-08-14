@@ -2,7 +2,8 @@ import pkg from 'node-webpmux';
 const { Image } = pkg;
 
 const handler = {
-  help: ['cmd'].map((v) => 'set' + v + ' <teks>'),
+  help: ['setcmd'],
+  usage: '<teks>',
   tags: ['database', 'premium'],
   command: ['setcmd'],
   premium: true,

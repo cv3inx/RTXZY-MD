@@ -1,5 +1,6 @@
 const handler = {
-  help: ['ttsearch'].map((v) => v + ' <username>'),
+  help: ['ttsearch'],
+  usage: '<username>',
   tags: ['downloader'],
   command: ['tiktoksearch', 'ttsearch'],
   limit: true,

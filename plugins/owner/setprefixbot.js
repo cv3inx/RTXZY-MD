@@ -1,5 +1,6 @@
 const handler = {
-  help: ['setprefix'].map((v) => v + ' [prefix]'),
+  help: ['setprefix'],
+  usage: '[prefix]',
   tags: ['owner'],
   command: 'setprefix',
   rowner: true,

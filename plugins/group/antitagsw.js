@@ -30,7 +30,8 @@ const handler = {
     }
   },
   command: ['antitagsw'],
-  help: ['antitagsw'].map((a) => a + ' *on/off*'),
+  help: ['antitagsw'],
+  usage: '*on/off*',
   tags: ['group'],
   group: true,
   admin: true,

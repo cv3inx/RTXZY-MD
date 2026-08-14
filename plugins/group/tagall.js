@@ -1,5 +1,6 @@
 const handler = {
-  help: ['tagall <pesan>'],
+  help: ['tagall'],
+  usage: '<pesan>',
   tags: ['group'],
   command: 'tagall',
   group: true,

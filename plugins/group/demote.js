@@ -1,5 +1,6 @@
 const handler = {
-  help: ['demote @user'],
+  help: ['demote'],
+  usage: '@user',
   tags: ['group', 'owner'],
   command: /^(demo?te|\↓)$/i,
   group: true,

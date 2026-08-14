@@ -1,5 +1,6 @@
 const handler = {
-  help: ['fakeovo <nominal>'],
+  help: ['fakeovo'],
+  usage: '<nominal>',
   tags: ['maker'],
   command: 'fakeovo',
   limit: true,

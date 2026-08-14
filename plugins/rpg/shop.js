@@ -113,7 +113,8 @@ const Beleksirb = 500;
 const BnStock = 9999;
 const WeapStock = 50;
 const handler = {
-  help: ['shop <sell|buy> <args>'],
+  help: ['shop'],
+  usage: '<sell|buy> <args>',
   tags: ['rpg'],
   command: ['shop', 'toko', 'buy', 'beli', 'sell', 'jual'],
   limit: true,

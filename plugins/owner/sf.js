@@ -1,6 +1,7 @@
 import fs from 'fs';
 const handler = {
-  help: ['sf'].map((v) => v + ' <teks>'),
+  help: ['sf'],
+  usage: '<teks>',
   tags: ['owner'],
   command: 'sf',
   rowner: true,

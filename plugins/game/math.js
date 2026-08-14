@@ -12,7 +12,8 @@ const modes = {
 };
 
 const handler = {
-  help: ['math <mode>'],
+  help: ['math'],
+  usage: '<mode>',
   tags: ['game'],
   command: 'math',
   run: async (m, { conn, args, usedPrefix, Api }) => {

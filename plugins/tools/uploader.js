@@ -2,7 +2,8 @@ import uploadFile from '../../lib/media/uploadFile.js';
 import uploadImage from '../../lib/media/uploadImage.js';
 
 const handler = {
-  help: ['tourl <reply image>'],
+  help: ['tourl'],
+  usage: '<reply image>',
   tags: ['tools'],
   command: ['upload', 'tourl'],
   limit: true,

@@ -1,5 +1,6 @@
 const handler = {
-  help: ['gimage <query>', 'image <query>'],
+  help: ['gimage', 'image'],
+  usage: '<query>',
   tags: ['internet'],
   command: ['gimage', 'image'],
   run: async (m, { conn, text, usedPrefix, command, Api }) => {

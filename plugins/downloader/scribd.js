@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 const handler = {
-  help: ['scribd'].map((v) => v + ' <url>'),
+  help: ['scribd'],
+  usage: '<url>',
   tags: ['downloader'],
   command: ['scribd', 'scribddl', 'dlscribd'],
   limit: true,

@@ -1,5 +1,6 @@
 const handler = {
-  help: ['say <teks>'],
+  help: ['say'],
+  usage: '<teks>',
   tags: ['tools'],
   command: 'say',
   run: async (m, { conn, text, usedPrefix, command }) => {

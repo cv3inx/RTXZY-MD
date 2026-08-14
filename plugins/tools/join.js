@@ -1,7 +1,8 @@
 let linkRegex = /chat.whatsapp.com\/([0-9A-Za-z]{20,24})( [0-9]{1,3})?/i;
 
 const handler = {
-  help: ['join <chat.whatsapp.com>'],
+  help: ['join'],
+  usage: '<chat.whatsapp.com>',
   tags: ['owner'],
   command: 'join',
   rowner: true,

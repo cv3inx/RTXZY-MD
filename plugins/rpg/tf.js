@@ -1,7 +1,8 @@
 //tq: hafizdexe
 
 const handler = {
-  help: ['transfer <Args>'],
+  help: ['transfer'],
+  usage: '<Args>',
   tags: ['rpg'],
   command: ['transfer', 'tf'],
   owner: false,

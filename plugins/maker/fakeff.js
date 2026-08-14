@@ -1,5 +1,6 @@
 const handler = {
-  help: ['fakeff <username|lobby>'],
+  help: ['fakeff'],
+  usage: '<username|lobby>',
   tags: ['maker'],
   command: 'fakeff',
   limit: true,

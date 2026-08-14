@@ -1,6 +1,7 @@
 const moneyplus = 1;
 const handler = {
-  help: ['atm *<amount>*', 'atmall'],
+  help: ['atm', 'atmall'],
+  usage: '*<amount>*',
   tags: ['rpg'],
   command: /^(atm([0-9]+)|atm|atmall)$/i,
   owner: false,

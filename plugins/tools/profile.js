@@ -3,7 +3,8 @@ import levelling from '../../lib/system/levelling.js';
 import { createHash } from 'crypto';
 
 const handler = {
-  help: ['profile', 'profil [@user]'],
+  help: ['profile', 'profil'],
+  usage: '[@user]',
   tags: ['info'],
   command: ['profil', 'profile'],
   run: async (m, { conn, usedPrefix, command, text }) => {

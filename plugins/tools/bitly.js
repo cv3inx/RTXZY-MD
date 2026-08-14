@@ -1,5 +1,6 @@
 const handler = {
-  help: ['bitly'].map((v) => v + ' <link>'),
+  help: ['bitly'],
+  usage: '<link>',
   tags: ['shortlink'],
   command: 'bitly',
   run: async (m, { text, Api }) => {

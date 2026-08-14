@@ -1,5 +1,6 @@
 const handler = {
-  help: ['cmd'].map((v) => 'del' + v + ' <teks>'),
+  help: ['delcmd'],
+  usage: '<teks>',
   tags: ['database', 'premium'],
   command: ['delcmd'],
   premium: true,

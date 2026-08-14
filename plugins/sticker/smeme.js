@@ -3,7 +3,8 @@ import { fileTypeFromBuffer as fromBuffer } from 'file-type';
 import fetch from 'node-fetch';
 
 const handler = {
-  help: ['stickermeme <teks>|<teks>'],
+  help: ['stickermeme'],
+  usage: '<teks>|<teks>',
   tags: ['sticker'],
   command: ['sme', 'smeme', 'stikerme', 'stikermeme', 'stickerme', 'stickermeme'],
   limit: false,

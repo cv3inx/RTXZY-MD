@@ -1,5 +1,6 @@
 const handler = {
-  help: ['guildwar <nama_guild>'],
+  help: ['guildwar'],
+  usage: '<nama_guild>',
   tags: ['rpgG'],
   command: 'guildwar',
   rpg: true,

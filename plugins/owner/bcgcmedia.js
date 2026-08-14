@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 const handler = {
-  help: ['broadcastgroup', 'bcgc'].map((v) => v + ' <teks>'),
+  help: ['broadcastgroup', 'bcgc'],
+  usage: '<teks>',
   tags: ['owner'],
   command: ['broadcastgroup', 'broadcastgrup', 'broadcastgc', 'bcgroup', 'bcgrup', 'bcgc'],
   owner: true,

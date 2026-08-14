@@ -1,5 +1,6 @@
 const handler = {
-  help: ['font', 'styletext'].map((v) => v + ' <text>'),
+  help: ['font', 'styletext'],
+  usage: '<text>',
   tags: ['tools'],
   command: ['font', 'styletext'],
   owner: false,

@@ -1,5 +1,6 @@
 const handler = {
-  help: ['setdeskgroup <text>'],
+  help: ['setdesk'],
+  usage: 'group <text>',
   tags: ['group'],
   command: ['set', 'setdesk', 'setdeskripsi', 'setdeskripsigc', 'setdeskripsigroup', 'setdeskripsigrup', 'setdeskgc'],
   owner: false,

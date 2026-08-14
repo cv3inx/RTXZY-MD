@@ -3,7 +3,8 @@ import uploadImage from '../../lib/media/uploadImage.js';
 import uploadFile from '../../lib/media/uploadFile.js';
 
 const handler = {
-  help: ['resize <width> <height> (reply|caption)'],
+  help: ['resize'],
+  usage: '<width> <height> (reply|caption)',
   tags: ['tools'],
   command: 'resize',
   run: async (m, { conn, usedPrefix, args }) => {

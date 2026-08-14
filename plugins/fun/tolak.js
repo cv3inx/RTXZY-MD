@@ -1,5 +1,6 @@
 const handler = {
-  help: ['tolak @tag'],
+  help: ['tolak'],
+  usage: '@tag',
   tags: ['fun'],
   command: 'tolak',
   group: true,

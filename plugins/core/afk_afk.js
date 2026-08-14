@@ -1,5 +1,6 @@
 const handler = {
-  help: ['afk [alasan]'],
+  help: ['afk'],
+  usage: '[alasan]',
   tags: ['main'],
   command: 'afk',
   run: async (m, { text }) => {

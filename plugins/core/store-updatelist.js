@@ -1,7 +1,8 @@
 import * as zapo from '../../lib/simple.js';
 
 const handler = {
-  help: ['list'].map((v) => 'update' + v + ' <nama>'),
+  help: ['updatelist'],
+  usage: '<nama>',
   tags: ['store'],
   command: 'updatelist',
   group: true,

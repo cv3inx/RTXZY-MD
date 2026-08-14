@@ -3,7 +3,8 @@ import uploadImage from '../../lib/media/uploadImage.js';
 import uploadFile from '../../lib/media/uploadFile.js';
 
 const handler = {
-  help: ['cekresolution *<foto>*', 'cekreso *<foto>*'],
+  help: ['cekresolution', 'cekreso'],
+  usage: '*<foto>*',
   tags: ['tools'],
   command: ['cekreso', 'cekresolution'],
   run: async (m, { conn, usedPrefix }) => {

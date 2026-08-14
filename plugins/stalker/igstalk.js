@@ -1,5 +1,6 @@
 const handler = {
-  help: ['igstalk <username>'],
+  help: ['igstalk'],
+  usage: '<username>',
   tags: ['stalk'],
   command: 'igstalk',
   limit: true,

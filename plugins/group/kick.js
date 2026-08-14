@@ -1,5 +1,6 @@
 const handler = {
-  help: ['kick @user'],
+  help: ['kick'],
+  usage: '@user',
   tags: ['group'],
   command: /^(kic?k|remove|tendang|\-)$/i,
   group: true,

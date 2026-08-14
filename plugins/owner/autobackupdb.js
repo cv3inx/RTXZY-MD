@@ -40,7 +40,8 @@ const sendBackup = async (conn) => {
 };
 
 const handler = {
-  help: ['autobackup on/off'],
+  help: ['autobackup'],
+  usage: 'on/off',
   tags: ['owner'],
   command: 'autobackup',
   owner: true,

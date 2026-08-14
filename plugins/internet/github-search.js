@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 const handler = {
-  help: ['githubsearch'].map((v) => v + ' <pencarian>'),
+  help: ['githubsearch'],
+  usage: '<pencarian>',
   tags: ['tools'],
   command: ['githubsearch', 'ghsearch'],
   run: async (m, { text }) => {

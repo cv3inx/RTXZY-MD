@@ -1,5 +1,6 @@
 const handler = {
-  help: ['pick <jumlah> <teks>'],
+  help: ['pick'],
+  usage: '<jumlah> <teks>',
   tags: ['fun'],
   command: 'pick',
   run: async (m, { text, args, participants, command }) => {

@@ -1,7 +1,8 @@
 // Thanks to Kasan
 
 const handler = {
-  help: ['acc *option*'],
+  help: ['acc'],
+  usage: '*option*',
   tags: ['group'],
   command: 'acc',
   group: true,

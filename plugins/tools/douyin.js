@@ -1,5 +1,6 @@
 const handler = {
-  help: ['douyins <query>'],
+  help: ['douyins'],
+  usage: '<query>',
   tags: ['tools'],
   command: ['douyins', 'douyinsearch'],
   limit: true,

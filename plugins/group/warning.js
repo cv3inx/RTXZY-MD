@@ -1,6 +1,7 @@
 let war = global.maxwarn;
 const handler = {
-  help: ['warn @user'],
+  help: ['warn'],
+  usage: '@user',
   tags: ['group'],
   command: ['warn'],
   group: true,

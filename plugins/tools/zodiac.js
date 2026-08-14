@@ -1,5 +1,6 @@
 const handler = {
-  help: ['zodiac *2002 02 25*'],
+  help: ['zodiac'],
+  usage: '*2002 02 25*',
   tags: ['tools', 'internet', 'fun'],
   command: /^zodia[kc]$/i,
   run: (m, { usedPrefix, command, text }) => {

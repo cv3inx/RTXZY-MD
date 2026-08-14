@@ -1,5 +1,6 @@
 const handler = {
-  help: ['bratgojo <teks>'],
+  help: ['bratgojo'],
+  usage: '<teks>',
   tags: ['maker'],
   command: 'bratgojo',
   limit: true,

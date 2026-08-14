@@ -2,7 +2,8 @@ import fs from 'fs';
 const dbPath = './database.json'; // Path ke database file
 
 const handler = {
-  help: ['delguild <nomor_guild>'],
+  help: ['delguild'],
+  usage: '<nomor_guild>',
   tags: ['rpgG'],
   command: 'delguild',
   owner: false,

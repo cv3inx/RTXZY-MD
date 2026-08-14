@@ -1,5 +1,6 @@
 const handler = {
-  help: ['guildinviteacc <@user>'],
+  help: ['guildinviteacc'],
+  usage: '<@user>',
   tags: ['rpgG'],
   command: 'guildinviteacc',
   rpg: true,

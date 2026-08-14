@@ -10,7 +10,8 @@ Buy Script?
 */
 
 const handler = {
-  help: ['addlimit @user <jumlah limit>'],
+  help: ['addlimit'],
+  usage: '@user <jumlah limit>',
   tags: ['xp'],
   command: 'addlimit',
   owner: true,

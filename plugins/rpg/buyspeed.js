@@ -1,5 +1,6 @@
 const handler = {
-  help: ['buyspeed <jumlah>'],
+  help: ['buyspeed'],
+  usage: '<jumlah>',
   tags: ['rpg'],
   command: 'buyspeed',
   register: true,

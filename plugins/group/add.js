@@ -1,5 +1,6 @@
 const handler = {
-  help: ['add', '+'].map((v) => v + ' @user'),
+  help: ['add', '+'],
+  usage: '@user',
   tags: ['group'],
   command: /^(add|\+)$/i,
   admin: true,

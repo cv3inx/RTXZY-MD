@@ -1,5 +1,6 @@
 const handler = {
-  help: ['drakememe <teks1|teks2>'],
+  help: ['drakememe'],
+  usage: '<teks1|teks2>',
   tags: ['maker'],
   command: 'drakememe',
   limit: true,

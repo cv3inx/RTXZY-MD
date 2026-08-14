@@ -1,5 +1,6 @@
 const handler = {
-  help: ['instagram'].map((v) => v + ' <url>'),
+  help: ['instagram'],
+  usage: '<url>',
   tags: ['downloader'],
   command: ['ig', 'instagram', 'igdl', 'instagramdl', 'igstory'],
   limit: true,

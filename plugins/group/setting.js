@@ -1,5 +1,6 @@
 const handler = {
-  help: ['grup <open/close>'],
+  help: ['grup'],
+  usage: '<open/close>',
   tags: ['group'],
   command: ['g', 'grup', 'group', 'gc'],
   group: true,

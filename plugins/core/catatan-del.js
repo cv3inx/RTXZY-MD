@@ -1,5 +1,6 @@
 const handler = {
-  help: ['hapuscatatan title'],
+  help: ['hapuscatatan'],
+  usage: 'title',
   tags: ['internet'],
   command: 'hapuscatatan',
   run: async (m, { conn, command, usedPrefix, text }) => {

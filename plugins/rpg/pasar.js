@@ -25,7 +25,8 @@ const Sbabihutan = 9000;
 const Sbabi = 9000;
 const Sayam = 9000;
 const handler = {
-  help: ['pasar *<sell>|<args>*'],
+  help: ['pasar'],
+  usage: '*<sell>|<args>*',
   tags: ['rpg'],
   command: ['pasar', 'jual'],
   rpg: true,

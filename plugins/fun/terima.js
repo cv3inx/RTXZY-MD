@@ -1,5 +1,6 @@
 const handler = {
-  help: ['terima @tag'],
+  help: ['terima'],
+  usage: '@tag',
   tags: ['fun'],
   command: 'terima',
   group: true,

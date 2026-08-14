@@ -1,5 +1,6 @@
 const handler = {
-  help: ['broadcast', 'bc'].map((v) => v + ' <teks>'),
+  help: ['broadcast', 'bc'],
+  usage: '<teks>',
   tags: ['owner'],
   command: ['broadcast', 'bc'],
   owner: true,

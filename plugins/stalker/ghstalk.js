@@ -1,5 +1,6 @@
 const handler = {
-  help: ['ghstalk <username>'],
+  help: ['ghstalk'],
+  usage: '<username>',
   tags: ['stalk'],
   command: ['ghstalk', 'githubstalk'],
   limit: true,

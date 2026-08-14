@@ -1,5 +1,6 @@
 const handler = {
-  help: ['gay', 'pintar', 'cantik', 'ganteng', 'gabut', 'gila', 'lesbi', 'stress', 'bucin', 'jones', 'sadboy'].map((v) => 'how' + v + ' siapa?'),
+  help: ['howgay', 'howpintar', 'howcantik', 'howganteng', 'howgabut', 'howgila', 'howlesbi', 'howstress', 'howbucin', 'howjones', 'howsadboy'],
+  usage: 'siapa?',
   tags: ['kerang'],
   command: ['howgay', 'howpintar', 'howcantik', 'howganteng', 'howgabut', 'howgila', 'howlesbi', 'howstres', 'howstress', 'howbucin', 'howjones', 'howsadboy'],
   owner: false,

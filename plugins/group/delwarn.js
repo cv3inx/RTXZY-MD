@@ -1,5 +1,6 @@
 const handler = {
-  help: ['delwarn @user'],
+  help: ['delwarn'],
+  usage: '@user',
   tags: ['group'],
   command: ['delwarn', 'unwarn'],
   group: true,

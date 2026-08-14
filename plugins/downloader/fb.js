@@ -1,5 +1,6 @@
 const handler = {
-  help: ['facebook'].map((v) => v + ' <url>'),
+  help: ['facebook'],
+  usage: '<url>',
   command: ['fb', 'facebook', 'facebookdl', 'fbdl', 'fbdown', 'dlfb'],
   tags: ['downloader'],
   limit: true,

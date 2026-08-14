@@ -1,5 +1,6 @@
 const handler = {
-  help: ['ttstalk2 <username>'],
+  help: ['ttstalk2'],
+  usage: '<username>',
   tags: ['stalk'],
   command: ['ttstalk2', 'tiktokstalk2'],
   limit: true,

@@ -1,7 +1,8 @@
 import * as zapo from '../../lib/simple.js';
 
 const handler = {
-  help: ['hidetag <text>'],
+  help: ['hidetag'],
+  usage: '<text>',
   tags: ['group'],
   command: ['hidetag', 'ht', 'h'],
   group: true,

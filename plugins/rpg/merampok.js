@@ -1,6 +1,7 @@
 // let pajak = 0.02
 const handler = {
-  help: ['merampok *@user*'],
+  help: ['merampok'],
+  usage: '*@user*',
   tags: ['rpg'],
   command: 'merampok',
   limit: true,

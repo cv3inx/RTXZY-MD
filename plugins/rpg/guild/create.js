@@ -2,7 +2,8 @@ import fs from 'fs';
 const dbPath = './database.json'; // Path ke database file
 
 const handler = {
-  help: ['createguild <nama_guild>'],
+  help: ['createguild'],
+  usage: '<nama_guild>',
   tags: ['rpgG'],
   command: 'createguild',
   owner: false,

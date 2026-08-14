@@ -1,5 +1,6 @@
 const handler = {
-  help: ['pelabuhan <command>'],
+  help: ['pelabuhan'],
+  usage: '<command>',
   tags: ['game'],
   command: 'pelabuhan',
   limit: true,

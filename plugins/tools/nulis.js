@@ -5,7 +5,8 @@ import { spawn } from 'child_process';
 // Font By MFarelS:V
 let fontPath = 'src/font/Zahraaa.ttf';
 const handler = {
-  help: ['n'].map((v) => v + 'ulis <teks>'),
+  help: ['nulis'],
+  usage: '<teks>',
   tags: ['tools'],
   command: 'nulis',
   run: async (m, { conn, args }) => {

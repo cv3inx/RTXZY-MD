@@ -1,5 +1,6 @@
 const handler = {
-  help: ['namaninja <teks>'],
+  help: ['namaninja'],
+  usage: '<teks>',
   tags: ['fun'],
   command: ['namaninja', 'namae'],
   run: function (m, { text }) {

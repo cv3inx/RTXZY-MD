@@ -1,6 +1,7 @@
 let buatall = 1;
 const handler = {
-  help: ['casino <jumlah>'],
+  help: ['casino'],
+  usage: '<jumlah>',
   tags: ['rpg'],
   command: 'casino',
   register: true,

@@ -1,5 +1,6 @@
 const handler = {
-  help: ['asupantiktok'].map((v) => v + ' <username>'),
+  help: ['asupantiktok'],
+  usage: '<username>',
   tags: ['downloader'],
   command: 'asupantiktok',
   limit: true,

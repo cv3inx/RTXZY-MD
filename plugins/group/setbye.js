@@ -1,5 +1,6 @@
 const handler = {
-  help: ['setbye <teks>'],
+  help: ['setbye'],
+  usage: '<teks>',
   tags: ['owner', 'group'],
   command: 'setbye',
   botAdmin: true,

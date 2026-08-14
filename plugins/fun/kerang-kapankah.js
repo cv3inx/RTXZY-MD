@@ -1,5 +1,6 @@
 const handler = {
-  help: ['', 'kah'].map((v) => 'kapan' + v + ' <text>?'),
+  help: ['kapan', 'kapankah'],
+  usage: '<text>?',
   tags: ['kerang'],
   customPrefix: /(\?$)/,
   command: ['kapan', 'kapankah'],

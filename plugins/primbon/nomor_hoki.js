@@ -1,5 +1,6 @@
 const handler = {
-  help: ['nomerhoki nomor?'],
+  help: ['nomerhoki'],
+  usage: 'nomor?',
   tags: ['fun'],
   command: 'nomerhoki',
   group: false,

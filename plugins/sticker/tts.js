@@ -6,7 +6,8 @@ import { spawn } from 'child_process';
 
 const defaultLang = 'id';
 const handler = {
-  help: ['tts <teks>'],
+  help: ['tts'],
+  usage: '<teks>',
   tags: ['tools'],
   command: 'tts',
   run: async (m, { conn, args }) => {

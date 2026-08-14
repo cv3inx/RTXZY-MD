@@ -1,7 +1,8 @@
 import * as zapo from '../../lib/simple.js';
 
 const handler = {
-  help: ['list'].map((v) => 'add' + v + ' <teks>'),
+  help: ['addlist'],
+  usage: '<teks>',
   tags: ['store'],
   command: 'addlist',
   group: true,
