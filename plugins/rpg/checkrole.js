@@ -3,7 +3,7 @@
 const handler = {
   help: ['role'],
   tags: ['rpg'],
-  command: /^(role|levelrole|checkrole)$/i,
+  command: ['role', 'levelrole', 'checkrole'],
   register: true,
   rpg: true,
   run: async (m, { conn }) => {

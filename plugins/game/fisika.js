@@ -3,7 +3,7 @@ let poin = 10000;
 const handler = {
   help: ['fisika'],
   tags: ['game'],
-  command: /^fisika/i,
+  command: 'fisika',
   register: false,
   group: true,
   run: async (m, { conn, usedPrefix, Api }) => {

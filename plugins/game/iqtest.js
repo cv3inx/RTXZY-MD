@@ -1,7 +1,7 @@
 const handler = {
   help: ['iqtest'],
   tags: ['game'],
-  command: /^(iqtest)$/i,
+  command: 'iqtest',
   owner: false,
   mods: false,
   premium: false,

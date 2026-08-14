@@ -1,7 +1,7 @@
 const handler = {
   help: ['ppcp'],
   tags: ['internet'],
-  command: /^ppcp$/i,
+  command: 'ppcp',
   run: async (m, { conn, command, Api }) => {
     let res = await Api.get('/api/randomgambar/couplepp');
     if (res.status != 200) throw await res.text();

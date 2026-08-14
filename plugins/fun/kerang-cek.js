@@ -1,7 +1,7 @@
 const handler = {
   help: ['gay', 'pintar', 'cantik', 'ganteng', 'gabut', 'gila', 'lesbi', 'stress', 'bucin', 'jones', 'sadboy'].map((v) => v + 'cek'),
   tags: ['kerang'],
-  command: /^(gay|pintar|cantik|ganteng|gabut|gila|lesbi|stress?|bucin|jones|sadboy)cek/i,
+  command: ['gaycek', 'pintarcek', 'cantikcek', 'gantengcek', 'gabutcek', 'gilacek', 'lesbicek', 'strescek', 'stresscek', 'bucincek', 'jonescek', 'sadboycek'],
   owner: false,
   mods: false,
   premium: false,

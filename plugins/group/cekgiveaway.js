@@ -1,7 +1,7 @@
 const handler = {
   help: ['cekgiveaway'],
   tags: ['group'],
-  command: /^cekgiveaway$/i,
+  command: 'cekgiveaway',
   admin: true,
   run: async (m, { conn, usedPrefix }) => {
     let id = m.chat;

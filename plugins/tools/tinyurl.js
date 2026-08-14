@@ -1,7 +1,7 @@
 const handler = {
   help: ['tinyurl'].map((v) => v + ' <link>'),
   tags: ['shortlink'],
-  command: /^tinyurl$/i,
+  command: 'tinyurl',
   run: async (m, { text, usedPrefix, command, Api }) => {
     if (!text) throw `Masukan url/link!\n ${usedPrefix + command} https://google.com`;
     let res = await Api.get('/api/linkshort/tinyurl', { link: text });

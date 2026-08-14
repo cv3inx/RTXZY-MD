@@ -3,7 +3,7 @@ const timeout = 28800000;
 const handler = {
   help: ['mulung'],
   tags: ['rpg'],
-  command: /^(mulung)/i,
+  command: 'mulung',
   group: true,
   fail: null,
   limit: true,

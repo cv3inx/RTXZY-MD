@@ -1,7 +1,7 @@
 const handler = {
   tags: ['fun'],
   help: ['menfess'],
-  command: /^(menfess|menfes)$/i,
+  command: ['menfess', 'menfes'],
   private: true,
   run: async (m, { conn, text, usedPrefix, command }) => {
     conn.menfess = conn.menfess ? conn.menfess : {};

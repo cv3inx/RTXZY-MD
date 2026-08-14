@@ -1,7 +1,7 @@
 const handler = {
   help: ['comparephone <phone1|phone2>'],
   tags: ['tools'],
-  command: /^(comparephone|comparehp|cp)$/i,
+  command: ['comparephone', 'comparehp', 'cp'],
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {
     if (!text) throw `*Example:* ${usedPrefix + command} Oppo A5S|OPPO A3S`;

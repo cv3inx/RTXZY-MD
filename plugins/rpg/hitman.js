@@ -1,7 +1,7 @@
 const handler = {
   help: ['hitman'],
   tags: ['rpg'],
-  command: /^(bunuh|hitman)$/i,
+  command: ['bunuh', 'hitman'],
   register: true,
   group: true,
   level: 10,

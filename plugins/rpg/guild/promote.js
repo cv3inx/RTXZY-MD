@@ -1,7 +1,7 @@
 const handler = {
   help: ['guildpromote <@user>'],
   tags: ['rpgG'],
-  command: /^(guildpromote)$/i,
+  command: 'guildpromote',
   rpg: true,
   run: async (m, { conn, args }) => {
     let userId = m.sender;

@@ -1,5 +1,5 @@
 const handler = {
-  command: /^(cheat)$/i,
+  command: 'cheat',
   owner: false,
   premium: false,
   rpg: true,

@@ -1,7 +1,7 @@
 const handler = {
   help: ['attacktitan'],
   tags: ['rpg'],
-  command: /^(attacktitan)$/i,
+  command: 'attacktitan',
   limit: true,
   group: true,
   rpg: true,

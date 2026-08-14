@@ -4,7 +4,7 @@ import { join } from 'path';
 const handler = {
   help: ['clearsession'],
   tags: ['owner'],
-  command: /^(clearsession|clearsessions)$/i,
+  command: ['clearsession', 'clearsessions'],
   rowner: true,
   run: async (m, { conn }) => {
     const dirname = global.opts?._?.[0] || 'sessions';

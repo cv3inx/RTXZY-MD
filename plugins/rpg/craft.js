@@ -1,7 +1,7 @@
 const handler = {
   help: ['craft', 'blacksmith'],
   tags: ['rpg'],
-  command: /^(craft|crafting|chant|blacksmith)/i,
+  command: ['craft', 'crafting', 'chant', 'blacksmith'],
   register: true,
   group: true,
   rpg: true,

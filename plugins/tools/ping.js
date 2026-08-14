@@ -13,7 +13,7 @@ var format = sizeFormatter({
 const handler = {
   help: ['ping', 'speed'],
   tags: ['info'],
-  command: /^(ping|speed|pong|ingfo)$/i,
+  command: ['ping', 'speed', 'pong', 'ingfo'],
   run: async (m, { conn }) => {
     const chats = Object.entries(conn.chats).filter(([id, data]) => id && data.isChats);
     const groupsIn = chats.filter(([id]) => id.endsWith('@g.us')); //groups.filter(v => !v.read_only)

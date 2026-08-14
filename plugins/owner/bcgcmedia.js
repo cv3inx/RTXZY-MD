@@ -2,7 +2,7 @@ import crypto from 'crypto';
 const handler = {
   help: ['broadcastgroup', 'bcgc'].map((v) => v + ' <teks>'),
   tags: ['owner'],
-  command: /^(broadcast|bc)(group|grup|gc)$/i,
+  command: ['broadcastgroup', 'broadcastgrup', 'broadcastgc', 'bcgroup', 'bcgrup', 'bcgc'],
   owner: true,
   run: async (m, { conn, text }) => {
     let groups = Object.entries(conn.chats)

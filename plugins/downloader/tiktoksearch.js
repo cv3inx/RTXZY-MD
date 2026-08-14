@@ -1,7 +1,7 @@
 const handler = {
   help: ['ttsearch'].map((v) => v + ' <username>'),
   tags: ['downloader'],
-  command: /^(tiktoksearch|ttsearch)$/i,
+  command: ['tiktoksearch', 'ttsearch'],
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {
     if (!text) throw `🚩 *Example:* ${usedPrefix + command} anime`;

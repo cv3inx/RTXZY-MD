@@ -1,7 +1,7 @@
 const handler = {
   help: ['fake <text> @user <text2>'],
   tags: ['tools'],
-  command: /^(fitnah|fakereply|fake)$/,
+  command: ['fitnah', 'fakereply', 'fake'],
   run: async (m, { conn, text, usedPrefix, command }) => {
     if (!text) return m.reply(`Menggunakan perintah\n\n*${usedPrefix + command}* Halo apa? @${m.sender.split`@`[0]} tidak ada dan Anda`, null, { mentions: [m.sender] });
     let cm = copy(m);

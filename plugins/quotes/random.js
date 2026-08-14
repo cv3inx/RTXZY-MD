@@ -1,7 +1,7 @@
 const handler = {
   help: ['bucin', 'ilham', 'dilan', 'fiersa', 'fakta', 'nyindir', 'ngawur', 'jawa', 'quotes', 'sunda', 'batak', 'aceh', 'cina', 'minangkabau'],
   tags: ['quotes'],
-  command: /^(bucin|ilham|dilan|fiersa|fakta|nyindir|ngawur|jawa|quotes|sunda|batak|aceh|cina|minangkabau)$/i,
+  command: ['bucin', 'ilham', 'dilan', 'fiersa', 'fakta', 'nyindir', 'ngawur', 'jawa', 'quotes', 'sunda', 'batak', 'aceh', 'cina', 'minangkabau'],
   owner: false,
   mods: false,
   premium: false,

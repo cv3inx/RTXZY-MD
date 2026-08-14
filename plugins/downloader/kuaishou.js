@@ -1,7 +1,7 @@
 const handler = {
   help: ['kuaishou <url>'],
   tags: ['downloader'],
-  command: /^(kuaishou|ks)$/i,
+  command: ['kuaishou', 'ks'],
   limit: true,
   group: false,
   premium: false,

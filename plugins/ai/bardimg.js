@@ -4,7 +4,7 @@ import uploadFile from '../../lib/media/uploadFile.js';
 const handler = {
   help: ['bardimg', 'bardimage', 'bardvideo', 'bardaudio', 'geminiimg', 'geminiimage', 'geminivideo', 'geminiaudio'],
   tags: ['ai'],
-  command: /^(bardimg|bardimage|bardvideo|bardaudio|geminiimg|geminiimage|geminivideo|geminiaudio)$/i,
+  command: ['bardimg', 'bardimage', 'bardvideo', 'bardaudio', 'geminiimg', 'geminiimage', 'geminivideo', 'geminiaudio'],
   limit: true,
   run: async (m, { conn, text, command, usedPrefix, Api }) => {
     let q = m.quoted ? m.quoted : m;

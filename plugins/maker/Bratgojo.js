@@ -1,7 +1,7 @@
 const handler = {
   help: ['bratgojo <teks>'],
   tags: ['maker'],
-  command: /^(bratgojo)$/i,
+  command: 'bratgojo',
   limit: true,
   group: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {

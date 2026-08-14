@@ -1,7 +1,7 @@
 const handler = {
   help: ['limit [@user]'],
   tags: ['xp'],
-  command: /^(limit)$/i,
+  command: 'limit',
   run: async (m) => {
     let who;
     if (m.isGroup) who = m.mentionedJid[0] ? m.mentionedJid[0] : m.sender;

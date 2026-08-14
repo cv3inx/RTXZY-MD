@@ -1,7 +1,7 @@
 const handler = {
   help: ['sfilesearch <query>'],
   tags: ['tools'],
-  command: /^(sfilesearch|carisfile)$/i,
+  command: ['sfilesearch', 'carisfile'],
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {
     if (!text) throw `*Example:* ${usedPrefix + command} Happy Mod`;

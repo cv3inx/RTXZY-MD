@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 const handler = {
   tags: ['internet'],
   help: ['wikipedia <kata kunci>'],
-  command: /^(wikipedia|wiki)$/i,
+  command: ['wikipedia', 'wiki'],
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {
     if (!text) throw `Contoh: ${usedPrefix + command} pohon`;

@@ -2,7 +2,7 @@ let buatall = 1;
 const handler = {
   help: ['judi'],
   tags: ['rpg'],
-  command: /^(judi)$/i,
+  command: 'judi',
   group: true,
   rpg: true,
   fail: null,

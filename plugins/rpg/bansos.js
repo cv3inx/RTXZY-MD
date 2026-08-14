@@ -1,7 +1,7 @@
 const handler = {
   help: ['korupsi'],
   tags: ['rpg'],
-  command: /^(bansos|korupsi)$/i,
+  command: ['bansos', 'korupsi'],
   register: true,
   group: true,
   rpg: true,

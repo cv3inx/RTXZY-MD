@@ -3,7 +3,7 @@ import { toAudio, toPTT } from '../../lib/media/converter.js';
 const handler = {
   help: ['tomp3', 'tovn'],
   tags: ['voice'],
-  command: /^to(mp3|vn|ptt)$/i,
+  command: ['tomp3', 'tovn', 'toptt'],
   run: async (m, { conn, usedPrefix, command }) => {
     let q = m.quoted ? m.quoted : m;
     let mime = (m.quoted ? m.quoted : m.msg).mimetype || '';

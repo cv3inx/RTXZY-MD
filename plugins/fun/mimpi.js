@@ -3,7 +3,7 @@ import moment from 'moment-timezone';
 const handler = {
   help: ['dreamworld', 'dream', 'mimpi', 'dreamexp'],
   tags: ['fun'],
-  command: /^dreamworld|dream|mimpi$/i,
+  command: ['dreamworld', 'dream', 'mimpi'],
   group: true,
   limit: 1,
   run: async (m, { text, conn, usedPrefix, command }) => {

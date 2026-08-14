@@ -1,7 +1,7 @@
 const handler = {
   help: ['carbon'],
   tags: ['maker'],
-  command: /^(carbon|carbonara)$/i,
+  command: ['carbon', 'carbonara'],
   limit: true,
   run: async (m, { conn, args, Api }) => {
     let text;

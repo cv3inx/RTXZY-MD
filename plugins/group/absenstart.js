@@ -1,7 +1,7 @@
 const handler = {
   help: ['mulaiabsen [teks]'],
   tags: ['group'],
-  command: /^(start|mulai)absen$/i,
+  command: ['startabsen', 'mulaiabsen'],
   group: true,
   admin: true,
   run: async (m, { conn, usedPrefix, text }) => {

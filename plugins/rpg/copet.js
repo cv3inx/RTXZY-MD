@@ -1,7 +1,7 @@
 const handler = {
   help: ['copet'],
   tags: ['rpg'],
-  command: /^(copet)$/i,
+  command: 'copet',
   group: true,
   rpg: true,
   run: async (m, { conn, usedPrefix }) => {

@@ -1,7 +1,7 @@
 const handler = {
   help: ['igstalk <username>'],
   tags: ['stalk'],
-  command: /^(igstalk)$/i,
+  command: 'igstalk',
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {
     if (!text) throw `contoh:\n${usedPrefix + command} prm2.0`;

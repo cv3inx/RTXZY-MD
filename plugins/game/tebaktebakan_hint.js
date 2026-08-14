@@ -1,5 +1,5 @@
 const handler = {
-  command: /^tika/i,
+  command: 'tika',
   limit: true,
   run: async (m, { conn }) => {
     conn.tebaktebakan = conn.tebaktebakan ? conn.tebaktebakan : {};

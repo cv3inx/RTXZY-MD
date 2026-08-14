@@ -1,7 +1,7 @@
 const handler = {
   help: ['buyattack <jumlah>'],
   tags: ['rpg'],
-  command: /^buyattack$/i,
+  command: 'buyattack',
   rpg: true,
   register: true,
   run: async (m, { conn, args }) => {

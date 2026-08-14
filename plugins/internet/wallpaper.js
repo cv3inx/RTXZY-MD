@@ -1,7 +1,7 @@
 const handler = {
   tags: ['internet'],
   help: ['wallpaper'],
-  command: /^(wallpaper)$/i,
+  command: 'wallpaper',
   limit: true,
   run: async (m, { conn, Api }) => {
     try {

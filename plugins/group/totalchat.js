@@ -1,7 +1,7 @@
 const handler = {
   help: ['totalchat', 'totalpesan'],
   tags: ['group'],
-  command: /^(totalchat|totalpesan)$/i,
+  command: ['totalchat', 'totalpesan'],
   group: true,
   run: async (m, { conn }) => {
     const data = global.db.data.totalchat || {};

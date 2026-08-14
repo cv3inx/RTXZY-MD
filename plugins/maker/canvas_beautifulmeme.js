@@ -38,7 +38,7 @@ const handler = {
   },
   help: ['beautifulmeme'],
   tags: ['maker'],
-  command: /^(beautifulmeme)$/i,
+  command: 'beautifulmeme',
   limit: true,
   run: async (m, { conn, Api }) => {
     conn.beautifulMeme = conn.beautifulMeme ? conn.beautifulMeme : {};

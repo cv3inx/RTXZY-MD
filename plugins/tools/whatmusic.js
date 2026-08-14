@@ -2,7 +2,7 @@ import uploader from '../../lib/media/uploadFile.js';
 const handler = {
   help: ['whatmusic'],
   tags: ['tools'],
-  command: /^(whatmusic)$/i,
+  command: 'whatmusic',
   limit: true,
   run: async (m, { conn, usedPrefix, command, Api }) => {
     let q = m.quoted ? m.quoted : m;

@@ -1,5 +1,5 @@
 const handler = {
-  command: /^hemo$/i,
+  command: 'hemo',
   limit: true,
   run: async (m, { conn }) => {
     conn.tebakemoji = conn.tebakemoji ? conn.tebakemoji : {};

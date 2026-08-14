@@ -73,7 +73,7 @@ Ketik *'kiri'* untuk bergerak ke kiri.`;
   },
   help: ['koboy'],
   tags: ['rpg'],
-  command: /^(koboy)$/i,
+  command: 'koboy',
   group: true,
   rpg: true,
   run: async (m, { conn }) => {

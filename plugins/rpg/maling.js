@@ -3,7 +3,7 @@ const timeout = 604800000;
 const handler = {
   help: ['maling'],
   tags: ['rpg'],
-  command: /^(maling)/i,
+  command: 'maling',
   owner: false,
   mods: false,
   premium: false,

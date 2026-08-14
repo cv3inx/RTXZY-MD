@@ -5,7 +5,7 @@ import path from 'path';
 const handler = {
   help: ['grouplist'],
   tags: ['group'],
-  command: /^(group(s|list)|(s|list)group)$/i,
+  command: ['groups', 'grouplist', 'sgroup', 'listgroup'],
   run: async (m, { conn, participants, groupMetadata }) => {
     let now = new Date() * 1;
     let groups = Object.entries(conn.chats)

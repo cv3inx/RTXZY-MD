@@ -1,7 +1,7 @@
 const handler = {
   help: ['penjara'],
   tags: ['rpg'],
-  command: /^penjara$/i,
+  command: 'penjara',
   register: true,
   rpg: true,
   run: async (m, { conn, args, text, usedPrefix, command }) => {

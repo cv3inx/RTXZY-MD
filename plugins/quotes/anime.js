@@ -1,7 +1,7 @@
 const handler = {
   help: ['anime'],
   tags: ['quotes'],
-  command: /^(anime)$/i,
+  command: 'anime',
   run: async (m, { conn, Api }) => {
     try {
       // Fetch data dari api

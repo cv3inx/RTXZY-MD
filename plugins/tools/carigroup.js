@@ -1,7 +1,7 @@
 const handler = {
   help: ['carigrup <pencarian>'],
   tags: ['tools'],
-  command: /^carig(ro?up|c)/i,
+  command: ['carigrup', 'carigroup', 'carigc'],
   limit: true,
   run: async (m, { text, usedPrefix, command, Api }) => {
     if (!text) throw `uhm.. cari apa?\n\ncontoh:\n${usedPrefix + command} mabar`;

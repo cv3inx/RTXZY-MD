@@ -6,7 +6,7 @@ const handler = {
   help: ['dailymisi'],
   tags: ['rpg'],
   limit: true,
-  command: /^dailymisi$/i,
+  command: 'dailymisi',
   rpg: true,
   run: async (m, { conn }) => {
     let user = global.db.data.users[m.sender];

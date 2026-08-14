@@ -1,7 +1,7 @@
 const handler = {
   help: ['leaderboard <jumlah user>'],
   tags: ['info'],
-  command: /^(leaderboard|lb)$/i,
+  command: ['leaderboard', 'lb'],
   owner: false,
   mods: false,
   premium: false,

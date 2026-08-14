@@ -1,7 +1,7 @@
 const handler = {
   help: ['hapusabsen'],
   tags: ['group'],
-  command: /^(delete|hapus)absen$/i,
+  command: ['deleteabsen', 'hapusabsen'],
   group: true,
   admin: true,
   run: async (m, { conn, usedPrefix }) => {

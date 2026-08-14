@@ -12,7 +12,7 @@ Buy Script?
 const handler = {
   help: ['addlimit @user <jumlah limit>'],
   tags: ['xp'],
-  command: /^addlimit$/i,
+  command: 'addlimit',
   owner: true,
   run: async (m, { conn, text }) => {
     const { MessageType } = zapo;

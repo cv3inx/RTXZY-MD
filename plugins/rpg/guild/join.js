@@ -1,7 +1,7 @@
 const handler = {
   help: ['joinguild <nomor_guild>'],
   tags: ['rpgG'],
-  command: /^(joinguild)$/i,
+  command: 'joinguild',
   rpg: true,
   run: async (m, { conn, args }) => {
     let user = global.db.data.users[m.sender];

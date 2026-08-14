@@ -1,7 +1,7 @@
 const handler = {
   help: ['repeat <teks>'],
   tags: ['tools'],
-  command: /^(repeat)$/i,
+  command: 'repeat',
   owner: false,
   mods: false,
   premium: false,

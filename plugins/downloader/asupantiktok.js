@@ -1,7 +1,7 @@
 const handler = {
   help: ['asupantiktok'].map((v) => v + ' <username>'),
   tags: ['downloader'],
-  command: /^(asupantiktok)$/i,
+  command: 'asupantiktok',
   limit: true,
   run: async (m, { conn, args, usedPrefix, command, Api }) => {
     const username = ['natajadeh', 'aletaanovianda', 'faisafch', '0rbby', 'cindyanastt', 'awaa.an', 'nadineabgail', 'ciloqciliq', 'carluskiey', 'wuxiaturuxia', 'joomblo', 'hxszys', 'indomeysleramu', 'anindthrc', 'm1cel', 'chrislin.chrislin', 'brocolee__', 'dxzdaa', 'toodlesprunky', 'wasawho', 'paphricia', 'queenzlyyjelita', 'apol1yon', 'eliceannabella', 'aintyrbaby', 'christychriselle', 'natalienovita', 'glennvmi', '_rgtaaa', 'felicialrnz', 'zahraazzhri', 'mdy.li', 'jeyiiiii_', 'bbytiffs', 'irenefennn', 'mellyllyyy', 'xsta_xstar', 'n0_0ella', 'kutubuku6690', 'cesiann', 'gaby.rosse', 'charrvm_', 'bilacml04', 'whosyoraa', 'ishaangelica', 'heresthekei', 'gemoy.douyin', 'nathasyaest', 'jasmine.mat', 'akuallyaa', 'meycoco22', 'baby_sya66', 'knzymyln__', 'rin.channn', 'audicamy', 'franzeskaedelyn', 'shiraishi.ito', 'itsceceh', 'senpai_cj7', 'miawwchu', 'sinclareee', 'yyourcandle', 'sukamatchaa255', 'tilalaamisyu', 'cricezie', 'nabilakhoeruniza5', 'caca.kiyowo', 'jennangelina_', 'ciisel22', 'meytwohuhuy', 'panggilkez', 'strangerfr0mhell', 'deboraballtes22', 'nabilakhoeruniza5', 'natasya_aya22', 'kumohano', 'yingying_qc', 'reliabl7271', 'cgdh5810hfx', 'lilibaby1007', 'qiqi200461', 'jamonghae._', 'singing2life2nd', 'lisa18202'];

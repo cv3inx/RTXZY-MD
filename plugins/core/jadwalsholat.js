@@ -17,7 +17,7 @@ function getPrayerTimes(jsonData) {
 const handler = {
   help: ['salat <daerah>'],
   tags: ['islam'],
-  command: /^(jadwal)?s(a|o|ha|ho)lat$/i,
+  command: ['salat', 'solat', 'shalat', 'sholat', 'jadwalsalat', 'jadwalsolat', 'jadwalshalat', 'jadwalsholat'],
   limit: true,
   run: async (m, { text, usedPrefix, command, Api }) => {
     if (!text) throw `Gunakan contoh: ${usedPrefix}${command} semarang`;

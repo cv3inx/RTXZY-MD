@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 const handler = {
   help: ['tebakmeme'],
   tags: ['game'],
-  command: /^tebakmeme/i,
+  command: 'tebakmeme',
   limit: false,
   group: true,
   run: async (m, { conn, usedPrefix, Api }) => {

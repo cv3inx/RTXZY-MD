@@ -54,7 +54,7 @@ const items = {
 const handler = {
   help: ['gunshop'].map((v) => v + ''),
   tags: ['rpg'],
-  command: /^(gunshop|buygun|sellgun)$/i,
+  command: ['gunshop', 'buygun', 'sellgun'],
   cooldown: cooldown,
   rpg: true,
   run: async (m, { conn, command, usedPrefix, args, text, isPrems }) => {

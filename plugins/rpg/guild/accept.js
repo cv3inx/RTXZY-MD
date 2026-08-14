@@ -1,7 +1,7 @@
 const handler = {
   help: ['guildaccept @user'],
   tags: ['rpgG'],
-  command: /^(guildaccept)$/i,
+  command: 'guildaccept',
   rpg: true,
   run: async (m, { conn }) => {
     let user = global.db.data.users[m.sender];

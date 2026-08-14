@@ -1,7 +1,7 @@
 const handler = {
   help: ['petshop'],
   tags: ['rpg'],
-  command: /^(pet(shop|store)?|adopt)/i,
+  command: ['pet', 'petshop', 'petstore', 'adopt'],
   register: true,
   rpg: true,
   run: async (m, { conn, command, args, usedPrefix, DevMode }) => {

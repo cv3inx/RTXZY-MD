@@ -1,6 +1,6 @@
 const handler = {
   help: ['douyin'],
-  command: /^(douyin)$/i,
+  command: 'douyin',
   tags: ['downloader'],
   limit: true,
   group: false,

@@ -1,7 +1,7 @@
 const handler = {
   help: ['guildlist'],
   tags: ['rpgG'],
-  command: /^(guildlist)$/i,
+  command: 'guildlist',
   rpg: true,
   run: async (m, { conn }) => {
     let guilds = Object.values(global.db.data.guilds);

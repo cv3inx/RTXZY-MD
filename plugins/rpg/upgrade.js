@@ -1,7 +1,7 @@
 const handler = {
   help: ['uptool'],
   tags: ['rpg'],
-  command: /^(up(tool)?)$/i,
+  command: ['up', 'uptool'],
   fail: null,
   group: true,
   rpg: true,

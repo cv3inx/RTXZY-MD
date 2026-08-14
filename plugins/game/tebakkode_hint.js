@@ -1,5 +1,5 @@
 const handler = {
-  command: /^kdo/i,
+  command: 'kdo',
   limit: true,
   run: async (m, { conn }) => {
     conn.tebakkode = conn.tebakkode ? conn.tebakkode : {};

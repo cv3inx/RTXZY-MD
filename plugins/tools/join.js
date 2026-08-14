@@ -3,7 +3,7 @@ let linkRegex = /chat.whatsapp.com\/([0-9A-Za-z]{20,24})( [0-9]{1,3})?/i;
 const handler = {
   help: ['join <chat.whatsapp.com>'],
   tags: ['owner'],
-  command: /^join$/i,
+  command: 'join',
   rowner: true,
   run: async (m, { conn, text, isOwner }) => {
     let [_, code, expired] = text.match(linkRegex) || [];

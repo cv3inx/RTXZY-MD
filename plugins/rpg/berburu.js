@@ -1,7 +1,7 @@
 const handler = {
   help: ['berburu'],
   tags: ['rpg'],
-  command: /^(berburu|hunt)$/i,
+  command: ['berburu', 'hunt'],
   rpg: true,
   run: async (m, { conn }) => {
     let __timers = new Date() - global.db.data.users[m.sender].lastberburu;

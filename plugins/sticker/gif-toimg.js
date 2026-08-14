@@ -55,7 +55,7 @@ async function downloadSticker(conn, q) {
 const handler = {
   help: ['toimg', 'togif', 'tomp4'],
   tags: ['tools'],
-  command: /^(toimg|togif|tomp4)$/i,
+  command: ['toimg', 'togif', 'tomp4'],
   limit: true,
   run: async (m, { conn, usedPrefix, command, Api }) => {
     let q = m.quoted ? m.quoted : m;

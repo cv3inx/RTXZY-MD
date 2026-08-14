@@ -1,7 +1,7 @@
 const handler = {
   help: ['ban'],
   tags: ['owner'],
-  command: /^ban(chat)?$/i,
+  command: ['ban', 'banchat'],
   owner: true,
   run: async (m, { conn, isOwner, text }) => {
     if (!text) throw 'Masukkan user/id group yang ingin di ban\n\nExample: .ban 6282361160044 atau .ban 2837372829@g.us';

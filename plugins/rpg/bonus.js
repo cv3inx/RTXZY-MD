@@ -1,7 +1,7 @@
 const handler = {
   help: ['bonus'],
   tags: ['rpg', 'prem'],
-  command: /^(bonus)/i,
+  command: 'bonus',
   register: true,
   premium: true,
   rpg: true,

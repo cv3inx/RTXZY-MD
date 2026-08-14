@@ -1,7 +1,7 @@
 const handler = {
   help: ['putus'],
   tags: ['fun'],
-  command: /^(putus)$/i,
+  command: 'putus',
   group: true,
   run: async (m, { conn }) => {
     let user = global.db.data.users[m.sender];

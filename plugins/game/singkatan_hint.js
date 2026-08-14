@@ -1,5 +1,5 @@
 const handler = {
-  command: /^sktn/i,
+  command: 'sktn',
   limit: true,
   run: async (m, { conn }) => {
     conn.singkatan = conn.singkatan ? conn.singkatan : {};

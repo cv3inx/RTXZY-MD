@@ -1,6 +1,6 @@
 const handler = {
   help: ['tiktok'],
-  command: /^(tiktok|tt|tiktokdl|tiktoknowm)$/i,
+  command: ['tiktok', 'tt', 'tiktokdl', 'tiktoknowm'],
   tags: ['downloader'],
   limit: true,
   group: false,

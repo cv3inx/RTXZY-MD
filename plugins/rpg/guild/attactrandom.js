@@ -4,7 +4,7 @@ const dbPath = './database.json';
 const handler = {
   help: ['attackguild'],
   tags: ['rpgG'],
-  command: /^attackguild$/i,
+  command: 'attackguild',
   rpg: true,
   run: async (m, { conn }) => {
     let user = global.db.data.users[m.sender];

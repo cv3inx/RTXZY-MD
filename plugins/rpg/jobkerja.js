@@ -4,7 +4,7 @@ const cooldownAfterWork = 5 * 60 * 1000; // Cooldown setelah bekerja selama 5 me
 const handler = {
   help: ['jobkerja'],
   tags: ['rpg'],
-  command: /^(jobkerja)$/i,
+  command: 'jobkerja',
   limit: true,
   run: async (m, { isPrems, conn, text, usedPrefix, command }) => {
     const user = global.db.data.users[m.sender];

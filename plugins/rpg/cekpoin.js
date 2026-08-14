@@ -1,7 +1,7 @@
 const handler = {
   help: ['cekpoin'],
   tags: ['rpg'],
-  command: /^cekpoin$/i,
+  command: 'cekpoin',
   register: true,
   rpg: true,
   run: async (m) => {

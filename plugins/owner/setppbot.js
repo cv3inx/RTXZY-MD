@@ -5,7 +5,7 @@ import jimp from 'jimp';
 const handler = {
   help: ['setbotpp'],
   tags: ['owner'],
-  command: /^(set(botpp|ppbot))$/i,
+  command: ['setbotpp', 'setppbot'],
   owner: true,
   run: async (m, { conn, command, usedPrefix }) => {
     const { S_WHATSAPP_NET } = zapo;

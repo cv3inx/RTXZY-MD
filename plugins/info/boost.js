@@ -3,7 +3,7 @@ import { performance } from 'perf_hooks';
 const handler = {
   help: ['boost', 'refresh'],
   tags: ['info'],
-  command: /^boost|refresh/i,
+  command: ['boost', 'refresh'],
   mods: false,
   premium: false,
   group: false,

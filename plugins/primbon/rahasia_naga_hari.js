@@ -1,7 +1,7 @@
 const handler = {
   help: ['nagahari'],
   tags: ['fun'],
-  command: /^(nagahari)$/i,
+  command: 'nagahari',
   group: false,
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {

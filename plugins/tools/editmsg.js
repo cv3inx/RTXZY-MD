@@ -1,7 +1,7 @@
 const handler = {
   help: ['edit'],
   tags: ['tools'],
-  command: /^(edit)$/i,
+  command: 'edit',
   run: async (m, { conn, text, usedPrefix, command }) => {
     if (!text) throw 'masukkan teks';
     let q = m.quoted ? m.quoted : m;

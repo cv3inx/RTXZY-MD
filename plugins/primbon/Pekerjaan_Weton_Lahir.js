@@ -1,7 +1,7 @@
 const handler = {
   help: ['pekerjaanwetonlahir'],
   tags: ['fun'],
-  command: /^(pekerjaanwetonlahir)$/i,
+  command: 'pekerjaanwetonlahir',
   group: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {
     if (!text) throw `Masukkan Tanggal Lahir!\n\ncontoh: ${usedPrefix + command} 14,05,2006`;

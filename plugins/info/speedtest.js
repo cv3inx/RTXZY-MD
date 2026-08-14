@@ -4,7 +4,7 @@ let exec = promisify(cp.exec).bind(cp);
 const handler = {
   help: ['speedtest'],
   tags: ['info'],
-  command: /^(speedtest|ookla)$/i,
+  command: ['speedtest', 'ookla'],
   premium: false,
   run: async (m, { conn }) => {
     await conn.reply(m.chat, `Please Wait`, m);

@@ -8,7 +8,7 @@ const defaultLang = 'id';
 const handler = {
   help: ['tts <teks>'],
   tags: ['tools'],
-  command: /^tts$/i,
+  command: 'tts',
   run: async (m, { conn, args }) => {
     try {
       let lang = args[0];

@@ -1,7 +1,7 @@
 const handler = {
   help: ['fakedana <nominal>'],
   tags: ['maker'],
-  command: /^(fakedana)$/i,
+  command: 'fakedana',
   limit: true,
   group: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {

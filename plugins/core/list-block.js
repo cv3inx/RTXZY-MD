@@ -1,7 +1,7 @@
 const handler = {
   help: ['blocklist'],
   tags: ['info'],
-  command: /^listbloc?k|bloc?klist|daftarbloc?k|blocks$/i,
+  command: ['listblok', 'listblock', 'bloklist', 'blocklist', 'daftarblok', 'daftarblock', 'blocks'],
   owner: false,
   run: async (m, { conn }) => {
     var block = await conn.fetchBlocklist();

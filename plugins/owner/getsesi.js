@@ -6,7 +6,7 @@ import Database from 'better-sqlite3';
 const handler = {
   help: ['getsesi'],
   tags: ['internet'],
-  command: /^(getsesi)$/i,
+  command: 'getsesi',
   rowner: true,
   run: async (m, { conn }) => {
     const dir = global.opts?._?.[0] || 'sessions';

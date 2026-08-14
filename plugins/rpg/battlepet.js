@@ -3,7 +3,7 @@ const pets = ['kucing', 'anjing', 'serigala', 'phonix', 'rubah'];
 const handler = {
   help: ['battlepet'],
   tags: ['rpg'],
-  command: /^(battlepet)$/i,
+  command: 'battlepet',
   register: true,
   group: true,
   rpg: true,

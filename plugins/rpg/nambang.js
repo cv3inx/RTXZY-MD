@@ -1,7 +1,7 @@
 const handler = {
   help: ['nambang'],
   tags: ['rpg'],
-  command: /^(nambang)$/i,
+  command: 'nambang',
   register: true,
   rpg: true,
   run: async (m, { conn }) => {

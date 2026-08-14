@@ -9,7 +9,7 @@ function clockString(ms) {
 const handler = {
   help: ['berlatih <atribut>'],
   tags: ['rpg'],
-  command: /^berlatih$/i,
+  command: 'berlatih',
   limit: true,
   group: true,
   rpg: true,

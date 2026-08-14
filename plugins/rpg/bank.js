@@ -1,7 +1,7 @@
 const handler = {
   help: ['bank'],
   tags: ['rpg'],
-  command: /^bank$/,
+  command: 'bank',
   rpg: true,
   run: async (m, { conn, args, usedPrefix, command }) => {
     let target = m.mentionedJid[0] || m.sender;

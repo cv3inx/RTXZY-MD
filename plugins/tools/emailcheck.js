@@ -1,7 +1,7 @@
 const handler = {
   help: ['emailcheck <email1, email2, ...>'],
   tags: ['tools'],
-  command: /^(emailcheck|emailcek|cekmail)$/i,
+  command: ['emailcheck', 'emailcek', 'cekmail'],
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {
     if (!text) throw `*Example:* ${usedPrefix + command} jokowi@gmail.com, aaa@gmail.com, bbbb@gmail.com`;

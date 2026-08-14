@@ -1,7 +1,7 @@
 const handler = {
   help: ['tagadmin'],
   tags: ['group'],
-  command: /^(tagadmin)$/i,
+  command: 'tagadmin',
   group: true,
   run: async (m, { conn, participants, groupMetadata }) => {
     const getGroupAdmins = (participants) => {

@@ -3,7 +3,7 @@
 const handler = {
   help: ['bomb'],
   tags: ['game'],
-  command: /^(bomb)$/i,
+  command: 'bomb',
   run: async (m, { conn }) => {
     conn.bomb = conn.bomb ? conn.bomb : {};
     let id = m.sender,

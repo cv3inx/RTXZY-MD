@@ -5,7 +5,7 @@ import { createHash } from 'crypto';
 const handler = {
   help: ['profile', 'profil [@user]'],
   tags: ['info'],
-  command: /^profile?|profil$/i,
+  command: ['profil', 'profile'],
   run: async (m, { conn, usedPrefix, command, text }) => {
     let who = m.sender;
 

@@ -3,7 +3,7 @@ import * as zapo from '../../lib/simple.js';
 const handler = {
   help: ['hidetag <text>'],
   tags: ['group'],
-  command: /^(hidetag|ht|h)$/i,
+  command: ['hidetag', 'ht', 'h'],
   group: true,
   admin: true,
   botAdmin: true,

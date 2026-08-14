@@ -1,5 +1,5 @@
 const handler = {
-  command: /^tboa$/i,
+  command: 'tboa',
   limit: true,
   run: async (m, { conn }) => {
     conn.tebakbola = conn.tebakbola ? conn.tebakbola : {};

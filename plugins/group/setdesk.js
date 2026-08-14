@@ -1,7 +1,7 @@
 const handler = {
   help: ['setdeskgroup <text>'],
   tags: ['group'],
-  command: /^set(desk|deskripsi|deskripsigc|deskripsigroup|deskripsigrup|deskgc)?$/i,
+  command: ['set', 'setdesk', 'setdeskripsi', 'setdeskripsigc', 'setdeskripsigroup', 'setdeskripsigrup', 'setdeskgc'],
   owner: false,
   mods: false,
   premium: false,

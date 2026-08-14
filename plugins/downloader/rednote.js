@@ -1,6 +1,6 @@
 const handler = {
   help: ['xiaohongshu', 'rednote'],
-  command: /^(xiaohongshu|xhs|xhsdl|rednote)$/i,
+  command: ['xiaohongshu', 'xhs', 'xhsdl', 'rednote'],
   tags: ['downloader'],
   limit: true,
   premium: false,

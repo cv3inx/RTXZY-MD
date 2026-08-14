@@ -1,7 +1,7 @@
 const handler = {
   help: ['bertarung *@user*', 'fight *@user*'],
   tags: ['rpg'],
-  command: /^(fight|bertarung)$/i,
+  command: ['fight', 'bertarung'],
   group: true,
   rpg: true,
   run: async (m, { conn, text }) => {

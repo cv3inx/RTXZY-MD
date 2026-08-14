@@ -1,7 +1,7 @@
 const handler = {
   help: ['checkjail', 'cj', 'statuspenjara', 'jailstatus'],
   tags: ['rpg'],
-  command: /^(checkjail|cj|statuspenjara|jailstatus)$/i,
+  command: ['checkjail', 'cj', 'statuspenjara', 'jailstatus'],
   rpg: true,
   run: async (m, { isPrems, conn, text, usedPrefix, command }) => {
     const user = global.db.data.users[m.sender];

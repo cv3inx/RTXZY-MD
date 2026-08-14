@@ -8,7 +8,7 @@ const moneyprem = 40000;
 const handler = {
   help: ['monthly'],
   tags: ['rpgabsen'],
-  command: /^(monthly)$/i,
+  command: 'monthly',
   limit: true,
   rpg: true,
   fail: null,

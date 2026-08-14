@@ -42,7 +42,7 @@ const sendBackup = async (conn) => {
 const handler = {
   help: ['autobackup on/off'],
   tags: ['owner'],
-  command: /^autobackup$/i,
+  command: 'autobackup',
   owner: true,
   run: async (m, { conn, command, args, isOwner }) => {
     if (!isOwner) throw 'Perintah ini hanya untuk owner bot!';

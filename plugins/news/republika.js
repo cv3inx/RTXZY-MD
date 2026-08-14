@@ -1,7 +1,7 @@
 const handler = {
   help: ['republika'],
   tags: ['news'],
-  command: /^(republika)$/i,
+  command: 'republika',
   group: false,
   limit: true,
   run: async (m, { conn, Api }) => {

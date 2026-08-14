@@ -1,7 +1,7 @@
 const handler = {
   help: ['pinterest <keyword>'],
   tags: ['internet'],
-  command: /^(pinterest)$/i,
+  command: 'pinterest',
   run: async (m, { usedPrefix, command, conn, text, Api }) => {
     if (!text) throw `*🚩 Example:* ${usedPrefix}${command} Zhao Lusi`;
     m.reply(wait);

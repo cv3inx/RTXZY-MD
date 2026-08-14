@@ -1,5 +1,5 @@
 const handler = {
-  command: /^(pesan|chat)$/i,
+  command: ['pesan', 'chat'],
   rowner: false,
   limit: false,
   premium: false,

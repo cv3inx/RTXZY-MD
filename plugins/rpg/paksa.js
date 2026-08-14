@@ -1,7 +1,7 @@
 const handler = {
   help: ['ewe-paksa @tag'],
   tags: ['rpg'],
-  command: /^(ewe-paksa)$/i,
+  command: 'ewe-paksa',
   register: true,
   group: true,
   rpg: true,

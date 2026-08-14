@@ -2,7 +2,7 @@ const handler = {
   help: ['eat', 'makan'],
   tags: ['rpg'],
   register: true,
-  command: /^(eat|makan)$/i,
+  command: ['eat', 'makan'],
   rpg: true,
   run: async (m, { conn, command, usedPrefix, args }) => {
     let user = global.db.data.users[m.sender];

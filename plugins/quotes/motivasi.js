@@ -1,7 +1,7 @@
 const handler = {
   help: ['motivasi'],
   tags: ['quotes'],
-  command: /^(motivasi)$/i,
+  command: 'motivasi',
   run: async (m, { conn, Api }) => {
     try {
       let res = await Api.get('/api/random/motivasi');

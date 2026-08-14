@@ -1,7 +1,7 @@
 const handler = {
   help: ['buatgrup'],
   tags: ['owner'],
-  command: /^buatgrup$/i,
+  command: 'buatgrup',
   owner: true,
   run: async (m, { conn, text, command, usedPrefix }) => {
     if (!text) throw `Format salah!\n\nContoh:\n${usedPrefix + command} NamaGrup|@user1 @user2\n\natau bisa juga:\n${usedPrefix + command} NamaGrup`;

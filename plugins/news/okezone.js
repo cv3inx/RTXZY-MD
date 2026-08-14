@@ -1,7 +1,7 @@
 const handler = {
   help: ['okezone'],
   tags: ['news'],
-  command: /^(okezone)$/i,
+  command: 'okezone',
   group: false,
   limit: true,
   run: async (m, { conn, Api }) => {

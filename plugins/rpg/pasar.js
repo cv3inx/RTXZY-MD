@@ -27,7 +27,7 @@ const Sayam = 9000;
 const handler = {
   help: ['pasar *<sell>|<args>*'],
   tags: ['rpg'],
-  command: /^(pasar|jual)$/i,
+  command: ['pasar', 'jual'],
   rpg: true,
   run: async (m, { conn, command, args, usedPrefix, DevMode }) => {
     const { MessageType } = zapo;

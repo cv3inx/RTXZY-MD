@@ -3,7 +3,7 @@ import * as zapo from '../../lib/simple.js';
 const handler = {
   help: ['addlevel @user <jumlah level>'],
   tags: ['rpg'],
-  command: /^addlevel$/i,
+  command: 'addlevel',
   owner: true,
   rpg: true,
   run: async (m, { conn, text }) => {

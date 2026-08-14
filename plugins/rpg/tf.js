@@ -3,7 +3,7 @@
 const handler = {
   help: ['transfer <Args>'],
   tags: ['rpg'],
-  command: /^(transfer|tf)$/i,
+  command: ['transfer', 'tf'],
   owner: false,
   mods: false,
   premium: false,

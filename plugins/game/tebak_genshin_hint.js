@@ -1,5 +1,5 @@
 const handler = {
-  command: /^gca$/i,
+  command: 'gca',
   limit: true,
   run: async (m, { conn }) => {
     conn.tebakgenshin = conn.tebakgenshin ? conn.tebakgenshin : {};

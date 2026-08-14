@@ -3,7 +3,7 @@ import * as zapo from '../../lib/simple.js';
 const handler = {
   help: ['addmoney @user <jumlah money>'],
   tags: ['xp'],
-  command: /^addmoney$/i,
+  command: 'addmoney',
   owner: true,
   run: async (m, { conn, text }) => {
     const { MessageType } = zapo;

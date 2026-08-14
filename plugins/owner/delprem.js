@@ -3,7 +3,7 @@ import * as zapo from '../../lib/simple.js';
 const handler = {
   help: ['unprem'],
   tags: ['owner'],
-  command: /^(unprem|delprem)$/i,
+  command: ['unprem', 'delprem'],
   owner: true,
   fail: null,
   run: async (m, { conn, text, usedPrefix }) => {

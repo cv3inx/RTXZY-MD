@@ -1,7 +1,7 @@
 const handler = {
   help: ['afk [alasan]'],
   tags: ['main'],
-  command: /^afk$/i,
+  command: 'afk',
   run: async (m, { text }) => {
     let user = global.db.data.users[m.sender];
     user.afk = +new Date();

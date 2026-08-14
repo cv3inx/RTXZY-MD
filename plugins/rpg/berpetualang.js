@@ -73,7 +73,7 @@ const handler = {
   },
   help: ['berpetualang'],
   tags: ['rpg'],
-  command: /^(berpetualang)$/i,
+  command: 'berpetualang',
   group: true,
   limit: true,
   rpg: true,

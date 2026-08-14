@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 const handler = {
   tags: ['internet'],
   help: ['wallpapersearch <kata kunci>'],
-  command: /^(wallpapersearch|wps)$/i,
+  command: ['wallpapersearch', 'wps'],
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {
     if (!text) throw `Contoh: ${usedPrefix + command} game`;

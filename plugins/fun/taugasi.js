@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 const handler = {
   help: ['taugasih'],
   tags: ['fun'],
-  command: /^(taugasih)$/i,
+  command: 'taugasih',
   limit: true,
   admin: false,
   fail: null,

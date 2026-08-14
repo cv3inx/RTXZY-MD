@@ -3,7 +3,7 @@ let poin = 500;
 const handler = {
   help: ['tebakbendera'],
   tags: ['game'],
-  command: /^tebakbendera/i,
+  command: 'tebakbendera',
   register: false,
   group: true,
   run: async (m, { conn, usedPrefix, Api }) => {

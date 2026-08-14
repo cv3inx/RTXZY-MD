@@ -1,7 +1,7 @@
 const handler = {
   help: ['sfile <url>'],
   tags: ['downloader'],
-  command: /^(sfile|sfilemobi)$/i,
+  command: ['sfile', 'sfilemobi'],
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {
     if (!text) throw `*Example:* ${usedPrefix + command} https://sfile.mobi/P0D2WxqDwA7`;

@@ -1,7 +1,7 @@
 const handler = {
   help: ['addsewa', 'delsewa', 'setsewa'],
   tags: ['owner'],
-  command: /^(addsewa|delsewa|setsewa)$/i,
+  command: ['addsewa', 'delsewa', 'setsewa'],
   owner: true,
   run: async (m, { conn, command, usedPrefix, text, participants }) => {
     const groups = Object.keys(conn.chats)

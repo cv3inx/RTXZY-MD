@@ -22,7 +22,7 @@ let poin = 500;
 const handler = {
   help: ['sambungkata'],
   tags: ['game'],
-  command: /^s(ambung)?kata(debug)?$/i,
+  command: ['skata', 'skatadebug', 'sambungkata', 'sambungkatadebug'],
   limit: true,
   group: true,
   run: async (m, { conn, text, isPrems, isROwner, usedPrefix, command }) => {

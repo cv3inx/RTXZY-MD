@@ -1,6 +1,6 @@
 const handler = {
   help: ['videy'],
-  command: /^(videy|videydl)$/i,
+  command: ['videy', 'videydl'],
   tags: ['downloader'],
   limit: true,
   premium: true,

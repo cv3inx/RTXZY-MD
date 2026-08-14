@@ -3,7 +3,7 @@ let poin = 1000;
 const handler = {
   help: ['tebakml'],
   tags: ['game'],
-  command: /^tebakml/i,
+  command: 'tebakml',
   limit: false,
   group: true,
   run: async (m, { conn, usedPrefix, Api }) => {

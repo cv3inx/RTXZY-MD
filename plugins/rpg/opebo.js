@@ -1,7 +1,7 @@
 const handler = {
   help: ['openbo'],
   tags: ['rpg'],
-  command: /^(openbo)$/i,
+  command: 'openbo',
   group: true,
   rpg: true,
   run: async (m, { conn }) => {

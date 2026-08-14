@@ -1,7 +1,7 @@
 const handler = {
   help: ['kodepos'],
   tags: ['internet'],
-  command: /^(kodepos)$/i,
+  command: 'kodepos',
   run: async (m, { text, usedPrefix, command, Api }) => {
     if (!text) throw `Penggunaan:\n${usedPrefix + command} <nama daerah>\n\nContoh:\n${usedPrefix + command} Cilacap`;
     try {

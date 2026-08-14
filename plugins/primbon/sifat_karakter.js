@@ -1,7 +1,7 @@
 const handler = {
   help: ['sifatkarakter'],
   tags: ['fun'],
-  command: /^(sifatkarakter)$/i,
+  command: 'sifatkarakter',
   group: false,
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {

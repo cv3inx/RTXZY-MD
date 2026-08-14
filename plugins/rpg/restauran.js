@@ -23,7 +23,7 @@ const Hkb = 20000;
 const handler = {
   help: ['resto *<beli> <args>*'],
   tags: ['rpg'],
-  command: /^(resto|beli)$/i,
+  command: ['resto', 'beli'],
   rpg: true,
   run: async (m, { conn, command, args, usedPrefix, DevMode }) => {
     const { MessageType } = zapo;

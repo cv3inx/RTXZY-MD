@@ -1,7 +1,7 @@
 const handler = {
   help: ['tolak @tag'],
   tags: ['fun'],
-  command: /^(tolak)$/i,
+  command: 'tolak',
   group: true,
   run: async (m, { conn }) => {
     let who;

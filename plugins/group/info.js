@@ -1,7 +1,7 @@
 const handler = {
   help: ['infogrup'],
   tags: ['group'],
-  command: /^(gro?upinfo|info(gro?up|gc))$/i,
+  command: ['grupinfo', 'groupinfo', 'infogrup', 'infogroup', 'infogc'],
   group: true,
   run: async (m, { conn, participants, groupMetadata, text }) => {
     const getGroupAdmins = (participants) => {

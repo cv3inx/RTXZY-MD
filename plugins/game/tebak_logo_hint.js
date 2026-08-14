@@ -1,5 +1,5 @@
 const handler = {
-  command: /^lgo$/i,
+  command: 'lgo',
   limit: true,
   run: async (m, { conn }) => {
     conn.tebaklogo = conn.tebaklogo ? conn.tebaklogo : {};

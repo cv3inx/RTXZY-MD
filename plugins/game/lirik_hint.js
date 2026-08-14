@@ -1,5 +1,5 @@
 const handler = {
-  command: /^liga/i,
+  command: 'liga',
   limit: true,
   run: async (m, { conn }) => {
     conn.tebaklirik = conn.tebaklirik ? conn.tebaklirik : {};

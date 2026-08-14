@@ -1,7 +1,7 @@
 const handler = {
   help: ['ngepet'],
   tags: ['rpg'],
-  command: /^(ngepet|ngefet)$/i,
+  command: ['ngepet', 'ngefet'],
   premium: true,
   group: true,
   rpg: true,

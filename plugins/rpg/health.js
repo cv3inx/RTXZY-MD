@@ -1,7 +1,7 @@
 const handler = {
   help: ['heal *jumlah*'],
   tags: ['rpg'],
-  command: /^(heal|use)$/i,
+  command: ['heal', 'use'],
   limit: true,
   rpg: true,
   run: async (m, { args, usedPrefix }) => {

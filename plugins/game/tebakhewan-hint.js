@@ -1,5 +1,5 @@
 const handler = {
-  command: /^hhew$/i,
+  command: 'hhew',
   limit: true,
   run: async (m, { conn }) => {
     conn.tebakhewan = conn.tebakhewan ? conn.tebakhewan : {};

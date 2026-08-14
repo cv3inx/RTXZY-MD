@@ -1,7 +1,7 @@
 const handler = {
   help: ['douyins <query>'],
   tags: ['tools'],
-  command: /^(douyins|douyinsearch)$/i,
+  command: ['douyins', 'douyinsearch'],
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {
     if (!text) throw `*Example:* ${usedPrefix + command} ju jingyi`;

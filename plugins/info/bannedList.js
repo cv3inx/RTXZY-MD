@@ -1,7 +1,7 @@
 const handler = {
   help: ['bannedlist'],
   tags: ['info'],
-  command: /^listban(ned)?|ban(ned)?list|daftarban(ned)?$/i,
+  command: ['listban', 'listbanned', 'banlist', 'bannedlist', 'daftarban', 'daftarbanned'],
   owner: false,
   run: async (m, { conn, isOwner }) => {
     let chats = Object.entries(global.db.data.chats).filter((chat) => chat[1].isBanned);

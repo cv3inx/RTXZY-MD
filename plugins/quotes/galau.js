@@ -1,7 +1,7 @@
 const handler = {
   help: ['galau'],
   tags: ['quotes'],
-  command: /^(galau)$/i,
+  command: 'galau',
   owner: false,
   mods: false,
   premium: false,

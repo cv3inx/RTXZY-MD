@@ -1,7 +1,7 @@
 const handler = {
   help: ['selectskill <type>'],
   tags: ['rpg'],
-  command: /^(selectskill)$/i,
+  command: 'selectskill',
   register: true,
   group: true,
   rpg: true,

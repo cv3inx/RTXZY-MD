@@ -3,7 +3,7 @@
 const handler = {
   help: ['acc *option*'],
   tags: ['group'],
-  command: /^(acc)$/i,
+  command: 'acc',
   group: true,
   admin: true,
   botAdmin: true,

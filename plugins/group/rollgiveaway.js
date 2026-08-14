@@ -1,7 +1,7 @@
 const handler = {
   help: ['rollgiveaway'],
   tags: ['group'],
-  command: /^(rolling|rollgiveaway|rollinggiveaway)$/i,
+  command: ['rolling', 'rollgiveaway', 'rollinggiveaway'],
   admin: true,
   run: async (m, { conn, usedPrefix }) => {
     let id = m.chat;

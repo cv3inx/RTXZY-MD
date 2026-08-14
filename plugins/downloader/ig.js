@@ -1,7 +1,7 @@
 const handler = {
   help: ['instagram'].map((v) => v + ' <url>'),
   tags: ['downloader'],
-  command: /^(ig|instagram|igdl|instagramdl|igstory)$/i,
+  command: ['ig', 'instagram', 'igdl', 'instagramdl', 'igstory'],
   limit: true,
   run: async (m, { conn, args, usedPrefix, command, Api }) => {
     if (!args[0]) throw `*Contoh:* ${usedPrefix}${command} https://www.instagram.com/reel/DKPtUL_S9Nh/?igsh=MTE1dTVkb2E4NTFmcw==`;

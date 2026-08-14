@@ -1,7 +1,7 @@
 const handler = {
   help: ['setprefix'].map((v) => v + ' [prefix]'),
   tags: ['owner'],
-  command: /^(setprefix)$/i,
+  command: 'setprefix',
   rowner: true,
   run: async (m, { conn, text }) => {
     if (!text) throw `No Prefix detected...`;

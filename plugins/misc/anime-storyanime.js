@@ -1,7 +1,7 @@
 const handler = {
   help: ['storyanime'],
   tags: ['downloader'],
-  command: /^(storyanime)$/i,
+  command: 'storyanime',
   limir: true,
   run: async (m, { conn, Api }) => {
     try {

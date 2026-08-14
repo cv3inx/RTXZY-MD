@@ -1,7 +1,7 @@
 const handler = {
   help: ['open <crate>'],
   tags: ['rpg'],
-  command: /^(open|buka)$/i,
+  command: ['open', 'buka'],
   register: true,
   rpg: true,
   fail: null,

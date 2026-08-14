@@ -2,7 +2,7 @@ const handler = {
   help: ['', 'kah'].map((v) => 'kapan' + v + ' <text>?'),
   tags: ['kerang'],
   customPrefix: /(\?$)/,
-  command: /^kapan(kah)?$/i,
+  command: ['kapan', 'kapankah'],
   owner: false,
   mods: false,
   premium: false,

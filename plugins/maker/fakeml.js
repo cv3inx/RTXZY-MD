@@ -2,7 +2,7 @@ import uploadImage from '../../lib/media/uploadImage.js';
 const handler = {
   help: ['fakeml <username|rank|border>'],
   tags: ['maker'],
-  command: /^(fakeml)$/i,
+  command: 'fakeml',
   limit: true,
   group: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {

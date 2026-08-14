@@ -334,7 +334,7 @@ Nyawa ${P} masing masing berkurang *-${healt * 1}*, dan durability Sword kalian 
   },
   help: ['dungeon'].map((v) => v + ' *[nama room]*'),
   tags: ['rpg'],
-  command: /^(dungeon)$/i,
+  command: 'dungeon',
   rpg: true,
   mods: false,
   run: async function (m, { conn, usedPrefix, command, text }) {

@@ -1,7 +1,7 @@
 const handler = {
   help: ['ttstalk2 <username>'],
   tags: ['stalk'],
-  command: /^(ttstalk2|tiktokstalk2)$/i,
+  command: ['ttstalk2', 'tiktokstalk2'],
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {
     if (!text) throw `*Example:* ${usedPrefix + command} chikaku`;

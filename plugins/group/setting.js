@@ -1,7 +1,7 @@
 const handler = {
   help: ['grup <open/close>'],
   tags: ['group'],
-  command: /^(g(ro?up|c?)?)$/i,
+  command: ['g', 'grup', 'group', 'gc'],
   group: true,
   botAdmin: false,
   run: async (m, { isAdmin, isOwner, isBotAdmin, conn, args, usedPrefix, command }) => {

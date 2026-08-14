@@ -1,7 +1,7 @@
 const handler = {
   help: ['listpremium'],
   tags: ['info'],
-  command: /^(listpremium|premiumlist|listprem|premlist)$/i,
+  command: ['listpremium', 'premiumlist', 'listprem', 'premlist'],
   limit: true,
   run: async (m, { conn, text, usedPrefix }) => {
     function msToDate(ms) {

@@ -1,7 +1,7 @@
 const handler = {
   help: ['cekewallet'].map((v) => v + ' nomor|ewallet'),
   tags: ['tools'],
-  command: /^(cekewallet|cekwallet|saldoewallet)$/i,
+  command: ['cekewallet', 'cekwallet', 'saldoewallet'],
   limit: true,
   run: async (m, { text, usedPrefix, command, Api }) => {
     const ewalletList = ['gopay', 'ovo', 'shopeepay', 'dana'];

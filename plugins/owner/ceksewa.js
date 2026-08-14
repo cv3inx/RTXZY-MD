@@ -15,7 +15,7 @@ function msToDate(ms) {
 const handler = {
   help: ['listsewa', 'ceksewa <nomor urut>'],
   tags: ['owner'],
-  command: /^(listsewa|ceksewa|csewa)$/i,
+  command: ['listsewa', 'ceksewa', 'csewa'],
   owner: true,
   run: async (m, { conn, text, command, usedPrefix }) => {
     const { proto } = zapo;

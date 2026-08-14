@@ -3,7 +3,7 @@ const timeout = 28800000;
 const handler = {
   help: ['nebang'],
   tags: ['rpg'],
-  command: /^(nebang)/i,
+  command: 'nebang',
   group: true,
   rpg: true,
   fail: null,

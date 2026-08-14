@@ -1,7 +1,7 @@
 const handler = {
   help: ['kalkulator <soal>'],
   tags: ['tools'],
-  command: /^(calc(ulat(e|or))?|kalk(ulator)?)$/i,
+  command: ['calc', 'calculate', 'calculator', 'kalk', 'kalkulator'],
   exp: 5,
   register: false,
   run: async (m, { conn, text }) => {

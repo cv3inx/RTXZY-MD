@@ -2,7 +2,7 @@ import fs from 'fs';
 const handler = {
   help: ['sfp', 'df'].map((v) => v + ' <teks>'),
   tags: ['owner'],
-  command: /^(sf|df)$/i,
+  command: ['sf', 'df'],
   rowner: true,
   run: async (m, { text, usedPrefix, command }) => {
     if (!text) throw `uhm.. teksnya mana?\n\npenggunaan:\n${usedPrefix + command} <teks>\n\ncontoh:\n${usedPrefix + command} menu`;

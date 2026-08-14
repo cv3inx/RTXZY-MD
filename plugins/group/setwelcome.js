@@ -1,7 +1,7 @@
 const handler = {
   help: ['setwelcome <teks>'],
   tags: ['owner', 'group'],
-  command: /^setwelcome$/i,
+  command: 'setwelcome',
   botAdmin: true,
   run: async (m, { conn, text, isROwner, isOwner }) => {
     if (text) {

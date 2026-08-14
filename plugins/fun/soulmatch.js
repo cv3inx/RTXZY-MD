@@ -3,7 +3,7 @@ import moment from 'moment-timezone';
 const handler = {
   help: ['soulmatch'],
   tags: ['fun'],
-  command: /^soulmatch$/i,
+  command: 'soulmatch',
   group: true,
   limit: 1,
   run: async (m, { text, conn }) => {

@@ -1,7 +1,7 @@
 const handler = {
   help: ['guildinvite <@user>'],
   tags: ['rpgG'],
-  command: /^(guildinvite)$/i,
+  command: 'guildinvite',
   rpg: true,
   run: async (m, { conn, args }) => {
     let userId = m.sender;

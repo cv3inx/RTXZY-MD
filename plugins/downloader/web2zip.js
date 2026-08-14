@@ -1,7 +1,7 @@
 const handler = {
   help: ['web2zip <url>'],
   tags: ['downloader'],
-  command: /^(web2zip|w2z)$/i,
+  command: ['web2zip', 'w2z'],
   limit: true,
   run: async (m, { conn, args, usedPrefix, command, Api }) => {
     if (!args[0]) throw `*Example:* ${usedPrefix}${command} https://www.google.com`;

@@ -1,7 +1,7 @@
 const handler = {
   help: ['unban'],
   tags: ['owner'],
-  command: /^unban(chat)?$/i,
+  command: ['unban', 'unbanchat'],
   owner: true,
   run: async (m, { conn, isOwner, text }) => {
     if (!text) throw 'Masukkan user/id group yang ingin di unban\n\nExample: .unban 6282361160044 atau .ban 73647438@g.us';

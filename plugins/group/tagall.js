@@ -1,7 +1,7 @@
 const handler = {
   help: ['tagall <pesan>'],
   tags: ['group'],
-  command: /^(tagall)$/i,
+  command: 'tagall',
   group: true,
   admin: true,
   run: async (m, { conn, text, participants }) => {

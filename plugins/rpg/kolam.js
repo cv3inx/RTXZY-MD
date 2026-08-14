@@ -1,7 +1,7 @@
 const handler = {
   help: ['kolam'],
   tags: ['rpg'],
-  command: /^(kolam)$/i,
+  command: 'kolam',
   group: true,
   rpg: true,
   run: async (m, { conn, usedPrefix }) => {

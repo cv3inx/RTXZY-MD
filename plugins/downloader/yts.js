@@ -2,7 +2,7 @@ import yts from 'yt-search';
 const handler = {
   help: ['', 'earch'].map((v) => 'yts' + v + ' <pencarian>'),
   tags: ['tools', 'internet', 'downloader'],
-  command: /^yts(earch)?$/i,
+  command: ['yts', 'ytsearch'],
   limit: true,
   run: async (m, { text }) => {
     if (!text) throw 'Cari apa?';

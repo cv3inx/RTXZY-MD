@@ -1,7 +1,7 @@
 const handler = {
   help: ['adventure'],
   tags: ['rpg'],
-  command: /^(adventure)$/i,
+  command: 'adventure',
   limit: true,
   group: true,
   rpg: true,

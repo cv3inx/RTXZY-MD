@@ -1,7 +1,7 @@
 const handler = {
   help: ['database', 'user'],
   tags: ['info'],
-  command: /^(database|jumlahdatabase|user)$/i,
+  command: ['database', 'jumlahdatabase', 'user'],
   run: async (m) => {
     let totalreg = Object.keys(global.db.data.users).length;
     let rtotalreg = Object.values(global.db.data.users).filter((user) => user.registered == true).length;

@@ -1,7 +1,7 @@
 const handler = {
   help: ['lirik'].map((v) => v + ' <Title>'),
   tags: ['internet'],
-  command: /^(lirik|lyrics|lyric)$/i,
+  command: ['lirik', 'lyrics', 'lyric'],
   run: async (m, { conn, text, usedPrefix, command, Api }) => {
     if (!text) throw `Ex: ${usedPrefix}${command} Jiwa yang bersedih`;
     await m.reply(wait);

@@ -1,5 +1,5 @@
 const handler = {
-  command: /^susn/i,
+  command: 'susn',
   limit: true,
   run: async (m, { conn }) => {
     conn.susun = conn.susun ? conn.susun : {};

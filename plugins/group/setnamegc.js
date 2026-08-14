@@ -1,7 +1,7 @@
 const handler = {
   help: ['setnamegc'],
   tags: ['group'],
-  command: /^setnamegc$/i,
+  command: 'setnamegc',
   owner: false,
   mods: false,
   premium: false,

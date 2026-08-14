@@ -1,7 +1,7 @@
 const handler = {
   help: ['ytstalk'],
   tags: ['stalk'],
-  command: /^(youtubestalk|ytstalk)$/i,
+  command: ['youtubestalk', 'ytstalk'],
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {
     if (!text) throw `Contoh:\n${usedPrefix + command} deaafrizal`;

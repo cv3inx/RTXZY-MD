@@ -3,7 +3,7 @@ import * as zapo from '../../lib/simple.js';
 const handler = {
   help: ['device'],
   tags: ['tools'],
-  command: /^(device)$/i,
+  command: 'device',
   run: async (m) => {
     const { getDevice } = zapo;
 

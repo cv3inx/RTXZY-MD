@@ -3,7 +3,7 @@ import levelling from '../../lib/system/levelling.js';
 const handler = {
   help: ['levelup'],
   tags: ['xp'],
-  command: /^level(|up)$/i,
+  command: ['level', 'levelup'],
   run: (m) => {
     let user = global.db.data.users[m.sender];
     if (!levelling.canLevelUp(user.level, user.exp, global.multiplier)) {

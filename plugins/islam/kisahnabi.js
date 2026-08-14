@@ -3,7 +3,7 @@ const listnabi = ['adam', 'ayyub', 'daud', 'dzulkifli', 'harun', 'hud', 'ibrahim
 const handler = {
   help: ['kisahnabi'],
   tags: ['islam'],
-  command: /^(kisahnabi)$/i,
+  command: 'kisahnabi',
   group: false,
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {

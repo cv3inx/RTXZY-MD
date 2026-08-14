@@ -3,7 +3,7 @@ import * as zapo from '../../lib/simple.js';
 const handler = {
   help: ['list'].map((v) => 'update' + v + ' <nama>'),
   tags: ['store'],
-  command: /^updatelist$/i,
+  command: 'updatelist',
   group: true,
   admin: true,
   run: async (m, { conn, text, command, usedPrefix }) => {

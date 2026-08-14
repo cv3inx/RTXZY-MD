@@ -1,7 +1,7 @@
 const handler = {
   help: ['readmore'].map((v) => v + ' <teks>|<teks>'),
   tags: ['tools'],
-  command: /^(spoiler|hidetext|readmore|selengkapnya)$/i,
+  command: ['spoiler', 'hidetext', 'readmore', 'selengkapnya'],
   owner: false,
   mods: false,
   premium: false,

@@ -1,7 +1,7 @@
 const handler = {
   help: ['sawer'],
   tags: ['rpg'],
-  command: /^(sawer|nyawer)$/i,
+  command: ['sawer', 'nyawer'],
   group: true,
   rpg: true,
   run: async (m, { groupMetadata, command, conn, text, args, usedPrefix }) => {

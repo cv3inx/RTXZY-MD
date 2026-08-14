@@ -3,7 +3,7 @@ let Reg = /\|?(.*)([.|] *?)([0-9]*)$/i;
 const handler = {
   help: ['daftar', 'reg', 'register'].map((v) => v + ' <nama>.<umur>'),
   tags: ['xp'],
-  command: /^(daftar|reg(ister)?)$/i,
+  command: ['daftar', 'reg', 'register'],
   run: async function (m, { text, usedPrefix }) {
     let user = global.db.data.users[m.sender];
     if (user.registered === true) throw `Anda sudah terdaftar\nMau daftar ulang? ${usedPrefix}unreg <SN|SERIAL NUMBER>`;

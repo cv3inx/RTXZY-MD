@@ -1,7 +1,7 @@
 const handler = {
   help: ['reset'],
   tags: ['owner'],
-  command: /^reset$/i,
+  command: 'reset',
   owner: true,
   group: false,
   botAdmin: false,

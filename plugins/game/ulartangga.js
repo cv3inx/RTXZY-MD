@@ -27,7 +27,7 @@ let data = [
 ];
 
 const handler = {
-  command: /^(ulartangga|ut)$/i,
+  command: ['ulartangga', 'ut'],
   help: 'ulartangga',
   tags: 'game',
   owner: false,

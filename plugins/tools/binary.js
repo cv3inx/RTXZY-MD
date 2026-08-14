@@ -3,7 +3,7 @@ import axios from 'axios';
 const handler = {
   help: ['binary'].map((v) => v + ' <teks>'),
   tags: ['tools'],
-  command: /^(binary)$/i,
+  command: 'binary',
   owner: false,
   mods: false,
   premium: false,

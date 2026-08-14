@@ -1,7 +1,7 @@
 const handler = {
   help: ['namaninja <teks>'],
   tags: ['fun'],
-  command: /^(namaninja|namae)$/i,
+  command: ['namaninja', 'namae'],
   run: function (m, { text }) {
     let teks = text ? text : m.quoted && m.quoted.text ? m.quoted.text : m.text;
     m.reply(

@@ -2,7 +2,7 @@
 const handler = {
   help: ['createakunyt', 'deleteakun'], // Add 'deleteakun' to help commands
   tags: ['rpg'],
-  command: /^(createakunyt|deleteakun)$/i, // Modify to include deleteakun command
+  command: ['createakunyt', 'deleteakun'], // Modify to include deleteakun command
   register: true,
   group: true,
   rpg: true,

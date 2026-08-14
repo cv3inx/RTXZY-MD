@@ -14,7 +14,7 @@ const modes = {
 const handler = {
   help: ['math <mode>'],
   tags: ['game'],
-  command: /^math/i,
+  command: 'math',
   run: async (m, { conn, args, usedPrefix, Api }) => {
     conn.math = conn.math ? conn.math : {};
 

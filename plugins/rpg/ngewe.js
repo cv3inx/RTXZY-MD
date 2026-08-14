@@ -1,7 +1,7 @@
 const handler = {
   help: ['ngewe'],
   tags: ['rpg'],
-  command: /^(ngewe|anu)$/i,
+  command: ['ngewe', 'anu'],
   register: true,
   premium: false,
   rpg: true,

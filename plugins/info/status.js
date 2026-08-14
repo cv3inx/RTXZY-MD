@@ -3,7 +3,7 @@ import osu from 'node-os-utils';
 const handler = {
   help: ['', 'bot'].map((v) => 'status' + v),
   tags: ['info'],
-  command: /^(bot)?stat(us)?(bot)?$/i,
+  command: ['stat', 'statbot', 'status', 'statusbot', 'botstat', 'botstatbot', 'botstatus', 'botstatusbot'],
   run: async (m, { conn, command, usedPrefix, DevMode }) => {
     try {
       let NotDetect = 'Not Detect';

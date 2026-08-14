@@ -1,6 +1,6 @@
 const handler = {
   help: ['spotify'],
-  command: /^(spotify)$/i,
+  command: 'spotify',
   tags: ['downloader'],
   limit: true,
   run: async (m, { conn, args, usedPrefix, command, Api }) => {

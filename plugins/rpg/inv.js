@@ -1,7 +1,7 @@
 const handler = {
   help: ['inventory *@user*'],
   tags: ['rpg'],
-  command: /^inv|inventory$/i,
+  command: ['inv', 'inventory'],
   rpg: true,
   run: async (m, { conn, args }) => {
     let target = m.mentionedJid[0] || m.sender;

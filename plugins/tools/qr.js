@@ -3,7 +3,7 @@ import qrcode from 'qrcode';
 const handler = {
   help: ['', 'code'].map((v) => 'qr' + v + ' <teks>'),
   tags: ['tools'],
-  command: /^qr(code)?$/i,
+  command: ['qr', 'qrcode'],
   admin: false,
   botAdmin: false,
   fail: null,

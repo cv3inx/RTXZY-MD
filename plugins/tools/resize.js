@@ -5,7 +5,7 @@ import uploadFile from '../../lib/media/uploadFile.js';
 const handler = {
   help: ['resize <width> <height> (reply|caption)'],
   tags: ['tools'],
-  command: /^(resize)$/i,
+  command: 'resize',
   run: async (m, { conn, usedPrefix, args }) => {
     let toWidth = args[0];
     let toHeight = args[1];

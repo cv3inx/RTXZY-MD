@@ -1,7 +1,7 @@
 const handler = {
   help: ['githubdl'],
   tags: ['github'],
-  command: /githubdl/i,
+  command: 'githubdl',
   limit: true,
   run: async (m, { args, usedPrefix, command }) => {
     if (!args[0]) throw 'usernamenya mana om';

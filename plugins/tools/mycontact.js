@@ -2,7 +2,7 @@ import PhoneNumber from 'awesome-phonenumber';
 const handler = {
   help: ['mycontact'],
   tags: ['tools'],
-  command: /^(me|save|saveme|mycontact)$/i,
+  command: ['me', 'save', 'saveme', 'mycontact'],
   group: true,
   limit: true,
   fail: null,

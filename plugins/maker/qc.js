@@ -8,7 +8,7 @@ import fetch from 'node-fetch';
 const handler = {
   help: ['qc'].map((v) => v + ' <text & reply>'),
   tags: ['sticker'],
-  command: /^(qc|quotely)$/i,
+  command: ['qc', 'quotely'],
   premium: false,
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, isOwner }) => {

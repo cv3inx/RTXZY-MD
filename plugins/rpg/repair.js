@@ -2,7 +2,7 @@ const handler = {
   help: ['repair', 'perbaiki'],
   tags: ['rpg'],
   group: true,
-  command: /^(repair|perbaiki)/i,
+  command: ['repair', 'perbaiki'],
   rpg: true,
   run: async (m, { conn, command, args, usedPrefix, DevMode }) => {
     let type = (args[0] || '').toLowerCase();

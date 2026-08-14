@@ -80,7 +80,7 @@ const handler = {
   },
   help: ['tambang'],
   tags: ['rpg'],
-  command: /^(tambang)$/i,
+  command: 'tambang',
   group: true,
   register: true,
   rpg: true,

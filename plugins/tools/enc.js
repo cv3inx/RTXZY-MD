@@ -3,7 +3,7 @@ import JavaScriptObfuscator from 'javascript-obfuscator';
 const handler = {
   help: ['enc'],
   tags: ['tools'],
-  command: /^enc$/i,
+  command: 'enc',
   run: async (m, { conn, text }) => {
     if (!text) throw `[!] Masukan textnya`;
     let res = JavaScriptObfuscator.obfuscate(text);

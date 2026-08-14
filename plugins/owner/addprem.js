@@ -1,7 +1,7 @@
 const handler = {
   help: ['addprem @tag|hari', 'addprem 628xxx|hari'],
   tags: ['owner'],
-  command: /^(addprem|prem|tambahprem)$/i,
+  command: ['addprem', 'prem', 'tambahprem'],
   owner: true,
   run: async (m, { conn, text, usedPrefix }) => {
     let who;

@@ -1,7 +1,7 @@
 const handler = {
   help: ['kencan'],
   tags: ['rpg'],
-  command: /^kencan$/i,
+  command: 'kencan',
   register: true,
   group: true,
   rpg: true,

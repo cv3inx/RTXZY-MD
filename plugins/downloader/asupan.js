@@ -1,7 +1,7 @@
 const handler = {
   help: ['asupan'],
   tags: ['downloader'],
-  command: /^asupan$/i,
+  command: 'asupan',
   owner: false,
   premium: false,
   group: false,

@@ -5,7 +5,7 @@ import uploadFile from '../../lib/media/uploadFile.js';
 const handler = {
   help: ['cekresolution *<foto>*', 'cekreso *<foto>*'],
   tags: ['tools'],
-  command: /^(cekreso(lution)?)$/i,
+  command: ['cekreso', 'cekresolution'],
   run: async (m, { conn, usedPrefix }) => {
     let q = m.quoted ? m.quoted : m;
     let mime = (q.msg || q).mimetype || '';

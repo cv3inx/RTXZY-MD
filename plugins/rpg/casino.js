@@ -2,7 +2,7 @@ let buatall = 1;
 const handler = {
   help: ['casino <jumlah>'],
   tags: ['rpg'],
-  command: /^(casino)$/i,
+  command: 'casino',
   register: true,
   group: true,
   rpg: true,

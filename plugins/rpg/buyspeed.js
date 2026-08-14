@@ -1,7 +1,7 @@
 const handler = {
   help: ['buyspeed <jumlah>'],
   tags: ['rpg'],
-  command: /^buyspeed$/i,
+  command: 'buyspeed',
   register: true,
   rpg: true,
   run: async (m, { conn, args }) => {

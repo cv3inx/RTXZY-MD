@@ -1,7 +1,7 @@
 const handler = {
   help: ['tutorguild'],
   tags: ['rpgG'],
-  command: /^tutorguild$/i,
+  command: 'tutorguild',
   rpg: true,
   run: async (m, { conn, usedPrefix }) => {
     let tutorial = `

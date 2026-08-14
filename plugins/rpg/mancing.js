@@ -4,7 +4,7 @@ let wm = global.wm;
 const handler = {
   help: ['mancing'],
   tags: ['rpg'],
-  command: /^(mancing|memancing)$/i,
+  command: ['mancing', 'memancing'],
   rpg: true,
   run: async (m, { conn, usedPrefix, owner }) => {
     const { MessageType } = zapo;

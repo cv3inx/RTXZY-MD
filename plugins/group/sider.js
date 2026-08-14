@@ -1,7 +1,7 @@
 const handler = {
   help: ['sider'],
   tags: ['group'],
-  command: /^(sider|gcsider)$/i,
+  command: ['sider', 'gcsider'],
   group: true,
   admin: true,
   botAdmin: true,

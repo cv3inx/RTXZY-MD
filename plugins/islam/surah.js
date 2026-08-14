@@ -1,7 +1,7 @@
 const handler = {
   help: ['surah'],
   tags: ['islam'],
-  command: /^(surah)$/i,
+  command: 'surah',
   group: false,
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {

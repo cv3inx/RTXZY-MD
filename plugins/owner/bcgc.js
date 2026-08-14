@@ -1,7 +1,7 @@
 const handler = {
   help: ['bcgcbot <teks>'],
   tags: ['owner'],
-  command: /^((broadcastgc|bcgc)bot)$/i,
+  command: ['broadcastgcbot', 'bcgcbot'],
   owner: true,
   run: async (m, { conn, isROwner, text }) => {
     const delay = (time) => new Promise((res) => setTimeout(res, time));

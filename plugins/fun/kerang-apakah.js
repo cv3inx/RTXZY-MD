@@ -2,7 +2,7 @@ const handler = {
   help: ['apakah <teks>?'],
   tags: ['kerang'],
   customPrefix: /(\?$)/,
-  command: /^apakah$/i,
+  command: 'apakah',
   owner: false,
   fail: null,
   run: async (m, { conn, text }) => {

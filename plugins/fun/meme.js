@@ -1,5 +1,5 @@
 const handler = {
-  command: /^(meme)$/i,
+  command: 'meme',
   tags: ['fun'],
   help: ['meme'],
   limit: true,

@@ -1,7 +1,7 @@
 const handler = {
   help: ['resetprefix'],
   tags: ['owner'],
-  command: /^(resetprefix)$/i,
+  command: 'resetprefix',
   rowner: true,
   run: async (m, { conn }) => {
     global.prefix = new RegExp('^[' + (opts['prefix'] || '‎xzXZ/i!#$%+£¢€¥^°=¶∆×÷π√✓©®:;?&.\\-').replace(/[|\\{}()[\]^$+*?.\-\^]/g, '\\$&') + ']');

@@ -1,7 +1,7 @@
 const handler = {
   help: ['cekprem', 'cekpremium', 'premium'],
   tags: ['info'],
-  command: /^(cekprem(ium)?|premium)$/i,
+  command: ['cekprem', 'cekpremium', 'premium'],
   run: async (m, { conn, usedPrefix }) => {
     let who;
     if (m.isGroup) {

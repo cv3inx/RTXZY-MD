@@ -3,7 +3,7 @@ import * as zapo from '../../lib/simple.js';
 const handler = {
   help: ['list'].map((v) => 'add' + v + ' <teks>'),
   tags: ['store'],
-  command: /^addlist$/i,
+  command: 'addlist',
   group: true,
   admin: true,
   run: async (m, { conn, text, command, usedPrefix }) => {

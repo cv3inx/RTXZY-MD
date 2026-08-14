@@ -1,7 +1,7 @@
 const handler = {
   help: ['ytlive'],
   tags: ['rpg'],
-  command: /^(ytlive|ytstreaming)/i,
+  command: ['ytlive', 'ytstreaming'],
   register: true,
   rpg: true,
   group: true,

@@ -1,7 +1,7 @@
 const handler = {
   help: ['font', 'styletext'].map((v) => v + ' <text>'),
   tags: ['tools'],
-  command: /^(font|styletext)$/i,
+  command: ['font', 'styletext'],
   owner: false,
   mods: false,
   premium: false,

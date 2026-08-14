@@ -1,7 +1,7 @@
 const handler = {
   help: ['block', 'unblock'],
   tags: ['owner'],
-  command: /^(block|unblock)$/i,
+  command: ['block', 'unblock'],
   owner: true,
   run: async (m, { text, conn, usedPrefix, command }) => {
     let why = `*Contoh:*\n${usedPrefix + command} @${m.sender.split('@')[0]}`;

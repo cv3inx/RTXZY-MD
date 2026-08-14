@@ -6,7 +6,7 @@ const handler = {
   help: ['family100'],
   tags: ['game'],
   group: true,
-  command: /^family100$/i,
+  command: 'family100',
   nyerah: async function (m) {
     let id = m.chat;
     if (id in conn.family) {

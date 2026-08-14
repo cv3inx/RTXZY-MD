@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 const handler = {
   help: ['scribd'].map((v) => v + ' <url>'),
   tags: ['downloader'],
-  command: /^(scribd|scribddl|dlscribd)$/i,
+  command: ['scribd', 'scribddl', 'dlscribd'],
   limit: true,
   run: async (m, { text, usedPrefix, command, Api }) => {
     if (!text) throw `*Contoh:*\n${usedPrefix + command} https://www.scribd.com/document/806367834/Pengembangan-Meta-AI`;

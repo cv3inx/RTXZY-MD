@@ -1,7 +1,7 @@
 const handler = {
   help: ['sc', 'sourcecode'],
   tags: ['info'],
-  command: /^(sc|sourcecode)$/i,
+  command: ['sc', 'sourcecode'],
   run: async (m, { conn }) => {
     let ye = `@${m.sender.split`@`[0]}`;
     let esce = `

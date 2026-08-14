@@ -2,7 +2,7 @@ const timeout = 1800000;
 const handler = {
   help: ['berkebon'],
   tags: ['rpg'],
-  command: /^(berkebon)/i,
+  command: 'berkebon',
   owner: false,
   mods: false,
   premium: false,

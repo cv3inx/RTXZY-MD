@@ -1,5 +1,5 @@
 const handler = {
-  command: /^tela/i,
+  command: 'tela',
   limit: true,
   run: async (m, { conn }) => {
     conn.tebakkalimat = conn.tebakkalimat ? conn.tebakkalimat : {};

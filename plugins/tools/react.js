@@ -2,7 +2,7 @@ const __dirname = import.meta.dirname;
 const handler = {
   help: ['react <emoji>'],
   tags: ['tools'],
-  command: /^(react)$/i,
+  command: 'react',
   run: async (m, { conn, usedPrefix: _p, __dirname, args, text, usedPrefix }) => {
     let notreply = 'Balas Chatnya !';
     if (!m.quoted) throw notreply;

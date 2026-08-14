@@ -7,7 +7,7 @@ let fontPath = 'src/font/Zahraaa.ttf';
 const handler = {
   help: ['n'].map((v) => v + 'ulis <teks>'),
   tags: ['tools'],
-  command: /^nulis$/i,
+  command: 'nulis',
   run: async (m, { conn, args }) => {
     if (!global.support.convert && !global.support.magick && !global.support.gm) return (handler.disabled = true); // Disable if doesnt support
     let inputPath = 'src/kertas/magernulis1.jpg';

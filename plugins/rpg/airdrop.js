@@ -5,7 +5,7 @@ let timeout = 3600000; // 1 jam dalam milidetik
 const handler = {
   help: ['airdrop'],
   tags: ['rpg'],
-  command: /^(airdrop)$/i,
+  command: 'airdrop',
   group: true,
   rpg: true,
   run: async (m, { conn, args, usedPrefix, DevMode }) => {

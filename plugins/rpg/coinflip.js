@@ -4,7 +4,7 @@ import { Sticker, StickerTypes } from 'wa-sticker-formatter';
 const handler = {
   help: ['coinflip'],
   tags: ['rpg'],
-  command: /^(coinflip|putarkoin)$/i,
+  command: ['coinflip', 'putarkoin'],
   rpg: true,
   run: async (m, { conn, args, text }) => {
     var arr = ['atas', 'bawah'];

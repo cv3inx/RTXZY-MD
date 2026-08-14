@@ -5,7 +5,7 @@ import fs from 'fs';
 const handler = {
   help: ['tebaktokoh'],
   tags: ['game'],
-  command: /^tebaktokoh/i,
+  command: 'tebaktokoh',
   limit: false,
   group: true,
   run: async (m, { conn, usedPrefix, Api }) => {

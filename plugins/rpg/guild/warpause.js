@@ -1,7 +1,7 @@
 const handler = {
   help: ['guildwarpause'],
   tags: ['rpgG'],
-  command: /^(guildwarpause)$/i,
+  command: 'guildwarpause',
   rpg: true,
   run: async (m, { conn }) => {
     let userId = m.sender;

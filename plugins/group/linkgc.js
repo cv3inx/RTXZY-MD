@@ -1,7 +1,7 @@
 const handler = {
   help: ['linkgroup'],
   tags: ['group'],
-  command: /^link(g(c)?ro?up)?$/i,
+  command: ['link', 'linkgrup', 'linkgroup', 'linkgcrup', 'linkgcroup'],
   group: true,
   admin: true,
   run: async (m, { conn }) => {

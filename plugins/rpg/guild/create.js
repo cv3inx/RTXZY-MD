@@ -4,7 +4,7 @@ const dbPath = './database.json'; // Path ke database file
 const handler = {
   help: ['createguild <nama_guild>'],
   tags: ['rpgG'],
-  command: /^(createguild)$/i,
+  command: 'createguild',
   owner: false,
   rpg: true,
   run: async (m, { conn, args }) => {

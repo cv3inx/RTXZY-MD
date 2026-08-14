@@ -1,7 +1,7 @@
 const handler = {
   help: ['revoke'],
   tags: ['group'],
-  command: /^revoke$/i,
+  command: 'revoke',
   group: true,
   botAdmin: true,
   run: async (m, { isAdmin, isOwner, conn, command }) => {

@@ -3,7 +3,7 @@ import uploadImage from '../../lib/media/uploadImage.js';
 const handler = {
   help: ['wm', 'watermark'],
   tags: ['sticker'],
-  command: /^wm|watermark?$/i,
+  command: ['wm', 'watermar', 'watermark'],
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {
     let q = m.quoted ? m.quoted : m;

@@ -1,7 +1,7 @@
 const handler = {
   help: ['chord <judul lagu>'],
   tags: ['internet'],
-  command: /^(chord)$/i,
+  command: 'chord',
   limit: true,
   run: async (m, { text, command, usedPrefix, Api }) => {
     if (!text) throw `Example: ${usedPrefix + command} Janji Suci Yovie Nuno`;

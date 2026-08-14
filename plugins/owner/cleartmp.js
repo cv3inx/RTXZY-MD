@@ -4,7 +4,7 @@ import { join } from 'path';
 const handler = {
   help: ['cleartmp'],
   tags: ['owner'],
-  command: /^(cleartmp)$/i,
+  command: 'cleartmp',
   rowner: true,
   run: async (m, { conn, usedPrefix, args }) => {
     const tmp = ['./tmp'];

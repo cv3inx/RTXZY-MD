@@ -1,7 +1,7 @@
 const handler = {
   help: ['runtime'],
   tags: ['info'],
-  command: /^(uptime|runtime)$/i,
+  command: ['uptime', 'runtime'],
   run: async (m, { conn, usedPrefix, command }) => {
     let _uptime = process.uptime() * 1000;
     let tio = clockString(_uptime);

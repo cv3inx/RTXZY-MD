@@ -1,7 +1,7 @@
 const handler = {
   help: ['terima @tag'],
   tags: ['fun'],
-  command: /^(terima)$/i,
+  command: 'terima',
   group: true,
   run: async (m, { conn, usedPrefix }) => {
     let who;

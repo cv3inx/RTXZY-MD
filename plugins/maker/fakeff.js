@@ -1,7 +1,7 @@
 const handler = {
   help: ['fakeff <username|lobby>'],
   tags: ['maker'],
-  command: /^(fakeff)$/i,
+  command: 'fakeff',
   limit: true,
   group: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {

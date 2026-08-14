@@ -4,7 +4,7 @@ const dbPath = './database.json'; // Path ke database file
 const handler = {
   help: ['delguild <nomor_guild>'],
   tags: ['rpgG'],
-  command: /^(delguild)$/i,
+  command: 'delguild',
   owner: false,
   rpg: true,
   run: async (m, { conn, args }) => {

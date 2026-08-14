@@ -6,7 +6,7 @@ import ocrapi from 'ocr-space-api-wrapper';
 const handler = {
   help: ['ocr', 'totext'],
   tags: ['tools'],
-  command: /^(ocr|totext)$/i,
+  command: ['ocr', 'totext'],
   limit: true,
   run: async (m, { conn, text }) => {
     let q = m.quoted ? m.quoted : m;

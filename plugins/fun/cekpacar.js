@@ -1,7 +1,7 @@
 const handler = {
   help: ['cekpacar'],
   tags: ['fun'],
-  command: /^(cekpacar)$/i,
+  command: 'cekpacar',
   limit: true,
   group: true,
   fail: null,

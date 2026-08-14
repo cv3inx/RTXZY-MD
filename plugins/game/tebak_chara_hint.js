@@ -1,5 +1,5 @@
 const handler = {
-  command: /^chrd$/i,
+  command: 'chrd',
   limit: true,
   run: async (m, { conn }) => {
     conn.tebakchara = conn.tebakchara ? conn.tebakchara : {};

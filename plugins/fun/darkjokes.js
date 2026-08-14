@@ -1,5 +1,5 @@
 const handler = {
-  command: /^(darkjokes)$/i,
+  command: 'darkjokes',
   tags: ['fun'],
   help: ['darkjokes'],
   limit: true,

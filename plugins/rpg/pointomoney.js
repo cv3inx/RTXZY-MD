@@ -1,7 +1,7 @@
 const handler = {
   help: ['pointomoney'],
   tags: ['rpg'],
-  command: /^pointomoney$/i,
+  command: 'pointomoney',
   register: true,
   limit: true,
   rpg: true,

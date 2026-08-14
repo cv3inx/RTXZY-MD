@@ -2,7 +2,7 @@
 const handler = {
   help: ['merampok *@user*'],
   tags: ['rpg'],
-  command: /^merampok$/,
+  command: 'merampok',
   limit: true,
   group: true,
   rpg: true,

@@ -1,7 +1,7 @@
 const handler = {
   help: ['nomerhoki nomor?'],
   tags: ['fun'],
-  command: /^(nomerhoki)$/i,
+  command: 'nomerhoki',
   group: false,
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {

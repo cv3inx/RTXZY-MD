@@ -1,5 +1,5 @@
 const handler = {
-  command: /^kmi/i,
+  command: 'kmi',
   limit: true,
   run: async (m, { conn }) => {
     conn.kimia = conn.kimia ? conn.kimia : {};

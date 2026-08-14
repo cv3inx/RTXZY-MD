@@ -2,7 +2,7 @@ import uploadImage from '../../lib/media/uploadImage.js';
 const handler = {
   help: ['fakecall <nama|durasi>'],
   tags: ['maker'],
-  command: /^(fakecall(andro)?)$/i,
+  command: ['fakecall', 'fakecallandro'],
   limit: true,
   group: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {

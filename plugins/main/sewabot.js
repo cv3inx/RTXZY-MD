@@ -1,7 +1,7 @@
 const handler = {
   help: ['sewabot'],
   tags: ['main'],
-  command: /^(sewa|sewabot)$/i,
+  command: ['sewa', 'sewabot'],
   run: async (m, { conn, command }) => {
     let txt = `*[ Chat Dengan Creator ]*
 wa.me/${numberowner}

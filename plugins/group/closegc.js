@@ -3,7 +3,7 @@ import moment from 'moment-timezone';
 const timeZone = 'Asia/Jakarta';
 
 const handler = {
-  command: /^(aktif|mati)$/i,
+  command: ['aktif', 'mati'],
   help: ['aktif closegc jam tutup|jam buka', 'mati closegc'],
   tags: ['group'],
   admin: true,

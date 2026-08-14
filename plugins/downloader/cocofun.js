@@ -1,6 +1,6 @@
 const handler = {
   help: ['cocofun'].map((v) => v + ' <url>'),
-  command: /^(cocofun|cocofundl|dlcocofun)$/i,
+  command: ['cocofun', 'cocofundl', 'dlcocofun'],
   tags: ['downloader'],
   limit: true,
   group: false,

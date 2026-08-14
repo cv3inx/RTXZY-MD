@@ -1,7 +1,7 @@
 const handler = {
   help: ['pelabuhan <command>'],
   tags: ['game'],
-  command: /^pelabuhan$/i,
+  command: 'pelabuhan',
   limit: true,
   rpg: true,
   group: true,

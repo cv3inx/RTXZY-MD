@@ -1,5 +1,5 @@
 const handler = {
-  command: /^mka/i,
+  command: 'mka',
   limit: true,
   run: async (m, { conn }) => {
     conn.merdeka = conn.merdeka ? conn.merdeka : {};

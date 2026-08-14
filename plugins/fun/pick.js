@@ -1,7 +1,7 @@
 const handler = {
   help: ['pick <jumlah> <teks>'],
   tags: ['fun'],
-  command: /^pick/i,
+  command: 'pick',
   run: async (m, { text, args, participants, command }) => {
     if ((args[0] < 0, args.length < 2)) throw 'Example: #pick 15 gay';
     let users = participants.map((u) => u.jid);

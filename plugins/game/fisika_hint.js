@@ -1,5 +1,5 @@
 const handler = {
-  command: /^fska/i,
+  command: 'fska',
   limit: true,
   run: async (m, { conn }) => {
     conn.fisika = conn.fisika ? conn.fisika : {};

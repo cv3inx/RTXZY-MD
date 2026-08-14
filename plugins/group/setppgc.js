@@ -5,7 +5,7 @@ import Jimp from 'jimp';
 const handler = {
   help: ['setppgc'],
   tags: ['group'],
-  command: /^(setppgc|setppgrup|setppgroup)$/i,
+  command: ['setppgc', 'setppgrup', 'setppgroup'],
   group: true,
   admin: true,
   botAdmin: true,

@@ -3,7 +3,7 @@ import fs from 'fs';
 const handler = {
   help: ['sticker'],
   tags: ['sticker'],
-  command: /^(stiker|s|sticker)$/i,
+  command: ['stiker', 's', 'sticker'],
   limit: true,
   run: async (m, { conn, command, usedPrefix }) => {
     let q = m.quoted ? m.quoted : m;

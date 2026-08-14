@@ -6,7 +6,7 @@ import { sticker5 } from '../../lib/media/sticker.js';
 const handler = {
   help: ['emojimix'],
   tags: ['sticker'],
-  command: /^(emojimix)$/i,
+  command: 'emojimix',
   limit: true,
   run: async (m, { conn, text, args, Api }) => {
     const { MessageType } = zapo;

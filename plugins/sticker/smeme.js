@@ -5,7 +5,7 @@ import fetch from 'node-fetch';
 const handler = {
   help: ['stickermeme <teks>|<teks>'],
   tags: ['sticker'],
-  command: /^(s(tic?ker)?me(me)?)$/i,
+  command: ['sme', 'smeme', 'stikerme', 'stikermeme', 'stickerme', 'stickermeme'],
   limit: false,
   run: async (m, { conn, text, usedPrefix, command }) => {
     let [atas, bawah] = text.split`|`;

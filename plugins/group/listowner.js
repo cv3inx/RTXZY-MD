@@ -2,7 +2,7 @@ import fs from 'fs';
 const handler = {
   help: ['group'],
   tags: ['owner'],
-  command: /^(listowner|ownerlist)$/i,
+  command: ['listowner', 'ownerlist'],
   owner: true,
   group: true,
   run: async (m, { conn, isOwner }) => {

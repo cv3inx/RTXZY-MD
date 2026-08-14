@@ -1,7 +1,7 @@
 const handler = {
   help: ['guildupgrade <level/eliksir/harta/guardian/attack>'],
   tags: ['rpgG'],
-  command: /^(guildupgrade)$/i,
+  command: 'guildupgrade',
   rpg: true,
   run: async (m, { conn, args }) => {
     let userId = m.sender;

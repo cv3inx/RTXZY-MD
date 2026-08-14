@@ -4,7 +4,7 @@ import path from 'path';
 const handler = {
   help: ['getplugin'].map((v) => v + ' [filename]'),
   tags: ['owner'],
-  command: /^(getplugin|get ?plugin|gp)$/i,
+  command: ['getplugin', 'get plugin', 'gp'],
   rowner: true,
   run: async (m, { usedPrefix, command, text }) => {
     if (!text) throw `where is the text?\n\nexempel: ${usedPrefix + command} menu`;

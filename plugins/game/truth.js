@@ -1,7 +1,7 @@
 const handler = {
   help: ['truth'],
   tags: ['fun'],
-  command: /^(truth|kebenaran|kejujuran)$/i,
+  command: ['truth', 'kebenaran', 'kejujuran'],
   limit: true,
   run: async (m, { conn, Api }) => {
     let img = 'https://i.ibb.co/305yt26/bf84f20635dedd5dde31e7e5b6983ae9.jpg';

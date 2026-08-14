@@ -1,7 +1,7 @@
 const handler = {
   help: ['tembak @tag'],
   tags: ['fun'],
-  command: /^(tembak)$/i,
+  command: 'tembak',
   group: true,
   run: async (m, { conn, usedPrefix, text }) => {
     let who;

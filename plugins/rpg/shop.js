@@ -115,7 +115,7 @@ const WeapStock = 50;
 const handler = {
   help: ['shop <sell|buy> <args>'],
   tags: ['rpg'],
-  command: /^(shop|toko|buy|beli|sell|jual)$/i,
+  command: ['shop', 'toko', 'buy', 'beli', 'sell', 'jual'],
   limit: true,
   group: true,
   rpg: true,

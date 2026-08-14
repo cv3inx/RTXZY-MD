@@ -1,7 +1,7 @@
 const handler = {
   help: ['cuaca'],
   tags: ['internet'],
-  command: /^(cuaca|weather)$/i,
+  command: ['cuaca', 'weather'],
   run: async (m, { text, usedPrefix, command, Api }) => {
     if (!text) throw `Penggunaan:\n${usedPrefix + command} <teks>\n\nContoh:\n${usedPrefix + command} Jakarta`;
     try {

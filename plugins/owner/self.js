@@ -2,7 +2,7 @@ const handler = {
   help: ['self', 'public'],
   tags: ['owner'],
   owner: true,
-  command: /^(self|public)/i,
+  command: ['self', 'public'],
   run: async (m, { conn, command }) => {
     let isPublic = command === 'public';
     let self = global.opts['self'];

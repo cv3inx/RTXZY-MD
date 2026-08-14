@@ -1,7 +1,7 @@
 const handler = {
   help: ['mengaji', 'ngaji'],
   tags: ['rpg'],
-  command: /^(mengajikeliling|mengaji|ngaji|ustad|ustadz|ustaz)$/i,
+  command: ['mengajikeliling', 'mengaji', 'ngaji', 'ustad', 'ustadz', 'ustaz'],
   register: true,
   rpg: true,
   run: async (m, { conn }) => {

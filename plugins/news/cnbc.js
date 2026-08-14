@@ -1,7 +1,7 @@
 const handler = {
   help: ['cnbc'],
   tags: ['news'],
-  command: /^(cnbc)$/i,
+  command: 'cnbc',
   group: false,
   limit: true,
   run: async (m, { conn, Api }) => {

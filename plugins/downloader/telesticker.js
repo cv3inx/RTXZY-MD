@@ -1,6 +1,6 @@
 const handler = {
   help: ['telesticker'],
-  command: /^(telesticker|stele)$/i,
+  command: ['telesticker', 'stele'],
   tags: ['sticker'],
   premium: true,
   limit: true,

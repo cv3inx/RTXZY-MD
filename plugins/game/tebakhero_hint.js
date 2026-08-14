@@ -1,5 +1,5 @@
 const handler = {
-  command: /^tml$/i,
+  command: 'tml',
   limit: true,
   run: async (m, { conn }) => {
     conn.tebakml = conn.tebakml ? conn.tebakml : {};

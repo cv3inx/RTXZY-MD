@@ -1,5 +1,5 @@
 const handler = {
-  command: /^kpp$/i,
+  command: 'kpp',
   limit: true,
   run: async (m, { conn }) => {
     conn.tebakkpop = conn.tebakkpop ? conn.tebakkpop : {};

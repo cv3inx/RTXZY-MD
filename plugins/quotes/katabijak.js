@@ -1,7 +1,7 @@
 const handler = {
   help: ['katabijak'],
   tags: ['quotes'],
-  command: /^(katabijak)$/i,
+  command: 'katabijak',
   owner: false,
   mods: false,
   premium: false,

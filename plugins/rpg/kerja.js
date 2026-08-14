@@ -1,7 +1,7 @@
 const handler = {
   help: ['kerja'],
   tags: ['rpg'],
-  command: /^kerja$/i,
+  command: 'kerja',
   register: true,
   group: true,
   rpg: true,

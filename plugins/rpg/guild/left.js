@@ -1,7 +1,7 @@
 const handler = {
   help: ['guildleave'],
   tags: ['rpgG'],
-  command: /^(guildleave)$/i,
+  command: 'guildleave',
   rpg: true,
   run: async (m, { conn }) => {
     let userId = m.sender;

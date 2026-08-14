@@ -13,7 +13,7 @@ import moment from 'moment-timezone';
 const handler = {
   help: ['proses', 'done'],
   tags: ['store'],
-  command: /^(proses|done)$/i,
+  command: ['proses', 'done'],
   group: false,
   botAdmin: true,
   run: async (m, { conn, usedPrefix, command, groupMetadata, isOwner, isAdmin, args }) => {

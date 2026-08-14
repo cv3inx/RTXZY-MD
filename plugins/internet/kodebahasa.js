@@ -1,7 +1,7 @@
 const handler = {
   help: ['kodebahasa'],
   tags: ['internet'],
-  command: /^kodebahasa$/i,
+  command: 'kodebahasa',
   run: async (m) =>
     m.reply(
       `

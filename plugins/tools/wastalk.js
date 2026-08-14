@@ -8,7 +8,7 @@ let regionNames = new Intl.DisplayNames(['en'], {
 const handler = {
   help: ['wastalk'],
   tags: ['tools'],
-  command: /^(wa|whatsapp)stalk$/i,
+  command: ['wastalk', 'whatsappstalk'],
   limit: true,
   run: async (m, { conn, text, usedPrefix, command: cmd }) => {
     let num = m.quoted?.sender || m.mentionedJid?.[0] || text;

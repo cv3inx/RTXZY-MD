@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 const handler = {
   help: ['npmsearch'],
   tags: ['tools'],
-  command: /^npm(js|search)?$/i,
+  command: ['npm', 'npmjs', 'npmsearch'],
   run: async (m, { text }) => {
     if (!text) throw 'Input Query';
     let res = await fetch(`http://registry.npmjs.com/-/v1/search?text=${text}`);

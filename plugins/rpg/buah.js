@@ -1,7 +1,7 @@
 const handler = {
   help: ['buah'],
   tags: ['rpg'],
-  command: /^(buah|listbuah)$/i,
+  command: ['buah', 'listbuah'],
   rpg: true,
   run: async (m, { conn, usedPrefix }) => {
     let user = global.db.data.users[m.sender];

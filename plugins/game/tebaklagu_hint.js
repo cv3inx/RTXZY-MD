@@ -1,5 +1,5 @@
 const handler = {
-  command: /^lag$/i,
+  command: 'lag',
   limit: true,
   run: async (m, { conn }) => {
     conn.tebaklagu = conn.tebaklagu ? conn.tebaklagu : {};

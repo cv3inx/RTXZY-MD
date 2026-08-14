@@ -1,7 +1,7 @@
 const handler = {
   help: ['drakememe <teks1|teks2>'],
   tags: ['maker'],
-  command: /^(drakememe)$/i,
+  command: 'drakememe',
   limit: true,
   group: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {

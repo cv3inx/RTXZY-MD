@@ -1,7 +1,7 @@
 const handler = {
   help: ['feed'],
   tags: ['rpg'],
-  command: /^(feed(ing)?)$/i,
+  command: ['feed', 'feeding'],
   register: true,
   rpg: true,
   run: async (m, { conn, args, usedPrefix }) => {

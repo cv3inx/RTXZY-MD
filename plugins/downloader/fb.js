@@ -1,6 +1,6 @@
 const handler = {
   help: ['facebook'].map((v) => v + ' <url>'),
-  command: /^(fb|facebook|facebookdl|fbdl|fbdown|dlfb)$/i,
+  command: ['fb', 'facebook', 'facebookdl', 'fbdl', 'fbdown', 'dlfb'],
   tags: ['downloader'],
   limit: true,
   group: false,

@@ -1,7 +1,7 @@
 const handler = {
   help: ['ghstalk <username>'],
   tags: ['stalk'],
-  command: /^(ghstalk|githubstalk)$/i,
+  command: ['ghstalk', 'githubstalk'],
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {
     if (!text) throw `*Example:* ${usedPrefix + command} botcahx`;

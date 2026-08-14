@@ -2,7 +2,7 @@ const handler = {
   help: ['masak <masakan> <args>', 'cook <masakan> <args>'],
   tags: ['rpg'],
   group: true,
-  command: /^(masak|cook)$/i,
+  command: ['masak', 'cook'],
   rpg: true,
   run: async (m, { conn, command, usedPrefix, DevMode, args }) => {
     let type = (args[0] || '').toLowerCase();

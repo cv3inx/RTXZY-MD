@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 const handler = {
   help: ['ava <@tag/reply>'],
   tags: ['group'],
-  command: /^(avatar|ava)$/i,
+  command: ['avatar', 'ava'],
   group: true,
   limit: true,
   run: async (m, { conn, command }) => {

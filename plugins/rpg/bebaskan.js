@@ -1,7 +1,7 @@
 const handler = {
   help: ['bebaskan'],
   tags: ['rpg'],
-  command: /^bebaskan$/i,
+  command: 'bebaskan',
   owner: false,
   admin: false,
   rpg: true,

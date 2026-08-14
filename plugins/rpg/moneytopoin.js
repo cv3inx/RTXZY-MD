@@ -1,7 +1,7 @@
 const handler = {
   help: ['moneytopoin *<amount>*'],
   tags: ['rpg'],
-  command: /^moneytopoin$/i,
+  command: 'moneytopoin',
   register: true,
   limit: true,
   rpg: true,

@@ -2,7 +2,7 @@ const items = ['money', 'diamond', 'emas', 'berlian'];
 const handler = {
   help: ['judipvp <type> <count> <tag>'],
   tags: ['rpg'],
-  command: /^(judipvp)$/i,
+  command: 'judipvp',
   register: true,
   group: true,
   rpg: true,

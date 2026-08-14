@@ -1,7 +1,7 @@
 import { emoji_role, sesi, playerOnGame, playerOnRoom, playerExit, dataPlayer, dataPlayerById, getPlayerById, getPlayerById2, killWerewolf, killww, dreamySeer, sorcerer, protectGuardian, roleShuffle, roleChanger, roleAmount, roleGenerator, addTimer, startGame, playerHidup, playerMati, vote, voteResult, clearAllVote, getWinner, win, pagi, malam, skill, voteStart, voteDone, voting, run, run_vote, run_malam, run_pagi } from '../../lib/games/werewolf.js';
 
 const handler = {
-  command: /^((ww|werewolf)pc)$/i,
+  command: ['wwpc', 'werewolfpc'],
   private: true,
   run: async (m, { conn, command, usedPrefix, args }) => {
     let { sender, chat } = m;

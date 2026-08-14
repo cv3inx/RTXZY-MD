@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 const handler = {
   help: ['slideshare'].map((v) => v + ' <url>'),
   tags: ['downloader'],
-  command: /^(slideshare|dlslideshare|slidesdl)$/i,
+  command: ['slideshare', 'dlslideshare', 'slidesdl'],
   limit: true,
   run: async (m, { text, usedPrefix, command, Api }) => {
     if (!text) throw `*Contoh:*\n${usedPrefix + command} https://www.slideshare.net/slideshow/advanced-machine-learning-introduction-to-machine-learning/273225055`;

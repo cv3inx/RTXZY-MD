@@ -1,5 +1,5 @@
 const handler = {
-  command: /^tdkt$/i,
+  command: 'tdkt',
   limit: true,
   run: async (m, { conn }) => {
     conn.tebakdrakor = conn.tebakdrakor ? conn.tebakdrakor : {};

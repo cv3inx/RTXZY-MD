@@ -3,7 +3,7 @@ import path from 'path';
 const handler = {
   help: ['guildstaff <tambah/hapus> <@user>'],
   tags: ['rpgG'],
-  command: /^(guildstaff)$/i,
+  command: 'guildstaff',
   rpg: true,
   run: async (m, { conn, args }) => {
     let userId = m.sender;

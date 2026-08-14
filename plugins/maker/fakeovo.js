@@ -1,7 +1,7 @@
 const handler = {
   help: ['fakeovo <nominal>'],
   tags: ['maker'],
-  command: /^(fakeovo)$/i,
+  command: 'fakeovo',
   limit: true,
   run: async (m, { conn, text, usedPrefix, command, Api }) => {
     if (!text) {

@@ -6,7 +6,7 @@ import Database from 'better-sqlite3';
 const handler = {
   help: ['getdb', 'getdatabase'],
   tags: ['owner'],
-  command: /^(db|getdb)$/i,
+  command: ['db', 'getdb'],
   owner: true,
   mods: false,
   premium: false,

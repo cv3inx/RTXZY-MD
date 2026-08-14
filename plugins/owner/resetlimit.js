@@ -1,7 +1,7 @@
 const handler = {
   help: ['limit'].map((v) => 'reset' + v),
   tags: ['owner'],
-  command: /^(resetlimit|risetlimit)$/i,
+  command: ['resetlimit', 'risetlimit'],
   owner: true,
   run: async (m, { conn, args }) => {
     let list = Object.entries(global.db.data.users);

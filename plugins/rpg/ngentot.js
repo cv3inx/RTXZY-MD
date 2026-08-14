@@ -1,7 +1,7 @@
 const handler = {
   help: ['ngentot'],
   tags: ['rpg'],
-  command: /^(ngentot)$/i,
+  command: 'ngentot',
   register: true,
   group: true,
   level: 70,

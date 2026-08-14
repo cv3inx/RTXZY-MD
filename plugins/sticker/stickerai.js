@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 const handler = {
   help: ['aistiker <prompt>'],
   tags: ['sticker'],
-  command: /^(aistiker|ai?s|aisticker|stickerai)$/i,
+  command: ['aistiker', 'as', 'ais', 'aisticker', 'stickerai'],
   limit: true,
   run: async (m, { conn, command, usedPrefix, text, Api }) => {
     if (!text) throw `Kirim prompt dengan cara ${usedPrefix + command} <prompt>`;

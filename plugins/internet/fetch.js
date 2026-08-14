@@ -5,7 +5,7 @@ import axios from 'axios';
 const handler = {
   help: ['fetch', 'get'].map((v) => v + ' <url>'),
   tags: ['internet'],
-  command: /^(fetch|get)$/i,
+  command: ['fetch', 'get'],
   run: async (m, { text, args }) => {
     if (!/^https?:\/\//.test(text)) throw 'Awali *URL* dengan http:// atau https://';
     try {

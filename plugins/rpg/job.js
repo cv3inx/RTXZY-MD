@@ -1,7 +1,7 @@
 const handler = {
   help: ['job'],
   tags: ['rpg'],
-  command: /^(job)$/i,
+  command: 'job',
   rpg: true,
   run: async (m, { isPrems, conn, text, usedPrefix, command }) => {
     const user = global.db.data.users[m.sender];

@@ -1,7 +1,7 @@
 const handler = {
   help: ['delowner [@user]'],
   tags: ['owner'],
-  command: /^(del|hapus|-)owner$/i,
+  command: ['delowner', 'hapusowner', '-owner'],
   owner: true,
   run: async (m, { conn, text }) => {
     let who;

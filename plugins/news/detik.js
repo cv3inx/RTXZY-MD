@@ -1,7 +1,7 @@
 const handler = {
   help: ['detik'],
   tags: ['news'],
-  command: /^(detik)$/i,
+  command: 'detik',
   group: false,
   limit: true,
   run: async (m, { conn, Api }) => {

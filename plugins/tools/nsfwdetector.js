@@ -2,7 +2,7 @@ import uploader from '../../lib/media/uploadImage.js';
 const handler = {
   help: ['nsfwdetector', 'nsfwdetect'],
   tags: ['tools'],
-  command: /^(nsfwdetector|nsfwdetect)$/i,
+  command: ['nsfwdetector', 'nsfwdetect'],
   limit: true,
   group: true,
   run: async (m, { conn, command, usedPrefix, Api }) => {

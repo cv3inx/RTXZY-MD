@@ -3,7 +3,7 @@ import * as cheerio from 'cheerio';
 const handler = {
   help: ['alkitab'].map((v) => v + ' <pencarian>'),
   tags: ['internet'],
-  command: /^(alkitab)$/i,
+  command: 'alkitab',
   run: async (m, { text, usedPrefix, command }) => {
     if (!text) throw `uhm.. teksnya mana?\n\ncontoh:\n${usedPrefix + command} kejadian`;
     let res = await axios.get(`https://alkitab.me/search?q=${encodeURIComponent(text)}`, { headers: { 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36' } });

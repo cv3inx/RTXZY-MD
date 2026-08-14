@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 const handler = {
   help: ['gitclone <url>'],
   tags: ['github'],
-  command: /gitclone/i,
+  command: 'gitclone',
   limit: true,
   run: async (m, { args, usedPrefix, command }) => {
     if (!args[0]) throw 'link githubnya mana? contoh: https://github.com/BOTCAHX/RTXZY-MD';

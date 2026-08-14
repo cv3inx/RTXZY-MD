@@ -1,7 +1,7 @@
 const handler = {
   help: ['gimage <query>', 'image <query>'],
   tags: ['internet'],
-  command: /^(gimage|image)$/i,
+  command: ['gimage', 'image'],
   run: async (m, { conn, text, usedPrefix, command, Api }) => {
     if (!text) throw `Use example ${usedPrefix}${command} Minecraft`;
     try {

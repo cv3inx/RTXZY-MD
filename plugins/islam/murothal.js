@@ -1,7 +1,7 @@
 const handler = {
   help: ['murothal'],
   tags: ['islam'],
-  command: /^(murothal)$/i,
+  command: 'murothal',
   owner: false,
   mods: false,
   premium: false,

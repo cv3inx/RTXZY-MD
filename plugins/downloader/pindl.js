@@ -1,6 +1,6 @@
 const handler = {
   help: ['pindl'],
-  command: /^(pindl|pin)$/i,
+  command: ['pindl', 'pin'],
   tags: ['downloader'],
   limit: true,
   premium: false,

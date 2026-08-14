@@ -1,7 +1,7 @@
 const handler = {
   help: ['totag'],
   tags: ['group'],
-  command: /^(totag|tag)$/i,
+  command: ['totag', 'tag'],
   admin: true,
   group: true,
   run: async (m, { conn, text, isAdmin, participants }) => {

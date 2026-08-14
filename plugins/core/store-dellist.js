@@ -1,7 +1,7 @@
 const handler = {
   help: ['list'].map((v) => 'del' + v + ' <teks>'),
   tags: ['store'],
-  command: /^dellist$/i,
+  command: 'dellist',
   admin: true,
   group: true,
   run: async (m, { text, usedPrefix, command }) => {

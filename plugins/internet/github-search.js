@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 const handler = {
   help: ['githubsearch'].map((v) => v + ' <pencarian>'),
   tags: ['tools'],
-  command: /^g(ithub|h)search$/i,
+  command: ['githubsearch', 'ghsearch'],
   run: async (m, { text }) => {
     if (!text) throw 'Cari apa?';
     let res = await fetch(

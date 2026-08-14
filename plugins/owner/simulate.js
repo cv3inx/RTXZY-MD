@@ -1,7 +1,7 @@
 const handler = {
   help: ['simulate <event> [@mention]'],
   tags: ['owner'],
-  command: /^(simulate|simulasi)$/i,
+  command: ['simulate', 'simulasi'],
   owner: false,
   run: async (m, { conn, args: [event], text }) => {
     if (!event) throw `List Event: welcome, bye, delete, promote, demote`;

@@ -4,7 +4,7 @@ import uploadImage from '../../lib/media/uploadImage.js';
 const handler = {
   help: ['tourl <reply image>'],
   tags: ['tools'],
-  command: /^(upload|tourl)$/i,
+  command: ['upload', 'tourl'],
   limit: true,
   run: async (m) => {
     let q = m.quoted ? m.quoted : m;

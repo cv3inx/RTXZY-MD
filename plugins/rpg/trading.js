@@ -3,7 +3,7 @@ const cooldown = 0;
 const handler = {
   help: ['trading'],
   tags: ['rpg'],
-  command: /^(trading)$/i,
+  command: 'trading',
   cooldown: cooldown,
   disabled: false,
   rpg: true,

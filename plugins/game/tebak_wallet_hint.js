@@ -1,5 +1,5 @@
 const handler = {
-  command: /^twa$/i,
+  command: 'twa',
   limit: true,
   run: async (m, { conn }) => {
     conn.tebakwallet = conn.tebakwallet ? conn.tebakwallet : {};

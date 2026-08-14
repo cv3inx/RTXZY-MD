@@ -1,7 +1,7 @@
 const handler = {
   help: ['en', 'dis'].map((v) => v + 'able <option>'),
   tags: ['group', 'owner'],
-  command: /^((en|dis)able|(tru|fals)e|(turn)?o(n|ff))$/i,
+  command: ['enable', 'disable', 'true', 'false', 'on', 'off', 'turnon', 'turnoff'],
   run: async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isROwner }) => {
     let isEnable = /true|enable|(turn)?on|1/i.test(command);
     let chat = global.db.data.chats[m.chat];

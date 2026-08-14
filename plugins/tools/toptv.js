@@ -1,6 +1,6 @@
 const handler = {
   help: ['ptv', 'toptv'],
-  command: /^(toptv|ptv|ptvmessage)$/i,
+  command: ['toptv', 'ptv', 'ptvmessage'],
   tags: ['tools'],
   limit: true,
   run: async (m, { conn, command, usedPrefix }) => {

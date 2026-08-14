@@ -1,7 +1,7 @@
 const handler = {
   help: ['mulaigiveaway'].map((v) => v + ' <text>'),
   tags: ['group'],
-  command: /^(start|mulai)giveaway$/i,
+  command: ['startgiveaway', 'mulaigiveaway'],
   group: true,
   admin: true,
   run: async (m, { usedPrefix, text, command, participants }) => {

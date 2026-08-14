@@ -1,7 +1,7 @@
 const handler = {
   help: ['tagme'],
   tags: ['group'],
-  command: /^tagme$/i,
+  command: 'tagme',
   group: true,
   run: async (m, { conn, text }) => {
     let orang = (await conn.groupMetadata(m.chat)).participants.map((u) => u.jid);

@@ -61,7 +61,7 @@ I am an automated system (WhatsApp Bot) that can help to do something, search an
 const handler = {
   help: ['menu'],
   tags: ['main'],
-  command: /^(menu|help)$/i,
+  command: ['menu', 'help'],
   exp: 3,
   run: async (m, { conn, usedPrefix: _p, args = [], command }) => {
     try {

@@ -3,7 +3,7 @@ const timeout = 604800000;
 const handler = {
   help: ['kill'],
   tags: ['rpg'],
-  command: /^(kill)/i,
+  command: 'kill',
   owner: false,
   mods: false,
   premium: false,

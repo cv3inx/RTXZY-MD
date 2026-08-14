@@ -1,7 +1,7 @@
 const handler = {
   help: ['buatcatatan <title|isi>'],
   tags: ['internet'],
-  command: /^buatcatatan$/i,
+  command: 'buatcatatan',
   run: async (m, { conn, command, usedPrefix, text }) => {
     let fail = 'format salah, example: ' + usedPrefix + command + ' Bot|1. Masak';
     global.db.data.users[m.sender].catatan = global.db.data.users[m.sender].catatan || [];

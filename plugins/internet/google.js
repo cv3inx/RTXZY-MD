@@ -1,7 +1,7 @@
 const handler = {
   help: ['google <pencarian>'],
   tags: ['internet'],
-  command: /^google$/i,
+  command: 'google',
   limit: true,
   run: async (m, { conn, command, text, Api }) => {
     if (!text) return conn.reply(m.chat, 'Masukkan teks untuk dicari!', m);

@@ -2,7 +2,7 @@ import uploader from '../../lib/media/uploadFile.js';
 const handler = {
   help: ['audio2video'],
   tags: ['tools'],
-  command: /^(audio2video)$/i,
+  command: 'audio2video',
   limit: true,
   run: async (m, { conn, usedPrefix, command, Api }) => {
     let q = m.quoted ? m.quoted : m;

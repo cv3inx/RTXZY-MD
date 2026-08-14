@@ -1,7 +1,7 @@
 const handler = {
   help: ['wirid'],
   tags: ['islam'],
-  command: /^(wirid)$/i,
+  command: 'wirid',
   group: false,
   limit: true,
   run: async (m, { conn, usedPrefix, command, Api }) => {

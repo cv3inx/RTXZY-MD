@@ -1,5 +1,5 @@
 const handler = {
-  command: /^tete$/i,
+  command: 'tete',
   limit: true,
   run: async (m, { conn }) => {
     conn.tekateki = conn.tekateki ? conn.tekateki : {};

@@ -3,7 +3,7 @@ import fs from 'fs';
 const handler = {
   help: ['tahta <teks>'],
   tags: ['tools'],
-  command: /^((harta)?tahta)$/i,
+  command: ['tahta', 'hartatahta'],
   limit: false,
   run: async (m, { conn, text }) => {
     conn.hartatahta = conn.hartatahta ? conn.hartatahta : {};

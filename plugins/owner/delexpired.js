@@ -1,7 +1,7 @@
 const handler = {
   help: ['delesewa'],
   tags: ['owner'],
-  command: /^(delexpired|delsewa)$/i,
+  command: ['delexpired', 'delsewa'],
   rowner: true,
   run: async (m, { conn, args, usedPrefix, command }) => {
     let who;

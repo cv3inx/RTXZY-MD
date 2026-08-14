@@ -1,7 +1,7 @@
 const handler = {
   help: ['ojek'],
   tags: ['rpg'],
-  command: /^(ojek|ngojek|gojek)$/i,
+  command: ['ojek', 'ngojek', 'gojek'],
   register: true,
   rpg: true,
   run: async (m, { conn }) => {

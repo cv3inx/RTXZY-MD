@@ -1,5 +1,5 @@
 const handler = {
-  command: /^heroml$/i,
+  command: 'heroml',
   tags: ['internet'],
   help: ['heroml <hero_name>'],
   limit: true,

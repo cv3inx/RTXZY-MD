@@ -7,7 +7,7 @@ const timeout = 3600000;
 const handler = {
   help: ['hourly'],
   tags: ['rpgabsen'],
-  command: /^(hourly)$/i,
+  command: 'hourly',
   owner: false,
   mods: false,
   premium: false,
