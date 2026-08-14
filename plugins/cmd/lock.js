@@ -1,5 +1,8 @@
-export default Object.assign(
-  async function handler(m, { conn, isOwner, isPremium, command }) {
+const handler = {
+  help: ['un', ''].map((v) => v + 'lockcmd'),
+  tags: ['database'],
+  command: /^(un)?lockcmd$/i,
+  run: async function (m, { conn, isOwner, isPremium, command }) {
     if (!(isOwner || isPremium)) {
       global.dfail('premium', m, conn);
       throw false;
@@ -12,10 +15,7 @@ export default Object.assign(
     if (sticker[hash].creator !== m.sender && !isOwner) throw 'Kamu tidak memiliki izin untuk mengunci/membuka perintah stiker ini';
     sticker[hash].locked = !/^un/i.test(command);
     m.reply('Done!');
-  },
-  {
-    help: ['un', ''].map((v) => v + 'lockcmd'),
-    tags: ['database'],
-    command: /^(un)?lockcmd$/i
   }
-);
+};
+
+export default handler;

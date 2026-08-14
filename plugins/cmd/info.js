@@ -1,5 +1,8 @@
-export default Object.assign(
-  async function handler(m, { conn, text }) {
+const handler = {
+  help: ['infocmd'].map((v) => 'info' + v),
+  tags: ['database'],
+  command: ['infocmd'],
+  run: async function (m, { conn, text }) {
     let hash = text;
     if (m.quoted && m.quoted.fileSha256) {
       hash = Buffer.from(m.quoted.fileSha256).toString('hex');
@@ -61,10 +64,7 @@ ${mentionedInfo}
 `.trim();
 
     await m.reply(txt);
-  },
-  {
-    help: ['infocmd'].map((v) => 'info' + v),
-    tags: ['database'],
-    command: ['infocmd']
   }
-);
+};
+
+export default handler;
