@@ -65,8 +65,8 @@ const handler = {
       } else if (command === 'cerpenramadhan') {
         const res = await (await Api.get('/api/story/cerpen', { type: 'ramadhan' })).json();
         cerdn += `Judul: *${res.result.title}*\nAuthor: *${res.result.author}*\nKategori: *${res.result.kategori}*\nLolos: *${res.result.lolos}*\n\n*Cerita:* ${res.result.cerita}\n `;
-      } else if (command === 'cerpenliburan') {
-        const res = await (await Api.get('/api/story/cerpen', { type: 'liburan' })).json();
+      } else if (command === 'cerpenhiburan') {
+        const res = await (await Api.get('/api/story/cerpen', { type: 'hiburan' })).json();
         cerdn += `Judul: *${res.result.title}*\nAuthor: *${res.result.author}*\nKategori: *${res.result.kategori}*\nLolos: *${res.result.lolos}*\n\n*Cerita:* ${res.result.cerita}\n `;
       } else if (command === 'cerpenlingkungan') {
         const res = await (await Api.get('/api/story/cerpen', { type: 'lingkungan' })).json();
