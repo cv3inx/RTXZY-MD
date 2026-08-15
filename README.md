@@ -61,6 +61,7 @@
 | **ffmpeg**      | Pemrosesan video & audio                                                   |
 | **imagemagick** | Manipulasi gambar                                                          |
 | **webp**        | Konversi stiker                                                            |
+| **python3**     | Opsional — hanya untuk `.speedtest` (menjalankan `speed.py`)               |
 
 Saat pertama jalan, bot mengecek tool-tool ini dan menampilkan hasilnya (`x/7 tools found`). Fitur yang butuh tool yang hilang akan gagal, tapi bot tetap jalan.
 
