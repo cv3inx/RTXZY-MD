@@ -69,66 +69,68 @@ function printBanner() {
 listenOnPort(Number(process.env.PORT) || 0);
 printBanner();
 
-let isRunning = false;
+const MAIN = path.resolve(__dirname, 'main.js');
+const HEALTHY_AFTER_MS = 5000; // hidup selama ini = dianggap start yang sehat
+const MAX_BACKOFF_MS = 30000;
 
-function start(file) {
-  if (isRunning) return;
-  isRunning = true;
+let child = null;
+let crashStreak = 0;
+let stopping = false;
 
-  const resolvedFile = path.resolve(__dirname, path.basename(file));
-  if (!resolvedFile.startsWith(path.resolve(__dirname) + path.sep)) {
-    throw new Error('Invalid file path');
-  }
-  const args = [resolvedFile, ...process.argv.slice(2)];
-  const p = spawn(process.argv[0], args, {
+function start() {
+  if (child || stopping) return;
+
+  const args = [MAIN, ...process.argv.slice(2)];
+  const startedAt = Date.now();
+  child = spawn(process.argv[0], args, {
     stdio: ['inherit', 'inherit', 'inherit', 'ipc']
   });
 
-  p.on('message', (data) => {
+  child.on('message', (data) => {
     console.log(chalk.cyan(`🟢 RECEIVED ${data}`));
     switch (data) {
       case 'reset':
-        p.kill();
-        isRunning = false;
-        start(file);
+        child.kill();
         break;
       case 'uptime':
-        p.send(process.uptime());
+        child.send(process.uptime());
         break;
     }
   });
 
-  p.on('exit', (code) => {
-    isRunning = false;
-    log.err(`Exited with code: ${code}`);
-    start('main.js');
+  child.on('error', (err) => log.err(`Spawn error: ${err}`));
 
-    if (code === 0) return;
+  child.on('exit', (code, signal) => {
+    child = null;
+    if (stopping) return;
+    log.err(`Exited with ${signal ? `signal ${signal}` : `code ${code}`}`);
 
+    // Backoff kalau main.js mati seketika berulang kali (mis. syntax error).
+    // Tanpa ini supervisor spawn tanpa henti dan menghabiskan CPU.
+    if (Date.now() - startedAt < HEALTHY_AFTER_MS) crashStreak++;
+    else crashStreak = 0;
+
+    if (crashStreak === 0) return start();
+
+    const delay = Math.min(MAX_BACKOFF_MS, 1000 * 2 ** (crashStreak - 1));
+    log.err(`Crashed ${crashStreak}x langsung setelah start, restart dalam ${delay / 1000}s...`);
+    setTimeout(start, delay).unref();
     // unwatch dulu: restart bisa terjadi berkali-kali -> tanpa ini StatWatcher
     // main.js menumpuk listener (leak -> MaxListenersExceededWarning)
-    fs.unwatchFile(args[0]);
-    fs.watchFile(args[0], () => {
-      fs.unwatchFile(args[0]);
-      log.err(`File ${args[0]} has been modified. Script will restart...`);
-      start('main.js');
-    });
-  });
-
-  p.on('error', (err) => {
-    log.err(`Error: ${err}`);
-    p.kill();
-    isRunning = false;
-    log.err(`Error occurred. Script will restart...`);
-    start('main.js');
+    fs.unwatchFile(MAIN);
+    fs.watchFile(MAIN, () => restart(`File ${MAIN} diubah, restart sekarang...`));
   });
 }
 
-start('main.js');
-
-// Keeps the event loop alive between the child process exiting and the
-// restart above spawning a new one.
-setInterval(() => {}, 1000);
+// Restart sekarang tanpa menunggu backoff. Kalau child masih hidup, dimatikan
+// dulu - handler 'exit' di atas yang menghidupkannya lagi. Memanggil start()
+// langsung tidak akan berefek selama `child` masih terisi.
+function restart(reason) {
+  log.err(reason);
+  crashStreak = 0;
+  if (child) child.kill();
+  else start();
+}
 
 const tmpDir = './tmp';
 if (!fs.existsSync(tmpDir)) {
@@ -136,14 +138,24 @@ if (!fs.existsSync(tmpDir)) {
   log.info(`📁 Created directory ${tmpDir}`);
 }
 
+start();
+
+// HTTP server yang listening sudah menahan event loop tetap hidup, termasuk di
+// jeda antara child mati dan spawn berikutnya - tidak perlu setInterval kosong.
+
 process.on('unhandledRejection', (reason) => {
-  log.err(`Unhandled promise rejection: ${reason}`);
-  log.err('Script will restart...');
-  start('main.js');
+  // Restart ditangani oleh handler 'exit' milik child. Supervisor cukup mencatat.
+  log.err(`Unhandled promise rejection di supervisor: ${reason}`);
 });
 
-process.on('exit', (code) => {
-  log.err(`Exited with code: ${code}`);
-  log.err('Script will restart...');
-  start('main.js');
-});
+for (const signal of ['SIGINT', 'SIGTERM']) {
+  process.on(signal, () => {
+    if (stopping) return;
+    stopping = true;
+    log.info(`\n${signal} diterima, menghentikan bot...`);
+    fs.unwatchFile(MAIN);
+    if (child) child.kill(signal);
+    server.close();
+    process.exit(0);
+  });
+}
