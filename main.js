@@ -7,7 +7,7 @@ import cp from 'child_process';
 import _ from 'lodash';
 import syntaxerror from 'syntax-error';
 import { buildPrefixRegex } from './lib/simple.js';
-import { createAdapter } from './lib/database/adapter.js';
+import { createAdapter, resolveDb } from './lib/database/adapter.js';
 import readline from 'readline';
 import { createClient, authenticate, connectionUpdate, makeSocket } from './lib/system/connection.js';
 import log from './lib/system/log.js';
@@ -152,9 +152,21 @@ const { Low } = await import('lowdb');
       delete global.plugins[filename];
     }
   }
+  // Ditunggu di sini, bukan di akhir: hasilnya bagian dari ringkasan boot, dan
+  // kalau dibiarkan berjalan sendiri barisnya muncul setelah "Tersambung".
+  await _quickTest().catch((err) => {
+    log.error('Pengecekan tool media gagal');
+    log.detail(String(err?.message || err));
+  });
+
   const pluginCount = Object.keys(global.plugins).length;
   const failed = listPluginFiles(pluginFolder).length - pluginCount;
-  log.info(`${pluginCount} plugin dimuat${failed > 0 ? `, ${failed} gagal` : ''} · database ${global.config.database?.type || 'sqlite'} · prefix ${(global.config.prefix || []).join(' ')}`);
+  const tools = Object.values(global.support || {});
+  log.field('Plugin', `${pluginCount} dimuat${failed > 0 ? ` · ${failed} gagal` : ''}`);
+  if (tools.length) log.field('Media', `${tools.filter(Boolean).length}/${tools.length} tool tersedia`);
+  log.field('Database', resolveDb(global.opts, global.config).kind);
+  log.field('Prefix', (global.config.prefix || []).join(' '));
+  log.field('Login', global.useQR ? 'QR code' : 'Pairing code');
 
   global.reload = async (_ev, filename) => {
     if (pluginFilter(filename)) {
@@ -205,7 +217,6 @@ const { Low } = await import('lowdb');
       })
     );
     let [ffmpeg, ffprobe, ffmpegWebp, convert, magick, gm, find] = test;
-    log.info(`${test.filter(Boolean).length}/${test.length} tool media tersedia`);
     let s = (global.support = {
       ffmpeg,
       ffprobe,
@@ -221,9 +232,4 @@ const { Low } = await import('lowdb');
     if (s.ffmpeg && !s.ffmpegWebp) log.warn('ffmpeg tanpa libwebp — stiker animasi tidak jalan');
     if (!s.convert && !s.magick && !s.gm) log.warn('imagemagick tidak ada — stiker bisa gagal kalau ffmpeg juga tanpa libwebp');
   }
-
-  _quickTest().catch((err) => {
-    log.error('Pengecekan tool gagal');
-    log.detail(String(err?.message || err));
-  });
 })();

@@ -44,22 +44,22 @@ function listenOnPort(port) {
     process.exit(1);
   });
 
-  server.listen(port, '0.0.0.0', () => log.info(`HTTP server di port ${server.address().port}`));
+  server.listen(port, '0.0.0.0', () => log.field('Server', `http://0.0.0.0:${server.address().port}`));
 }
 
 function printBanner() {
-  console.log(chalk.bold.green('\n  RTXZY-MD') + chalk.dim('  ·  bot WhatsApp berbasis zapo-js\n'));
   let zapoVersion = null;
   try {
     require.resolve('zapo-js');
     zapoVersion = require('zapo-js/package.json').version;
   } catch {}
-  log.info(`Node ${process.versions.node} · zapo-js ${zapoVersion || chalk.red('tidak terpasang')}`);
-  log.info(`${os.type()} ${os.release()} ${os.arch()} · RAM ${(os.freemem() / 1024 ** 3).toFixed(1)}/${(os.totalmem() / 1024 ** 3).toFixed(1)} GB`);
+  log.banner('RTXZY-MD', `bot WhatsApp · zapo-js ${zapoVersion || chalk.red('tidak terpasang')}`);
+  log.field('Runtime', `Node ${process.versions.node} · ${os.type()} ${os.arch()}`);
+  log.field('Memori', `${(os.freemem() / 1024 ** 3).toFixed(1)} / ${(os.totalmem() / 1024 ** 3).toFixed(1)} GB bebas`);
 }
 
-listenOnPort(Number(process.env.PORT) || 0);
 printBanner();
+listenOnPort(Number(process.env.PORT) || 0);
 
 const MAIN = path.resolve(__dirname, 'main.js');
 const HEALTHY_AFTER_MS = 5000; // hidup selama ini = dianggap start yang sehat
