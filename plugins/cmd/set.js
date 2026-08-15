@@ -31,7 +31,9 @@ const handler = {
           packId = JSON.parse(img.exif.slice(22).toString())['sticker-pack-id'] || null;
         }
       }
-    } catch {}
+    } catch {
+      // Stiker tanpa exif atau exif rusak: packId tetap null, bukan kegagalan.
+    }
 
     sticker[hash] = {
       text,

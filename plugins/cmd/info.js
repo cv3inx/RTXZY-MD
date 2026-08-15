@@ -26,7 +26,9 @@ Atau teman bisa setcmd sendiri di stiker versi mereka.`
     let finalJid = creatorJid;
     try {
       finalJid = await conn.getJid(creatorJid);
-    } catch (e) {}
+    } catch {
+      // LID belum terpetakan: pakai JID asli yang tersimpan.
+    }
 
     let creatorName = (await conn.getName(finalJid)) || (await conn.getName(creatorJid)) || 'Unknown';
     let creatorNumber = finalJid.split('@')[0];
@@ -38,7 +40,9 @@ Atau teman bisa setcmd sendiri di stiker versi mereka.`
         let resolvedJid = jid;
         try {
           resolvedJid = await conn.getJid(jid);
-        } catch (e) {}
+        } catch {
+          // Sama seperti di atas: jatuh ke JID mentah.
+        }
 
         let name = (await conn.getName(resolvedJid)) || (await conn.getName(jid)) || 'Unknown';
         let number = resolvedJid.split('@')[0];

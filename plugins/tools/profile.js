@@ -51,7 +51,9 @@ const handler = {
     try {
       let status = await conn.fetchStatus(who);
       about = status.status || '';
-    } catch {}
+    } catch {
+      // Privasi 'about' bisa dibatasi peer — biarkan kosong.
+    }
 
     let username = (await conn.getName(who)) || 'User';
     let number = who.split('@')[0];
