@@ -115,7 +115,6 @@ const { Low } = await import('lowdb');
       oldConn.ev.off('group-participants.update', oldConn.participantsUpdate);
       oldConn.ev.off('message.delete', oldConn.onDelete);
       oldConn.ev.off('connection.update', oldConn.connectionUpdate);
-      oldConn.ev.off('creds.update', oldConn.credsUpdate);
     }
 
     conn.welcome = 'Selamat datang @user di group @subject utamakan baca desk ya \n@desc';
@@ -126,13 +125,14 @@ const { Low } = await import('lowdb');
     conn.participantsUpdate = handler.participantsUpdate.bind(conn);
     conn.onDelete = handler.delete.bind(conn);
     conn.connectionUpdate = connectionUpdate.bind(conn);
-    conn.credsUpdate = async () => {}; // no-op: the zapo-js store persists creds automatically
+    // Tidak ada listener 'creds.update': zapo-js menyimpan kredensial ke store
+    // sendiri. connection.js tetap meng-emit event-nya untuk plugin yang mau
+    // tahu kapan pairing selesai.
 
     conn.ev.on('messages.upsert', conn.handler);
     conn.ev.on('group-participants.update', conn.participantsUpdate);
     conn.ev.on('message.delete', conn.onDelete);
     conn.ev.on('connection.update', conn.connectionUpdate);
-    conn.ev.on('creds.update', conn.credsUpdate);
     isInit = false;
     return true;
   };
