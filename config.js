@@ -1,3 +1,7 @@
+// Baca file .env kalau ada, supaya API key tidak ikut ter-commit.
+// Lihat .env.example untuk daftar variabelnya.
+import 'dotenv/config';
+
 // Timezone
 process.env.TZ = 'Asia/Jakarta';
 
@@ -8,14 +12,25 @@ const config = {
   owner: {
     number: '628988293493', // wajib diisi
     name: 'DitzzyAF', // wajib diisi
-    mail: 'ditzzyaf@gmail.com' 
+    mail: 'ditzzyaf@gmail.com'
   },
-
-  botNumber: '6285891001164',
+  usePair: false, //  true = pakai pairing code, false = pakai qr code
+  botNumber: '',
   pairingCode: 'ABCD1234', // wajib 8 digit kode unik
 
   // Karakter prefix yang dikenali bot, satu karakter per entry.
   prefix: ['.', '#', '!', '/'],
+
+  // Tempat penyimpanan database bot (users, chats, stats, dll).
+  //   'sqlite'  -> database/database.sqlite (default, WAL)
+  //   'json'    -> database/database.json
+  //   'mongodb' -> wajib isi mongoUrl di bawah
+  // Data dari database.json lama di root diimpor sekali otomatis.
+  // Argumen --db saat menjalankan bot menimpa pilihan ini.
+  database: {
+    type: 'sqlite',
+    mongoUrl: '' // contoh: mongodb://user:pass@host:27017/bot
+  },
 
   access: {
     owner: ['628988293493'], // wajib diisi
@@ -44,15 +59,17 @@ const config = {
   maxWarn: 5,
 
   // Key wajib diisi, sisanya opsional (isi kalo perlu fitur terkait).
+  // Semua key bisa diisi lewat .env supaya tidak ikut ter-commit — nilai di
+  // file ini cuma dipakai kalau variabel .env-nya kosong.
   api: {
     botcahx: {
       url: 'https://api.botcahx.eu.org', // wajib diisi
-      key: 'YOUR_APIKEY_HERE', // wajib diisi
-      akseskey: 'YOUR_AKSESKEY_HERE' // opsional — suno ai (ai music) & fitur prem lainnya
+      key: process.env.BOTCAHX_APIKEY || 'YOUR_APIKEY_HERE', // wajib diisi
+      akseskey: process.env.BOTCAHX_AKSESKEY || 'YOUR_AKSESKEY_HERE' // opsional — suno ai (ai music) & fitur prem lainnya
     },
     whoisJson: {
       url: 'https://whoisjson.com/api/v1', // wajib diisi
-      key: '6c7bd1ce704d92c90e2f78d42641a9ee0cbcef198a6ad62a3dd06deb22af6fd3' // fitur .whois2, ganti punya sendiri kalo abis kuota
+      key: process.env.WHOISJSON_KEY || 'YOUR_WHOISJSON_KEY_HERE' // fitur .whois2, daftar gratis di whoisjson.com
     }
   }
 };
