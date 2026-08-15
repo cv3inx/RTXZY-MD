@@ -8,7 +8,7 @@ const handler = {
   command: 'airdrop',
   group: true,
   rpg: true,
-  run: async (m, { conn, args, usedPrefix, DevMode }) => {
+  run: async (m, { conn, args, usedPrefix }) => {
     let u = global.db.data.users[m.sender];
     let time = u.lastclaim + 3600000; // 1 jam dalam milidetik
     if (new Date() - u.lastclaim < 3600000) throw `*Sudah Melakukan Pencarian Airdrop!* 🪙\nHarus menunggu selama agar bisa mencari Airdrop kembali selama ${clockString(time - new Date())}`;

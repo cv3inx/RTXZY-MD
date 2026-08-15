@@ -2,8 +2,8 @@ const handler = {
   help: ['un', ''].map((v) => v + 'lockcmd'),
   tags: ['database'],
   command: ['lockcmd', 'unlockcmd'],
-  run: async function (m, { conn, isOwner, isPremium, command }) {
-    if (!(isOwner || isPremium)) {
+  run: async function (m, { conn, isOwner, isPrems, command }) {
+    if (!(isOwner || isPrems)) {
       global.dfail('premium', m, conn);
       throw false;
     }

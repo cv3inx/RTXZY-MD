@@ -4,7 +4,7 @@ const handler = {
   usage: 'emoji',
   tags: ['tools'],
   command: 'react',
-  run: async (m, { conn, usedPrefix: _p, __dirname, args, text, usedPrefix }) => {
+  run: async (m, { conn, usedPrefix: _p, args, text, usedPrefix }) => {
     let notreply = 'Balas Chatnya !';
     if (!m.quoted) throw notreply;
     let notemo = `📍 Contoh Penggunaan :\n${usedPrefix}react 🗿`;

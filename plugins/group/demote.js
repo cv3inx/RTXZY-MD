@@ -7,7 +7,7 @@ const handler = {
   botAdmin: true,
   admin: true,
   fail: null,
-  run: async (m, { teks, conn, isOwner, isAdmin, args, command }) => {
+  run: async (m, { conn, isOwner, isAdmin, args, command }) => {
     if (m.isZapo) return;
 
     if (!(isAdmin || isOwner)) {

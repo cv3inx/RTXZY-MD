@@ -6,7 +6,7 @@ const handler = {
   tags: ['rpg'],
   command: ['mancing', 'memancing'],
   rpg: true,
-  run: async (m, { conn, usedPrefix, owner }) => {
+  run: async (m, { conn, usedPrefix }) => {
     const { MessageType } = zapo;
 
     let lastFishingTime = global.db.data.users[m.sender].lastmancing || 0;

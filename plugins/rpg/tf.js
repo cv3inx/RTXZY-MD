@@ -15,7 +15,7 @@ const handler = {
   botAdmin: false,
   fail: null,
   money: 0,
-  run: async (m, { conn, args, usedPrefix, DevMode }) => {
+  run: async (m, { conn, args, usedPrefix }) => {
     if (args.length < 3) {
       return conn.reply(m.chat, `Gunakan format .tf <type> <jumlah> <@tag>\n📍contoh penggunaan: *.tf money 100 @tag*\n\n*List yang bisa di transfer :*\n💹Money\n🏷 Limit\n💳 Tabungan\n🥤Potion\n🗑️Sampah\n💎Diamond\n📦Common\n🛍️Uncommon\n🎁Mythic\n🧰Legendary\n🕸️string\n🪵kayu\n🪨batu\n⛓iron`.trim(), m);
     } else
@@ -36,11 +36,6 @@ const handler = {
                 global.db.data.users[m.sender].money += count * 1;
                 m.reply('Gagal Menstransfer');
                 console.log(e);
-                if (DevMode) {
-                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-                    conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
-                  }
-                }
               }
             } else conn.reply(m.chat, `Limit kamu tidak mencukupi untuk mentransfer Limit sebesar ${count}`.trim(), m);
             break;
@@ -54,11 +49,6 @@ const handler = {
                 global.db.data.users[m.sender].money += count * 1;
                 m.reply('Gagal Menstransfer');
                 console.log(e);
-                if (DevMode) {
-                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-                    conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
-                  }
-                }
               }
             } else conn.reply(m.chat, `Uang kamu tidak mencukupi untuk mentransfer Money sebesar ${count}`.trim(), m);
             break;
@@ -72,11 +62,6 @@ const handler = {
                 global.db.data.users[m.sender].atm += count * 1;
                 m.reply('Gagal Menstransfer');
                 console.log(e);
-                if (DevMode) {
-                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-                    conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
-                  }
-                }
               }
             } else conn.reply(m.chat, `Limit kamu tidak mencukupi untuk mentransfer Uang dari Bank sebesar ${count}`.trim(), m);
             break;
@@ -90,11 +75,6 @@ const handler = {
                 global.db.data.users[m.sender].potion += count * 1;
                 m.reply('Gagal Menstransfer');
                 console.log(e);
-                if (DevMode) {
-                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-                    conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
-                  }
-                }
               }
             } else conn.reply(m.chat, `Potion kamu tidak cukup`.trim(), m);
             break;
@@ -108,11 +88,6 @@ const handler = {
                 global.db.data.users[m.sender].sampah += count * 1;
                 m.reply('Gagal Menstransfer');
                 console.log(e);
-                if (DevMode) {
-                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-                    conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
-                  }
-                }
               }
             } else conn.reply(m.chat, `Sampah kamu tidak cukup`.trim(), m);
             break;
@@ -126,11 +101,6 @@ const handler = {
                 global.db.data.users[m.sender].diamond += count * 1;
                 m.reply('Gagal Menstransfer');
                 console.log(e);
-                if (DevMode) {
-                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-                    conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
-                  }
-                }
               }
             } else conn.reply(m.chat, `Diamond kamu kamu tidak cukup`.trim(), m);
             break;
@@ -144,11 +114,6 @@ const handler = {
                 global.db.data.users[m.sender].common += count * 1;
                 m.reply('Gagal Menstransfer');
                 console.log(e);
-                if (DevMode) {
-                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-                    conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
-                  }
-                }
               }
             } else conn.reply(m.chat, `Common crate kamu kamu tidak cukup`.trim(), m);
             break;
@@ -162,11 +127,6 @@ const handler = {
                 global.db.data.users[m.sender].uncommon += count * 1;
                 m.reply('Gagal Menstransfer');
                 console.log(e);
-                if (DevMode) {
-                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-                    conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
-                  }
-                }
               }
             } else conn.reply(m.chat, `Uncommon crate kamu kamu tidak cukup`.trim(), m);
             break;
@@ -180,11 +140,6 @@ const handler = {
                 global.db.data.users[m.sender].mythic += count * 1;
                 m.reply('Gagal Menstransfer');
                 console.log(e);
-                if (DevMode) {
-                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-                    conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
-                  }
-                }
               }
             } else conn.reply(m.chat, `Mythic crate kamu kamu tidak cukup`.trim(), m);
             break;
@@ -198,11 +153,6 @@ const handler = {
                 global.db.data.users[m.sender].legendary += count * 1;
                 m.reply('Gagal Menstransfer');
                 console.log(e);
-                if (DevMode) {
-                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-                    conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
-                  }
-                }
               }
             } else conn.reply(m.chat, `Legendary crate kamu kamu tidak cukup`.trim(), m);
             break;
@@ -216,11 +166,6 @@ const handler = {
                 global.db.data.users[m.sender].string += count * 1;
                 m.reply('Gagal Menstransfer');
                 console.log(e);
-                if (DevMode) {
-                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-                    conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
-                  }
-                }
               }
             } else conn.reply(m.chat, `Uang kamu tidak mencukupi untuk mentransfer String sebesar ${count}`.trim(), m);
             break;
@@ -234,11 +179,6 @@ const handler = {
                 global.db.data.users[m.sender].batu += count * 1;
                 m.reply('Gagal Menstransfer');
                 console.log(e);
-                if (DevMode) {
-                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-                    conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
-                  }
-                }
               }
             } else conn.reply(m.chat, `Uang kamu tidak mencukupi untuk mentransfer Batu sebesar ${count}`.trim(), m);
             break;
@@ -252,11 +192,6 @@ const handler = {
                 global.db.data.users[m.sender].kayu += count * 1;
                 m.reply('Gagal Menstransfer');
                 console.log(e);
-                if (DevMode) {
-                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-                    conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
-                  }
-                }
               }
             } else conn.reply(m.chat, `Uang kamu tidak mencukupi untuk mentransfer Kayu sebesar ${count}`.trim(), m);
             break;
@@ -270,11 +205,6 @@ const handler = {
                 global.db.data.users[m.sender].iron += count * 1;
                 m.reply('Gagal Menstransfer');
                 console.log(e);
-                if (DevMode) {
-                  for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-                    conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
-                  }
-                }
               }
             } else conn.reply(m.chat, `Uang kamu tidak mencukupi untuk mentransfer Iron sebesar ${count}`.trim(), m);
             break;
@@ -284,11 +214,6 @@ const handler = {
       } catch (e) {
         conn.reply(m.chat, `Gunakan format ${usedPrefix}tf <type> <jumlah> <@tag>\📍 Contoh penggunaan: *${usedPrefix}tf money 100 @tag*\n\n*List yang bisa di transfer :*\n💹 Money\n🏷 Limit\n💳 Tabungan\n🥤 Potion\n🗑️ Sampah\n💎 Diamond\n📦 Common\n🛍️ Uncommon\n🎁 Mythic\n🧰 Legendary\n🕸️ String\n🪵 Kayu\n🪨 Batu\n⛓ iron`.trim(), m);
         console.log(e);
-        if (DevMode) {
-          for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-            conn.reply(jid, 'Transfer.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
-          }
-        }
       }
   }
 };

@@ -4,7 +4,7 @@ const handler = {
   help: ['', 'bot'].map((v) => 'status' + v),
   tags: ['info'],
   command: ['stat', 'statbot', 'status', 'statusbot', 'botstat', 'botstatbot', 'botstatus', 'botstatusbot'],
-  run: async (m, { conn, command, usedPrefix, DevMode }) => {
+  run: async (m, { conn, command, usedPrefix }) => {
     try {
       let NotDetect = 'Not Detect';
       let old = performance.now();
@@ -73,11 +73,6 @@ Internet OUT : *${netsOut}*
     } catch (e) {
       console.log(e);
       conn.reply(m.chat, eror, m);
-      if (DevMode) {
-        for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-          conn.reply(jid, 'Status.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
-        }
-      }
     }
   }
 };

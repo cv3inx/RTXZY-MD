@@ -26,7 +26,7 @@ const handler = {
   tags: ['rpg'],
   command: ['resto', 'beli'],
   rpg: true,
-  run: async (m, { conn, command, args, usedPrefix, DevMode }) => {
+  run: async (m, { conn, command, args, usedPrefix }) => {
     const { MessageType } = zapo;
 
     const _armor = global.db.data.users[m.sender].armor;
@@ -367,11 +367,6 @@ const handler = {
     } catch (e) {
       conn.reply(m.chat, Kchat, m);
       console.log(e);
-      if (DevMode) {
-        for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-          conn.sendMessage(jid, 'shop.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', MessageType.text);
-        }
-      }
     }
   }
 };

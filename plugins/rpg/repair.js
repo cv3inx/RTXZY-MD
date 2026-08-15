@@ -4,7 +4,7 @@ const handler = {
   group: true,
   command: ['repair', 'perbaiki'],
   rpg: true,
-  run: async (m, { conn, command, args, usedPrefix, DevMode }) => {
+  run: async (m, { conn, command, args, usedPrefix }) => {
     let type = (args[0] || '').toLowerCase();
     let _type = (args[0] || '').toLowerCase();
     let user = global.db.data.users[m.sender];

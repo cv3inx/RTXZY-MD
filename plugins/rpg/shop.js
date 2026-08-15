@@ -120,7 +120,7 @@ const handler = {
   limit: true,
   group: true,
   rpg: true,
-  run: async (m, { conn, command, args, usedPrefix, owner }) => {
+  run: async (m, { conn, command, args, usedPrefix }) => {
     const _armor = global.db.data.users[m.sender].armor;
     const armor = _armor == 0 ? 20000 : '' || _armor == 1 ? 49999 : '' || _armor == 2 ? 99999 : '' || _armor == 3 ? 149999 : '' || _armor == 4 ? 299999 : '';
     let type = (args[0] || '').toLowerCase();

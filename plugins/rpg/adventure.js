@@ -6,7 +6,7 @@ const handler = {
   group: true,
   rpg: true,
   fail: null,
-  run: async (m, { conn, usedPrefix, owner }) => {
+  run: async (m, { conn, usedPrefix }) => {
     try {
       let user = global.db.data.users[m.sender];
 

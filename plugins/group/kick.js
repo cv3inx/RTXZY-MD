@@ -5,7 +5,7 @@ const handler = {
   command: /^(kic?k|remove|tendang|\-)$/i,
   group: true,
   botAdmin: true,
-  run: async (m, { conn, teks, isOwner, isAdmin, args }) => {
+  run: async (m, { conn, isOwner, isAdmin, args }) => {
     if (m.isZapo) return;
     if (!(isAdmin || isOwner)) {
       global.dfail('admin', m, conn);
