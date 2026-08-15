@@ -59,62 +59,6 @@ ${usedPrefix}adopt kucing`.trim();
             global.db.data.users[m.sender].rubah += 1;
             m.reply('Selamat anda mempunyai pet Baru ! 🎉');
             break;
-          case 'horse':
-            if (user.horse > 0) return m.reply('Kamu sudah memilik ini');
-            if (user.pet < hhorse) return m.reply(`Pet Token anda kurang`);
-            global.db.data.users[m.sender].pet -= hhorse;
-            global.db.data.users[m.sender].horse += 1;
-            m.reply('Selamat anda mempunyai pet Baru ! 🎉');
-            break;
-          case 'robo':
-            if (user.robo > 0) return m.reply('Kamu sudah memilik ini');
-            if (user.pet < hrobo) return m.reply(`Pet Token anda kurang`);
-            global.db.data.users[m.sender].pet -= hrobo;
-            global.db.data.users[m.sender].robo += 1;
-            m.reply('Selamat anda mempunyai pet Baru ! 🎉');
-            break;
-          case 'lion':
-            if (user.lion > 0) return m.reply('Kamu sudah memilik ini');
-            if (user.pet < hlion) return m.reply(`Pet Token anda kurang`);
-            global.db.data.users[m.sender].pet -= hlion;
-            global.db.data.users[m.sender].lion += 1;
-            m.reply('Selamat anda mempunyai pet Baru ! 🎉');
-            break;
-          case 'rhinoceros':
-            if (user.rhinoceros > 0) return m.reply('Kamu sudah memilik ini');
-            if (user.pet < hrhinoceros) return m.reply(`Pet Token anda kurang`);
-            global.db.data.users[m.sender].pet -= hrhinoceros;
-            global.db.data.users[m.sender].rhinoceros += 1;
-            m.reply('Selamat anda mempunyai pet Baru ! 🎉');
-            break;
-          case 'dragon':
-            if (user.dragon > 0) return m.reply('Kamu sudah memilik ini');
-            if (user.pet < hdragon) return m.reply(`Pet Token anda kurang`);
-            global.db.data.users[m.sender].pet -= hdragon;
-            global.db.data.users[m.sender].dragon += 1;
-            m.reply('Selamat anda mempunyai pet Baru ! 🎉');
-            break;
-          case 'centaur':
-            if (user.centaur > 0) return m.reply('Kamu sudah memilik ini');
-            if (user.pet < hcentaur) return m.reply(`Pet Token anda kurang`);
-            global.db.data.users[m.sender].pet -= hcentaur;
-            global.db.data.users[m.sender].centaur += 1;
-            m.reply('Selamat anda mempunyai pet Baru ! 🎉');
-            break;
-          case 'kyubi':
-            if (user.kyubi > 0) return m.reply('Kamu sudah memilik ini');
-            if (user.pet < hkyubi) return m.reply(`Pet Token anda kurang`);
-            global.db.data.users[m.sender].pet -= hkyubi;
-            global.db.data.users[m.sender].kyubi += 1;
-            m.reply('Selamat anda mempunyai pet Baru ! 🎉');
-            break;
-          case 'griffin':
-            if (user.griffin > 0) return m.reply('Kamu sudah memilik ini');
-            if (user.pet < hgriffin) return m.reply(`Pet Token anda kurang`);
-            global.db.data.users[m.sender].pet -= hgriffin;
-            global.db.data.users[m.sender].griffin += 1;
-            m.reply('Selamat anda mempunyai pet Baru ! 🎉');
-            break;
           case 'phonix':
             if (user.phonix > 0) return m.reply('Kamu sudah memilik ini');
             if (user.pet < hphonix) return m.reply(`Pet Token anda kurang`);

@@ -27,7 +27,7 @@ const handler = {
       user.perkerjaandua = Date.now() + JAIL_TIME;
 
       setTimeout(() => {
-        conn.reply(who, `*Kamu telah di penjara oleh ${usar.name}*`, fverif);
+        conn.reply(who, `*Kamu telah di penjara oleh ${usar.name}*`, m);
       }, 5000);
       conn.reply(m.chat, `Berhasil penjara *@${(who || '').replace(/@s\.whatsapp\.net/g, '')}*\n🧤 +1 Tingkat Kerja Keras\n\n_Jika polisi diketahui memenjarai seseorang tanpa alasan tertentu, maka akan langsung diban oleh pihak atasan._`, m, { mentions: [who] });
       return;

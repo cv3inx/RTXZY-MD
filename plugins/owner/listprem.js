@@ -6,6 +6,8 @@ const handler = {
   run: async (m, { conn, text, usedPrefix }) => {
     function msToDate(ms) {
       let temp = ms,
+        days,
+        hours,
         daysms,
         hoursms,
         minutes,

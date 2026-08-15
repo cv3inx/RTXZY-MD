@@ -142,29 +142,6 @@ const handler = {
           } else m.reply(`*kamu tidak memiliki makanan pet*\n\n> ketik .shop buy makananpet\nuntuk memberi makan pet`);
         } else m.reply(`ʏᴏᴜʀ ᴘᴇᴛ ɪs ғᴜʟʟ, ᴛʀʏ ғᴇᴇᴅɪɴɢ ɪᴛ ᴀɢᴀɪɴ ɪɴ\n➞ *${waktuk}*`);
         break;
-      case 'robo':
-        if (robot == 0) return m.reply('*kamu tidak memiliki makanan pet*\n\n> ketik .shop buy makananpet\nuntuk memberi makan pet');
-        if (robot == 10) return m.reply('ʏᴏᴜʀ ᴘᴇᴛ ɪs ᴍᴀx ʟᴇᴠᴇʟ !');
-        let __wakturb = new Date() - user.robolastfeed;
-        let _wakturb = 600000 - __wakturb;
-        let wakturb = clockString(_wakturb);
-        if (new Date() - user.robolastfeed > 600000) {
-          if (user.makananpet > 0) {
-            user.makananpet -= 1;
-            user.roboexp += 20;
-            user.robolastfeed = new Date() * 1;
-            m.reply(`ғᴇᴇᴅɪɴɢ *${type}*...\n*${emo} :* ${pesan}`);
-            if (robot > 0) {
-              let naiklvl = robot * 100 - 1;
-              if (user.roboexp > naiklvl) {
-                user.robo += 1;
-                user.roboexp -= robot * 100;
-                m.reply(`*ᴄᴏɴɢʀᴀᴛs!* , ʏᴏᴜʀ ᴘᴇᴛ ʟᴇᴠᴇʟᴜᴘ`);
-              }
-            }
-          } else m.reply(`*kamu tidak memiliki makanan pet*\n\n> ketik .shop buy makananpet\nuntuk memberi makan pet`);
-        } else m.reply(`ʏᴏᴜʀ ᴘᴇᴛ ɪs ғᴜʟʟ, ᴛʀʏ ғᴇᴇᴅɪɴɢ ɪᴛ ᴀɢᴀɪɴ ɪɴ\n➞ *${wakturb}*`);
-        break;
       default:
         return m.reply(info);
     }

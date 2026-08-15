@@ -5,7 +5,7 @@ const handler = {
   group: true,
   command: ['masak', 'cook'],
   rpg: true,
-  run: async (m, { conn, command, usedPrefix, DevMode, args }) => {
+  run: async (m, { conn, command, usedPrefix, args }) => {
     let type = (args[0] || '').toLowerCase();
     let msk = (args[0] || '').toLowerCase();
     let user = global.db.data.users[m.sender];
@@ -185,11 +185,6 @@ gunakan spasi`;
     } catch (e) {
       conn.reply(m.chat, `Sepertinya ada yg eror,coba laporin ke owner deh`, m);
       console.log(e);
-      if (DevMode) {
-        for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-          conn.reply(jid, 'shop.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', MessageType.text);
-        }
-      }
     }
   }
 };

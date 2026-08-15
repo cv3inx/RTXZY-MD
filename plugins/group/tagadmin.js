@@ -5,7 +5,7 @@ const handler = {
   group: true,
   run: async (m, { conn, participants, groupMetadata }) => {
     const getGroupAdmins = (participants) => {
-      admins = [];
+      const admins = [];
       for (let i of participants) {
         i.admin === 'admin' ? admins.push(i.id) : '';
       }
@@ -31,7 +31,7 @@ ${groupMetadata.subject}
 *Group Admins:*
 ${listAdmin}
 `.trim();
-      ownernya = [`${m.chat.split`-`[0]}@s.whatsapp.net`];
+      const ownernya = [`${m.chat.split`-`[0]}@s.whatsapp.net`];
       let mentionedJid = groupAdmins.concat(ownernya);
       conn.sendFile(m.key.remoteJid, pp, 'pp.jpg', text, m, false, { contextInfo: { mentionedJid } });
     }

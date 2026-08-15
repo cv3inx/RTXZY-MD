@@ -229,19 +229,12 @@ gunakan spasi
           await conn.reply(m.chat, list, m);
       }
     } else if (/p/i.test(command)) {
-      const count = args[2] && args[2].length > 0 ? Math.min(99999999, Math.max(parseInt(args[2]), 1)) : !args[2] || args.length < 4 ? 1 : Math.min(1, count);
+      const count = args[2] && args[2].length > 0 ? Math.min(99999999, Math.max(parseInt(args[2]), 1)) : 1;
       switch (_type) {
         case 'p':
           break;
         default:
           return conn.reply(m.chat, list, m);
-      }
-
-      console.log(e);
-      if (DevMode) {
-        for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-          conn.reply(jid, 'shop.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m);
-        }
       }
     }
   }

@@ -8,7 +8,7 @@ const handler = {
   group: true,
   rpg: true,
   limit: 10,
-  run: async (m, { conn, args, usedPrefix, DevMode }) => {
+  run: async (m, { conn, args, usedPrefix }) => {
     conn.casino = conn.casino ? conn.casino : {};
     if (m.chat in conn.casino) return m.reply('Masih ada yang melakukan casino disini, tunggu sampai selesai!!');
     else conn.casino[m.chat] = true;
@@ -38,11 +38,6 @@ const handler = {
     } catch (e) {
       console.log(e);
       m.reply('Error!!');
-      if (DevMode) {
-        for (let jid of global.config.access.owner.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter((v) => v != conn.user.jid)) {
-          conn.sendMessage(jid, 'casino.js error\nNo: *' + m.sender.split`@`[0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', MessageType.text);
-        }
-      }
     } finally {
       delete conn.casino[m.chat];
     }

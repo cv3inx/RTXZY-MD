@@ -82,7 +82,7 @@ Nyawa Kamu berkurang -${healt * 1}, dan durability Sword Kamu -${sword * 1} kare
                 users[p1].sword -= 1;
                 users[p1].sworddurability = 0;
               }
-              let str3 = `${__sword1 ? ` Sword Kamu ${_sword1 ? ` Level nya berkurang 1 karena hancur` : ` Hancur, dan silahkan crafting Sword kembali dengan mengetik ${usedPrefix}`}craft sword` : ''} ${healt1 ? `${__sword1 ? 'Dan ' : ''}Nyawa Kamu habis, silahkan isi kembali dengan ketik ${usedPrefix}heal` : ''}`;
+              let str3 = `${__sword1 ? ` Sword Kamu ${_sword1 ? ` Level nya berkurang 1 karena hancur` : ` Hancur, dan silahkan crafting Sword kembali dengan mengetik ${global.config.prefix[0]}`}craft sword` : ''} ${healt1 ? `${__sword1 ? 'Dan ' : ''}Nyawa Kamu habis, silahkan isi kembali dengan ketik ${global.config.prefix[0]}heal` : ''}`;
               m.reply(str3, room.player1, {
                 contextInfo: {
                   mentionedJid: this.parseMention(str3)
@@ -300,7 +300,7 @@ Nyawa ${P} masing masing berkurang *-${healt * 1}*, dan durability Sword kalian 
           let sH = data(SDM1L);
           let H = data(HEALT);
 
-          let str3 = `${SDH || SDH.length > 0 || SDM1L || SDM1L.length > 0 ? `⚔️Sword ${(SDH || SDH.length > 0 ? sI + ' Hancur, silahkan crafting ⚔️Sword kembali dengan mengetik *' + usedPrefix + 'craft sword*' : '') + (SDM1L || SDM1L.length > 0 ? (SDH || SDH.length > 0 ? ', Sedangkan ⚔️Sword ' : '') + sH + ' Hancur, dan Menurun *1* Level' : '')}` : ''}${HEALT || HEALT.length > 0 ? `❤️Nyawa ${H} habis, silahkan isi ❤️Nyawa dengan mengetik ${usedPrefix}heal` : ''}`;
+          let str3 = `${SDH || SDH.length > 0 || SDM1L || SDM1L.length > 0 ? `⚔️Sword ${(SDH || SDH.length > 0 ? sI + ' Hancur, silahkan crafting ⚔️Sword kembali dengan mengetik *' + global.config.prefix[0] + 'craft sword*' : '') + (SDM1L || SDM1L.length > 0 ? (SDH || SDH.length > 0 ? ', Sedangkan ⚔️Sword ' : '') + sH + ' Hancur, dan Menurun *1* Level' : '')}` : ''}${HEALT || HEALT.length > 0 ? `❤️Nyawa ${H} habis, silahkan isi ❤️Nyawa dengan mengetik ${global.config.prefix[0]}heal` : ''}`;
           m.reply(str3, c1, {
             contextInfo: {
               mentionedJid: this.parseMention(str3)
@@ -388,7 +388,7 @@ Nyawa ${P} masing masing berkurang *-${healt * 1}*, dan durability Sword kalian 
 
       const buttons = [{ buttonId: 'gass..', buttonText: { displayText: 'gass..' }, type: 1 }];
 
-      let lmao = `${!room.game.player4 ? `Menunggu ${!room.game.player3 && !room.game.player4 ? '2' : '1'} Partner lagi... ${room.name ? `mengetik command dibawah ini *${usedPrefix}${command} ${room.name}*` : ''}` : 'Semua partner telah lengkap...'}`;
+      let lmao = `${!room.game.player4 ? `Menunggu ${!room.game.player3 && !room.game.player4 ? '2' : '1'} Partner lagi... ${room.name ? `mengetik command dibawah ini *${global.config.prefix[0]}${command} ${room.name}*` : ''}` : 'Semua partner telah lengkap...'}`;
       conn.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/750e79e2764d529aea52e.jpg' }, caption: lmao, mentions: [m.sender] }, { quoted: m });
 
       if (room.game.player1 && room.game.player2 && room.game.player3 && room.game.player4) {
@@ -502,7 +502,7 @@ Nyawa *${M(p1)}*, *${M(p2)}*, *${M(p3)}* dan *${M(p4)}* masing masing berkurang 
             if (![c1, c2, c3].includes(c4))
               m.reply(str2, c4, {
                 contextInfo: {
-                  mentionedJid: conn.parseMention(st2)
+                  mentionedJid: conn.parseMention(str2)
                 }
               });
 
@@ -598,7 +598,7 @@ Nyawa *${M(p1)}*, *${M(p2)}*, *${M(p3)}* dan *${M(p4)}* masing masing berkurang 
               let sH = data(SDM1L);
               let H = data(HEALT);
 
-              let str3 = `${SDH || SDH.length > 0 || SDM1L || SDM1L.length > 0 ? `⚔️Sword ${(SDH || SDH.length > 0 ? sI + ' Hancur, silahkan crafting ⚔️Sword kembali dengan mengetik *' + usedPrefix + 'craft sword*' : '') + (SDM1L || SDM1L.length > 0 ? (SDH || SDH.length > 0 ? ', Sedangkan ⚔️Sword ' : '') + sH + ' Hancur, dan Menurun *1* Level' : '')}` : ''}${HEALT || HEALT.length > 0 ? `❤️Nyawa ${H} habis, silahkan isi ❤️Nyawa dengan mengetik ${usedPrefix}heal` : ''}`;
+              let str3 = `${SDH || SDH.length > 0 || SDM1L || SDM1L.length > 0 ? `⚔️Sword ${(SDH || SDH.length > 0 ? sI + ' Hancur, silahkan crafting ⚔️Sword kembali dengan mengetik *' + usedPrefix + 'craft sword*' : '') + (SDM1L || SDM1L.length > 0 ? (SDH || SDH.length > 0 ? ', Sedangkan ⚔️Sword ' : '') + sH + ' Hancur, dan Menurun *1* Level' : '')}` : ''}${HEALT || HEALT.length > 0 ? `❤️Nyawa ${H} habis, silahkan isi ❤️Nyawa dengan mengetik ${global.config.prefix[0]}heal` : ''}`;
               await m.reply(str3, c1, {
                 contextInfo: {
                   mentionedJid: conn.parseMention(str3)
@@ -673,7 +673,7 @@ Nyawa *${M(p1)}*, *${M(p2)}*, *${M(p3)}* dan *${M(p4)}* masing masing berkurang 
         'Menunggu partner ' +
         (text
           ? `mengetik command dibawah ini
-${usedPrefix}${command} ${text}`
+${global.config.prefix[0]}${command} ${text}`
           : '') +
         '\natau ketik *sendiri* untuk bermain sendiri';
       conn.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/750e79e2764d529aea52e.jpg' }, caption: lmao, mentions: [m.sender] }, { quoted: m });
@@ -706,7 +706,7 @@ function item(sword, armor, healt, usedPrefix) {
   let a = armor * 1 < 1;
   let h = healt * 1 < 90;
   let str = `
-${sw ? 'Kamu belum memiliki ⚔️Sword' : ''}${sw && a && h ? ',' : sw && a ? ' dan ' : ''} ${a ? '🥼Armor' : ''}${sw && a && h ? ' dan Minimal 90 ❤Healt' : h ? 'Minimal 90 ❤Healt' : ''}${sw ? `\nuntuk mendapatkan ⚔Sword ketik *${usedPrefix}craft sword*` : ''}${a ? `\nuntuk mendapatkan 🥼Armor ketik *${usedPrefix}buy armor*` : ''}${h ? `\nuntuk menambah ❤Healt ketik *${usedPrefix}heal*` : ''}
+${sw ? 'Kamu belum memiliki ⚔️Sword' : ''}${sw && a && h ? ',' : sw && a ? ' dan ' : ''} ${a ? '🥼Armor' : ''}${sw && a && h ? ' dan Minimal 90 ❤Healt' : h ? 'Minimal 90 ❤Healt' : ''}${sw ? `\nuntuk mendapatkan ⚔Sword ketik *${global.config.prefix[0]}craft sword*` : ''}${a ? `\nuntuk mendapatkan 🥼Armor ketik *${global.config.prefix[0]}buy armor*` : ''}${h ? `\nuntuk menambah ❤Healt ketik *${global.config.prefix[0]}heal*` : ''}
 `.trim();
   return str;
 }

@@ -76,6 +76,47 @@ const config = {
 
 global.config = config;
 
+// Alias global lama.
+//
+// Sebelum config.js direstrukturisasi jadi objek bertingkat, plugin memakai nama
+// pendek ini langsung (`m.reply(wait)`, `${wm}`, `owner.map(...)`). Ratusan
+// plugin masih memakainya dan ESM selalu strict mode, jadi membacanya tanpa
+// definisi bukan `undefined` melainkan ReferenceError yang mematikan perintahnya.
+//
+// Dipasang sebagai getter, bukan salinan nilai, supaya tetap ikut berubah saat
+// config.js di-hot-reload — `config` di atas tetap satu-satunya sumber kebenaran.
+const legacyAliases = {
+  // messages
+  wait: () => config.messages.wait,
+  eror: () => config.messages.error,
+  stiker_wait: () => config.messages.stickerWait,
+  // branding
+  wm: () => config.branding.watermark,
+  packname: () => config.branding.stickerPackname,
+  author: () => config.branding.stickerAuthor,
+  thumb: () => config.branding.thumb,
+  // owner & akses
+  owner: () => config.access.owner,
+  numberowner: () => config.owner.number,
+  nameowner: () => config.owner.name,
+  mail: () => config.owner.mail,
+  // links
+  gc: () => config.links.group,
+  instagram: () => config.links.instagram,
+  // api
+  btc: () => config.api.botcahx.key,
+  aksesKey: () => config.api.botcahx.akseskey,
+  // Dipakai handler.js untuk menyensor key yang bocor ke teks error.
+  APIKeys: () =>
+    Object.values(config.api)
+      .flatMap((service) => [service.key, service.akseskey])
+      .filter(Boolean)
+};
+
+for (const [name, read] of Object.entries(legacyAliases)) {
+  Object.defineProperty(globalThis, name, { get: read, configurable: true });
+}
+
 import fs from 'fs';
 import { pathToFileURL } from 'url';
 import log from './lib/system/log.js';

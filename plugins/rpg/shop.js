@@ -407,14 +407,6 @@ Contoh penggunaan: *${usedPrefix}shop buy potion 1*
                 } else conn.reply(m.chat, `Uang anda tidak cukup untuk membeli ${count} bibit apel dengan harga ${Bbibitapel * count} money`.trim(), m);
 
                 break;
-              case 'gardenboxs':
-                if (global.db.data.users[m.sender].money >= Bgardenboxs * count) {
-                  global.db.data.users[m.sender].gardenboxs += count * 1;
-                  global.db.data.users[m.sender].money -= Bgardenboxs * count;
-                  conn.reply(m.chat, `Succes membeli ${count} Gardenboxs dengan harga ${Bgardenboxs * count} money`, m);
-                } else conn.reply(m.chat, `Uang anda tidak cukup untuk membeli ${count} gardenboxs dengan harga ${Bgardenboxs * count} money`.trim(), m);
-
-                break;
               case 'berlian':
                 if (global.db.data.users[m.sender].money >= Bberlian * count) {
                   global.db.data.users[m.sender].berlian += count * 1;
@@ -1037,14 +1029,6 @@ Contoh penggunaan: *${usedPrefix}shop buy potion 1*
               global.db.data.users[m.sender].money -= Bbibitapel * count;
               conn.reply(m.chat, `Succes membeli ${count} Bibit Apel dengan harga ${Bbibitapel * count} money`, m);
             } else conn.reply(m.chat, `Uang anda tidak cukup untuk membeli ${count} bibit apel dengan harga ${Bbibitapel * count} money`.trim(), m);
-
-            break;
-          case 'gardenboxs':
-            if (global.db.data.users[m.sender].money >= Bgardenboxs * count) {
-              global.db.data.users[m.sender].gardenboxs += count * 1;
-              global.db.data.users[m.sender].money -= Bgardenboxs * count;
-              conn.reply(m.chat, `Succes membeli ${count} Gardenboxs dengan harga ${Bgardenboxs * count} money`, m);
-            } else conn.reply(m.chat, `Uang anda tidak cukup untuk membeli ${count} gardenboxs dengan harga ${Bgardenboxs * count} money`.trim(), m);
 
             break;
           case 'berlian':
