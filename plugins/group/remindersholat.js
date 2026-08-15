@@ -1,8 +1,5 @@
 import axios from 'axios';
-import moment from 'moment-timezone';
 import Api from '../../lib/system/api.js';
-
-const timeZone = 'Asia/Jakarta';
 
 async function getPrayerTimesAndSetReminders() {
   try {
@@ -45,6 +42,15 @@ function getPrayerTimes(jsonData) {
 function setPrayerTimers(jadwal) {
   let now = new Date();
 
+  // Fungsi ini dipanggil ulang tiap 6 jam dan tiap hot reload. Tanpa penanda
+  // ini, satu waktu sholat dijadwalkan berkali-kali dan pengingatnya dobel.
+  const hari = now.toDateString();
+  if (global.__reminderSholatHari !== hari) {
+    global.__reminderSholatHari = hari;
+    global.__reminderSholatTerjadwal = new Set();
+  }
+  const terjadwal = (global.__reminderSholatTerjadwal ||= new Set());
+
   function calculateTimeDifference(prayerTime) {
     let cleanTime = prayerTime.replace(' (WIB)', '');
     let [hours, minutes] = cleanTime.split(':').map(Number);
@@ -62,12 +68,12 @@ function setPrayerTimers(jadwal) {
 
   for (let prayer of prayerTimes) {
     let timeDifference = calculateTimeDifference(prayer.time);
+    if (timeDifference <= 0 || terjadwal.has(prayer.name)) continue;
 
-    if (timeDifference > 0) {
-      setTimeout(() => {
-        sendPrayerReminderToGroups(prayer.name, prayer.time);
-      }, timeDifference);
-    }
+    terjadwal.add(prayer.name);
+    setTimeout(() => {
+      sendPrayerReminderToGroups(prayer.name, prayer.time);
+    }, timeDifference);
   }
 }
 
@@ -85,15 +91,8 @@ async function sendReminderToGroup(chatId, text) {
   await conn.sendMessage(chatId, { text });
 }
 
-function startDailyPrayerReminder() {
-  getPrayerTimesAndSetReminders();
-
-  setInterval(
-    () => {
-      getPrayerTimesAndSetReminders();
-    },
-    6 * 60 * 60 * 1000
-  ); // setiap 6 jam
-}
-
-startDailyPrayerReminder();
+// Hot reload meng-import ulang file ini dan menjalankan top-level-nya sekali
+// lagi. Tanpa membersihkan timer lama, tiap reload menambah satu interval baru.
+clearInterval(global.__reminderSholatTimer);
+global.__reminderSholatTimer = setInterval(getPrayerTimesAndSetReminders, 6 * 60 * 60 * 1000); // setiap 6 jam
+getPrayerTimesAndSetReminders();

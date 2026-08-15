@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { setInterval } from 'timers';
 import Api from '../../lib/system/api.js';
 
 let location = 'Jakarta';
@@ -62,23 +61,25 @@ async function sendReminderToGroup(chatId, text) {
   await conn.sendMessage(chatId, { text }); // Kirim pesan langsung ke grup
 }
 
+// Jam kirim pengingat. Ganti sesuai kebutuhan.
+const JAM_KIRIM = [7, 12, 18];
+
 function checkTimeAndSendWeather() {
   const now = new Date();
   const hours = now.getHours();
-  const minutes = now.getMinutes();
 
-  // if ((hours === 7 || hours === 12 || hours === 18) && minutes === 0)
-  // ini bisa di ganti ganti waktu nya kalian sesuai aja waktu yang kalian mau
-  if ((hours === 7 || hours === 12 || hours === 18) && minutes === 0) {
-    console.log('Mengambil data cuaca terbaru...');
-    getWeatherInfo();
-  }
+  if (!JAM_KIRIM.includes(hours)) return;
+  // Pengecekan jalan tiap menit, jadi tanpa penanda ini satu jam kirim bisa
+  // terpicu lebih dari sekali.
+  if (global.__reminderCuacaJam === hours) return;
+  global.__reminderCuacaJam = hours;
+
+  console.log('Mengambil data cuaca terbaru...');
+  getWeatherInfo();
 }
 
-function startDailyWeatherReminder() {
-  setInterval(() => {
-    checkTimeAndSendWeather();
-  }, 60 * 1000); // Cek setiap menit
-}
-
-startDailyWeatherReminder();
+// Hot reload meng-import ulang file ini dan menjalankan top-level-nya sekali
+// lagi. Tanpa membersihkan timer lama, tiap reload menambah satu interval baru
+// dan pengingatnya terkirim berkali-kali.
+clearInterval(global.__reminderCuacaTimer);
+global.__reminderCuacaTimer = setInterval(checkTimeAndSendWeather, 60 * 1000);

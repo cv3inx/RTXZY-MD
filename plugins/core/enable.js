@@ -11,15 +11,6 @@ const handler = {
     let isAll = false;
     let isUser = false;
     switch (type) {
-      case 'notifgempa':
-        if (m.isGroup) {
-          if (!(isAdmin || isOwner)) {
-            global.dfail('admin', m, conn);
-            return false;
-          }
-          chat.notifgempa = isEnable;
-        } else return global.dfail('group', m, conn);
-        break;
       case 'notifcuaca':
         if (m.isGroup) {
           if (!(isAdmin || isOwner)) {
@@ -136,10 +127,6 @@ const handler = {
           }
         }
         chat.antiToxic = isEnable;
-        break;
-      case 'autolevelup':
-        isUser = true;
-        user.autolevelup = isEnable;
         break;
       case 'anticall':
         if (!isOwner) {
@@ -316,7 +303,6 @@ List option:
 | autobackup
 | rpg
 | autobio
-| notifgempa
 | notifcuaca
 | notifsholat
 | antiporn
@@ -327,7 +313,6 @@ List option:
 | antilink
 | antidelete
 | autosticker
-| autolevelup
 | antisticker
 | detect
 | viewonce
