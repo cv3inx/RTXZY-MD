@@ -3,9 +3,6 @@ import globals from 'globals';
 // Catatan: test.js TIDAK di-ignore — espree 10 (eslint 9) sudah mendukung import attributes (ES2025).
 export default [
   {
-    ignores: ['lib/lowdb/index.js']
-  },
-  {
     files: ['**/*.js'],
     languageOptions: {
       // ecmaVersion 2025 = maksimum yang didukung espree 10 (eslint 9)

@@ -15,8 +15,8 @@ const BLUE = '\x1b[34m';
 import pkg from './package.json' with { type: 'json' };
 let files = [];
 
-// lib/lowdb and lib/json are vendored/data, not ours to lint.
-const VENDORED_DIRS = new Set(['lowdb', 'json']);
+// lib/json is data, not ours to lint.
+const VENDORED_DIRS = new Set(['json']);
 
 const listJsFiles = (dir) =>
   fs.existsSync(dir)
