@@ -50,6 +50,10 @@
 | **API key lewat `.env`**     | Key bisa diisi di `.env` supaya tidak ikut ter-commit                                                                            |
 | **Update LID resolver**      | Penanganan JID `@lid` (format baru WhatsApp) diperbarui                                                                          |
 | **Wajib Node.js 22+**        | Versi di bawah 22 ditolak saat boot                                                                                              |
+| **Database aman saat stop**  | Database di-flush saat bot berhenti, bukan cuma tiap 30 detik                                                                    |
+| **Pengaturan privasi akun**  | `.privacy` — last seen, foto profil, siapa boleh menambahkan ke grup, deny-list per kategori                                     |
+| **Pengaturan per-chat**      | `.chat` — pin, arsip, mute, tandai baca/belum baca, lock. Tersinkron ke semua perangkat tertaut                                  |
+| **Pesan sementara grup**     | `.pesansementara off/24jam/7hari/90hari`                                                                                         |
 
 ---
 
@@ -215,7 +219,7 @@ Semua plugin memakai key ini lewat helper `Api` di [`lib/system/api.js`](lib/sys
 
 ### Database
 
-Database bot menyimpan `users`, `chats`, `stats`, `msgs`, dan `sticker`. Isinya ditulis otomatis setiap 30 detik.
+Database bot menyimpan `users`, `chats`, `stats`, `msgs`, dan `sticker`. Isinya ditulis otomatis setiap 30 detik, **dan sekali lagi saat bot berhenti** (`Ctrl+C`, `SIGTERM`, atau restart) supaya perubahan di antara dua penulisan tidak hilang.
 
 ```js
   database: {
@@ -236,6 +240,7 @@ Catatan penting:
 - Argumen `--db` menimpa `database.type` tanpa mengubah `config.js`.
 - Kalau `type: 'mongodb'` tapi `mongoUrl` kosong, bot berhenti dengan pesan error — bukan diam-diam jatuh ke SQLite.
 - Menjalankan beberapa bot di satu folder: argumen posisional jadi prefix nama file, misal `node index.js bot2` memakai `database/bot2_database.sqlite`.
+- Saat berhenti, supervisor menunggu maksimal 5 detik sampai `main.js` selesai menyimpan sebelum ikut keluar. Kalau lewat, prosesnya dipaksa mati dan log-nya berbunyi `main.js tidak berhenti dalam 5s, dipaksa`.
 
 Logika pemilihan adapter ada di [`lib/database/adapter.js`](lib/database/adapter.js), dan bisa diuji sendiri:
 
@@ -575,6 +580,23 @@ const handle = await conn.getUsername(jid); // username WhatsApp, null kalau tid
 per pesan. Lewati jaringan sepenuhnya dengan `conn.getUsername(jid, true)`.
 `conn.getName()` sendiri sudah memakai username sebagai fallback sebelum
 menampilkan digit LID mentah.
+
+Pengaturan per-chat dipanggil lewat `conn.chatModify(mods, jid)`, bentuk yang
+sama seperti Baileys — satu operasi per panggilan:
+
+```js
+await conn.chatModify({ archive: true }, m.chat);
+await conn.chatModify({ pin: true }, m.chat);
+await conn.chatModify({ mute: 8 * 3600 * 1000 }, m.chat); // milidetik; null = unmute
+await conn.chatModify({ markRead: true }, m.chat);
+await conn.chatModify({ clear: 'all' }, m.chat);
+await conn.chatModify({ delete: true }, m.chat);
+```
+
+`mods` yang tidak dikenal **melempar error**, bukan diabaikan — kalau salah
+tulis, kamu tahu langsung dan tidak menyangka pengaturannya tersimpan. Semua ini
+app-state mutation: ikut tersinkron ke perangkat lain yang tertaut, dan hanya
+mengubah tampilan akun bot, bukan tampilan peer.
 
 ### Notifikasi MEX
 
