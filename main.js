@@ -7,8 +7,7 @@ import cp from 'child_process';
 import _ from 'lodash';
 import syntaxerror from 'syntax-error';
 import { buildPrefixRegex } from './lib/simple.js';
-import mongoDB from './lib/database/mongoDB.js';
-import cloudDBAdapter from './lib/database/cloudDBAdapter.js';
+import { createAdapter } from './lib/database/adapter.js';
 import readline from 'readline';
 import { createClient, authenticate, connectionUpdate, makeSocket } from './lib/system/connection.js';
 import { pathToFileURL, fileURLToPath } from 'url';
@@ -17,13 +16,7 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
 
-let low;
-try {
-  low = await import('lowdb');
-} catch (e) {
-  low = await import('./lib/lowdb.js');
-}
-const { Low, JSONFile } = low;
+const { Low } = await import('lowdb');
 
 (async () => {
   const rl = readline.createInterface({
@@ -55,7 +48,7 @@ const { Low, JSONFile } = low;
   global.opts = new Object(yargs(process.argv.slice(2)).exitProcess(false).parse());
   global.prefix = buildPrefixRegex(opts['prefix'] || global.config.prefix);
 
-  global.db = new Low(/https?:\/\//.test(opts['db'] || '') ? new cloudDBAdapter(opts['db']) : /mongodb/.test(opts['db']) ? new mongoDB(opts['db']) : new JSONFile(`${opts._[0] ? opts._[0] + '_' : ''}database.json`));
+  global.db = new Low(createAdapter(global.opts, global.config));
   global.DATABASE = global.db;
   global.loadDatabase = async function loadDatabase() {
     if (global.db.READ)
@@ -81,7 +74,7 @@ const { Low, JSONFile } = low;
   loadDatabase();
 
   const authFile = `${opts._[0] || 'sessions'}`;
-  const { conn: initialConn, connectionOptions, storeSqlitePath } = await createClient(authFile);
+  const { conn: initialConn, connectionOptions } = await createClient(authFile);
   global.conn = initialConn;
 
   if (!opts['test']) {
@@ -98,7 +91,7 @@ const { Low, JSONFile } = low;
   // `conn` below is deliberately not a local binding - it resolves to
   // global.conn (bare identifiers reach the global object in this codebase),
   // so it keeps working after reloadHandler swaps global.conn on reconnect.
-  global.conn = await authenticate(conn, { rl, question, connectionOptions, storeSqlitePath });
+  global.conn = await authenticate(conn, { rl, question });
 
   process.on('uncaughtException', console.error);
 

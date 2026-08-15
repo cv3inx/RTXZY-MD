@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 const handler = {
   help: ['guildstaff'],
   usage: 'tambah/hapus @user',
@@ -38,8 +36,6 @@ const handler = {
     } else {
       conn.reply(m.chat, 'Format yang kamu masukkan salah. Contoh penggunaan: .guildstaff tambah/hapus @user', m);
     }
-
-    fs.writeFileSync(dbPath, JSON.stringify(global.db.data, null, 2));
   }
 };
 

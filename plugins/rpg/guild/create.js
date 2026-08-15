@@ -1,6 +1,3 @@
-import fs from 'fs';
-const dbPath = './database.json'; // Path ke database file
-
 const handler = {
   help: ['createguild'],
   usage: 'nama_guild',
@@ -56,7 +53,6 @@ const handler = {
       };
       user.guild = guildId;
       user.money -= 20000000000; // Mengurangi money user setelah membuat guild
-      fs.writeFileSync(dbPath, JSON.stringify(global.db.data, null, 2));
       conn.reply(m.chat, `Guild ${guildName} berhasil dibuat.`, m);
     } else {
       conn.reply(m.chat, 'Terjadi kesalahan saat membuat guild. Coba lagi.', m);

@@ -57,8 +57,6 @@ const handler = {
         conn.reply(m.chat, 'Pilih jenis upgrade yang valid: level, eliksir, harta, guardian, attack.', m);
         break;
     }
-
-    fs.writeFileSync(dbPath, JSON.stringify(global.db.data, null, 2));
   }
 };
 

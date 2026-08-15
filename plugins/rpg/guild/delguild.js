@@ -1,6 +1,3 @@
-import fs from 'fs';
-const dbPath = './database.json'; // Path ke database file
-
 const handler = {
   help: ['delguild'],
   usage: 'nomor_guild',
@@ -42,8 +39,6 @@ const handler = {
         global.db.data.users[memberId].guild = null;
       }
     });
-
-    fs.writeFileSync(dbPath, JSON.stringify(global.db.data, null, 2));
 
     conn.reply(m.chat, `Guild ${selectedGuild.name} berhasil dihapus.`, m);
   }

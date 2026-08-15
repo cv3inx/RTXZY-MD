@@ -1,5 +1,3 @@
-//import db from '../../lib/database/database.js'
-
 import { createHash } from 'crypto';
 const handler = {
   help: ['unreg'],

@@ -1,6 +1,3 @@
-import fs from 'fs';
-const dbPath = './database.json';
-
 const handler = {
   help: ['attackguild'],
   tags: ['rpgG'],
@@ -53,9 +50,6 @@ const handler = {
 
       attackedGuild.elixir -= elixirStolen;
       attackedGuild.treasure -= treasureStolen;
-
-      // Update basis data
-      fs.writeFileSync(dbPath, JSON.stringify(global.db.data, null, 2));
 
       let result = guild.name === attackedGuild.name ? 'Draw' : guild.elixir > attackedGuild.elixir ? `${guild.name} Win` : `${guild.name} Lose`;
 

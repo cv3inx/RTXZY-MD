@@ -1,4 +1,3 @@
-//import db from '../../lib/database/database.js'
 let reg = 100;
 const handler = {
   help: ['slot'],
