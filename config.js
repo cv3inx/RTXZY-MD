@@ -77,12 +77,12 @@ const config = {
 global.config = config;
 
 import fs from 'fs';
-import chalk from 'chalk';
 import { pathToFileURL } from 'url';
+import log from './lib/system/log.js';
 const file = import.meta.filename;
 fs.unwatchFile(file);
 fs.watchFile(file, async () => {
   fs.unwatchFile(file);
-  console.log(chalk.redBright("Update 'config.js'"));
+  log.reload('config.js');
   await import(pathToFileURL(file).href + '?update=' + Date.now());
 });

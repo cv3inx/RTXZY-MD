@@ -561,11 +561,11 @@ global.dfail = (type, m, conn) => {
 };
 
 import fs from 'fs';
-import chalk from 'chalk';
+import log from './lib/system/log.js';
 let file = import.meta.filename;
 fs.unwatchFile(file);
 fs.watchFile(file, () => {
   fs.unwatchFile(file);
-  console.log(chalk.redBright("Update 'handler.js'"));
+  log.reload('handler.js');
   if (global.reloadHandler) global.reloadHandler();
 });

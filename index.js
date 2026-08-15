@@ -7,16 +7,11 @@ import fs from 'fs';
 import os from 'os';
 import http from 'http';
 import chalk from 'chalk';
-
-const log = {
-  info: (m) => console.log(chalk.yellow(m)),
-  ok: (m) => console.log(chalk.green(m)),
-  err: (m) => console.error(chalk.red(m))
-};
+import log from './lib/system/log.js';
 
 const nodeVersion = parseInt(process.versions.node.split('.')[0]);
 if (nodeVersion < 22) {
-  log.err(`❌ Node.js ${nodeVersion} is not supported. Please use Node.js 22 or higher.`);
+  log.error(`Node.js ${nodeVersion} tidak didukung, butuh Node.js 22 atau lebih baru.`);
   process.exit(1);
 }
 
@@ -40,30 +35,27 @@ const server = http.createServer((req, res) => {
 function listenOnPort(port) {
   server.once('error', (e) => {
     if (e.code === 'EADDRINUSE' && port !== 0) {
-      log.info(`Port ${port} is already in use, trying another random port`);
+      log.warn(`Port ${port} sudah dipakai, mencoba port acak`);
       listenOnPort(0);
       return;
     }
 
-    log.err(`failed: ${e}`);
+    log.error(`HTTP server gagal: ${e}`);
     process.exit(1);
   });
 
-  server.listen(port, '0.0.0.0', () => log.info(`🔌 Port ${server.address().port} is open`));
+  server.listen(port, '0.0.0.0', () => log.info(`HTTP server di port ${server.address().port}`));
 }
 
 function printBanner() {
-  log.info(`🖥️  ${os.type()}, ${os.release()} - ${os.arch()}`);
-  log.info(`💾 Total RAM: ${(os.totalmem() / 1024 ** 3).toFixed(2)} GB`);
-  log.info(`💽 Free RAM: ${(os.freemem() / 1024 ** 3).toFixed(2)} GB`);
+  console.log(chalk.bold.green('\n  RTXZY-MD') + chalk.dim('  ·  bot WhatsApp berbasis zapo-js\n'));
+  let zapoVersion = null;
   try {
     require.resolve('zapo-js');
-    log.info(`🟡 zapo-js library version ${require('zapo-js/package.json').version} is installed`);
-  } catch {
-    log.err(`❌ zapo-js library is not installed`);
-  }
-  log.info(`📃 Script by BOTCAHX`);
-  log.info(`🔗 Github: https://github.com/BOTCAHX/RTXZY-MD`);
+    zapoVersion = require('zapo-js/package.json').version;
+  } catch {}
+  log.info(`Node ${process.versions.node} · zapo-js ${zapoVersion || chalk.red('tidak terpasang')}`);
+  log.info(`${os.type()} ${os.release()} ${os.arch()} · RAM ${(os.freemem() / 1024 ** 3).toFixed(1)}/${(os.totalmem() / 1024 ** 3).toFixed(1)} GB`);
 }
 
 listenOnPort(Number(process.env.PORT) || 0);
@@ -87,7 +79,8 @@ function start() {
   });
 
   child.on('message', (data) => {
-    console.log(chalk.cyan(`🟢 RECEIVED ${data}`));
+    // 'uptime' dipanggil plugin dan bisa sering, jadi tidak dicatat.
+    if (data !== 'uptime') log.info(`IPC: ${data}`);
     switch (data) {
       case 'reset':
         child.kill();
@@ -98,12 +91,12 @@ function start() {
     }
   });
 
-  child.on('error', (err) => log.err(`Spawn error: ${err}`));
+  child.on('error', (err) => log.error(`Gagal spawn main.js: ${err}`));
 
   child.on('exit', (code, signal) => {
     child = null;
     if (stopping) return;
-    log.err(`Exited with ${signal ? `signal ${signal}` : `code ${code}`}`);
+    log.warn(`main.js berhenti (${signal ? `signal ${signal}` : `exit ${code}`})`);
 
     // Backoff kalau main.js mati seketika berulang kali (mis. syntax error).
     // Tanpa ini supervisor spawn tanpa henti dan menghabiskan CPU.
@@ -113,12 +106,12 @@ function start() {
     if (crashStreak === 0) return start();
 
     const delay = Math.min(MAX_BACKOFF_MS, 1000 * 2 ** (crashStreak - 1));
-    log.err(`Crashed ${crashStreak}x langsung setelah start, restart dalam ${delay / 1000}s...`);
+    log.error(`Crash ${crashStreak}x langsung setelah start, restart dalam ${delay / 1000}s`);
     setTimeout(start, delay).unref();
     // unwatch dulu: restart bisa terjadi berkali-kali -> tanpa ini StatWatcher
     // main.js menumpuk listener (leak -> MaxListenersExceededWarning)
     fs.unwatchFile(MAIN);
-    fs.watchFile(MAIN, () => restart(`File ${MAIN} diubah, restart sekarang...`));
+    fs.watchFile(MAIN, () => restart('main.js diubah, restart sekarang'));
   });
 }
 
@@ -126,7 +119,7 @@ function start() {
 // dulu - handler 'exit' di atas yang menghidupkannya lagi. Memanggil start()
 // langsung tidak akan berefek selama `child` masih terisi.
 function restart(reason) {
-  log.err(reason);
+  log.reload(reason);
   crashStreak = 0;
   if (child) child.kill();
   else start();
@@ -135,7 +128,7 @@ function restart(reason) {
 const tmpDir = './tmp';
 if (!fs.existsSync(tmpDir)) {
   fs.mkdirSync(tmpDir);
-  log.info(`📁 Created directory ${tmpDir}`);
+  log.info(`Folder ${tmpDir} dibuat`);
 }
 
 start();
@@ -145,14 +138,14 @@ start();
 
 process.on('unhandledRejection', (reason) => {
   // Restart ditangani oleh handler 'exit' milik child. Supervisor cukup mencatat.
-  log.err(`Unhandled promise rejection di supervisor: ${reason}`);
+  log.error(`Unhandled rejection di supervisor: ${reason}`);
 });
 
 for (const signal of ['SIGINT', 'SIGTERM']) {
   process.on(signal, () => {
     if (stopping) return;
     stopping = true;
-    log.info(`\n${signal} diterima, menghentikan bot...`);
+    log.warn(`${signal} diterima, menghentikan bot`);
     fs.unwatchFile(MAIN);
     if (child) child.kill(signal);
     server.close();

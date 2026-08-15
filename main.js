@@ -10,6 +10,7 @@ import { buildPrefixRegex } from './lib/simple.js';
 import { createAdapter } from './lib/database/adapter.js';
 import readline from 'readline';
 import { createClient, authenticate, connectionUpdate, makeSocket } from './lib/system/connection.js';
+import log from './lib/system/log.js';
 import { pathToFileURL, fileURLToPath } from 'url';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
@@ -146,32 +147,38 @@ const { Low } = await import('lowdb');
       const module = await import(pathToFileURL(path.join(pluginFolder, filename)).href + '?update=' + Date.now());
       global.plugins[filename] = module.default || module;
     } catch (e) {
-      conn.logger.error(e);
+      log.error(`Plugin '${filename}' gagal dimuat`);
+      log.detail(String(e?.stack || e).split('\n')[0]);
       delete global.plugins[filename];
     }
   }
-  console.log(Object.keys(global.plugins).length + ' plugins loaded.');
+  const pluginCount = Object.keys(global.plugins).length;
+  const failed = listPluginFiles(pluginFolder).length - pluginCount;
+  log.info(`${pluginCount} plugin dimuat${failed > 0 ? `, ${failed} gagal` : ''} · database ${global.config.database?.type || 'sqlite'} · prefix ${(global.config.prefix || []).join(' ')}`);
 
   global.reload = async (_ev, filename) => {
     if (pluginFilter(filename)) {
       let dir = path.join(pluginFolder, filename);
       if (fs.existsSync(dir)) {
-        conn.logger.info(`reloading plugin '${filename}'`);
+        log.reload(filename);
       } else {
-        conn.logger.warn(`deleted plugin '${filename}'`);
+        log.warn(`Plugin dihapus: ${filename}`);
         return delete global.plugins[filename];
       }
       let err = syntaxerror(fs.readFileSync(dir), filename, {
         sourceType: 'module',
         allowAwaitOutsideFunction: true
       });
-      if (err) conn.logger.error(`syntax error while loading '${filename}'\n${err}`);
-      else
+      if (err) {
+        log.error(`Syntax error di '${filename}', versi lama tetap dipakai`);
+        log.detail(String(err).split('\n')[0]);
+      } else
         try {
           const module = await import(pathToFileURL(dir).href + '?update=' + Date.now());
           global.plugins[filename] = module.default || module;
         } catch (e) {
-          conn.logger.error(e);
+          log.error(`Gagal reload '${filename}'`);
+          log.detail(String(e?.stack || e).split('\n')[0]);
         } finally {
           global.plugins = Object.fromEntries(Object.entries(global.plugins).sort(([a], [b]) => a.localeCompare(b)));
         }
@@ -198,7 +205,7 @@ const { Low } = await import('lowdb');
       })
     );
     let [ffmpeg, ffprobe, ffmpegWebp, convert, magick, gm, find] = test;
-    console.log(`${test.filter(Boolean).length}/${test.length} tools found.`);
+    log.info(`${test.filter(Boolean).length}/${test.length} tool media tersedia`);
     let s = (global.support = {
       ffmpeg,
       ffprobe,
@@ -210,12 +217,13 @@ const { Low } = await import('lowdb');
     });
     Object.freeze(global.support);
 
-    if (!s.ffmpeg) conn.logger.warn('Please install ffmpeg for sending videos (pkg install ffmpeg)');
-    if (s.ffmpeg && !s.ffmpegWebp) conn.logger.warn('Stickers may not animated without libwebp on ffmpeg (--enable-ibwebp while compiling ffmpeg)');
-    if (!s.convert && !s.magick && !s.gm) conn.logger.warn('Stickers may not work without imagemagick if libwebp on ffmpeg doesnt isntalled (pkg install imagemagick)');
+    if (!s.ffmpeg) log.warn('ffmpeg tidak ada — pengiriman video akan gagal');
+    if (s.ffmpeg && !s.ffmpegWebp) log.warn('ffmpeg tanpa libwebp — stiker animasi tidak jalan');
+    if (!s.convert && !s.magick && !s.gm) log.warn('imagemagick tidak ada — stiker bisa gagal kalau ffmpeg juga tanpa libwebp');
   }
 
-  _quickTest()
-    .then(() => conn.logger.info('Quick Test Done'))
-    .catch((err) => conn.logger.error('Quick Test Failed', err));
+  _quickTest().catch((err) => {
+    log.error('Pengecekan tool gagal');
+    log.detail(String(err?.message || err));
+  });
 })();
