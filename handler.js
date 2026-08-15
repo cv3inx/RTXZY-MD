@@ -25,6 +25,10 @@ export default {
       m = simple.smsg(this, m) || m;
       if (!m) return;
       if (isNewsletterJid(m.chat)) return;
+      // Server hanya melampirkan username di key sesekali, jadi kalau belum ada
+      // diambil di sini. getUsername() men-cache hasilnya (termasuk yang kosong),
+      // jadi ini satu request per pengirim, bukan per pesan.
+      if (!m.senderUsername && m.sender && this.getUsername) m.senderUsername = await this.getUsername(m.sender).catch(() => null);
       if (m.chat && m.isGroup && !global.db.data.chats[m.chat]) {
         global.db.data.chats[m.chat] = { detect: true, delete: true };
       }

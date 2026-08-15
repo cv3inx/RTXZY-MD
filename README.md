@@ -516,19 +516,20 @@ Plugin di `plugins/_events/` umumnya hanya memakai `before` atau `all` — itula
 
 ### Objek `m`
 
-| Properti           | Isi                                                         |
-| ------------------ | ----------------------------------------------------------- |
-| `m.chat`           | JID chat (grup atau pribadi)                                |
-| `m.sender`         | JID pengirim                                                |
-| `m.isGroup`        | `true` kalau dari grup                                      |
-| `m.fromMe`         | `true` kalau pesan dari bot sendiri                         |
-| `m.text`           | Isi teks pesan                                              |
-| `m.name`           | Nama tampilan pengirim                                      |
-| `m.senderUsername` | Username WhatsApp pengirim, `null` kalau tidak ada          |
-| `m.mtype`          | Tipe pesan (`conversation`, `imageMessage`, dan seterusnya) |
-| `m.mentionedJid`   | Array JID yang di-mention                                   |
-| `m.quoted`         | Pesan yang di-reply, `null` kalau tidak ada                 |
-| `m.id` / `m.key`   | ID & key pesan                                              |
+| Properti           | Isi                                                                  |
+| ------------------ | -------------------------------------------------------------------- |
+| `m.chat`           | JID chat (grup atau pribadi)                                         |
+| `m.sender`         | JID pengirim                                                         |
+| `m.participant`    | Pengarang pesan, selalu terisi — `key.participant` hanya ada di grup |
+| `m.isGroup`        | `true` kalau dari grup                                               |
+| `m.fromMe`         | `true` kalau pesan dari bot sendiri                                  |
+| `m.text`           | Isi teks pesan                                                       |
+| `m.name`           | Nama tampilan pengirim                                               |
+| `m.senderUsername` | Username WhatsApp pengirim, `null` kalau tidak ada                   |
+| `m.mtype`          | Tipe pesan (`conversation`, `imageMessage`, dan seterusnya)          |
+| `m.mentionedJid`   | Array JID yang di-mention                                            |
+| `m.quoted`         | Pesan yang di-reply, `null` kalau tidak ada                          |
+| `m.id` / `m.key`   | ID & key pesan                                                       |
 
 | Method                   | Fungsi                                              |
 | ------------------------ | --------------------------------------------------- |
