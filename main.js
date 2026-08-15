@@ -7,7 +7,7 @@ import cp from 'child_process';
 import _ from 'lodash';
 import syntaxerror from 'syntax-error';
 import { buildPrefixRegex } from './lib/simple.js';
-import { createAdapter, resolveDb } from './lib/database/adapter.js';
+import { createAdapter, resolveDb, flushAndClose } from './lib/database/adapter.js';
 import readline from 'readline';
 import { createClient, authenticate, connectionUpdate, makeSocket } from './lib/system/connection.js';
 import log from './lib/system/log.js';
@@ -95,6 +95,20 @@ const { Low } = await import('lowdb');
   global.conn = await authenticate(conn, { rl, question });
 
   process.on('uncaughtException', console.error);
+
+  // Interval di atas hanya menulis tiap 30 detik, jadi tanpa flush di sini
+  // setiap stop/restart membuang perubahan terakhir (exp, limit, warn, state
+  // game).
+  let closing = false;
+  const shutdown = async (signal) => {
+    if (closing) return;
+    closing = true;
+    const err = await flushAndClose(global.db);
+    if (err) log.error(`Gagal menyimpan database saat ${signal}: ${err.message}`);
+    else log.ok(`${signal}: database disimpan`);
+    process.exit(err ? 1 : 0);
+  };
+  for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => shutdown(signal));
 
   const imports = async (filePath) => {
     const resolvedPath = path.resolve(filePath);

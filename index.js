@@ -64,6 +64,7 @@ listenOnPort(Number(process.env.PORT) || 0);
 const MAIN = path.resolve(__dirname, 'main.js');
 const HEALTHY_AFTER_MS = 5000; // hidup selama ini = dianggap start yang sehat
 const MAX_BACKOFF_MS = 30000;
+const SHUTDOWN_GRACE_MS = 5000; // jatah main.js menyimpan database saat berhenti
 
 let child = null;
 let crashStreak = 0;
@@ -147,8 +148,18 @@ for (const signal of ['SIGINT', 'SIGTERM']) {
     stopping = true;
     log.warn(`${signal} diterima, menghentikan bot`);
     fs.unwatchFile(MAIN);
-    if (child) child.kill(signal);
     server.close();
-    process.exit(0);
+    if (!child) return process.exit(0);
+
+    // Ditunggu, tidak langsung exit: main.js menyimpan database dulu saat
+    // menerima sinyal. Kalau supervisor mati lebih dulu, child terbunuh di
+    // tengah penulisan dan perubahan terakhir hilang.
+    child.once('exit', () => process.exit(0));
+    child.kill(signal);
+    setTimeout(() => {
+      log.error(`main.js tidak berhenti dalam ${SHUTDOWN_GRACE_MS / 1000}s, dipaksa`);
+      child?.kill('SIGKILL');
+      process.exit(1);
+    }, SHUTDOWN_GRACE_MS);
   });
 }
