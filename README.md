@@ -516,18 +516,19 @@ Plugin di `plugins/_events/` umumnya hanya memakai `before` atau `all` — itula
 
 ### Objek `m`
 
-| Properti         | Isi                                                         |
-| ---------------- | ----------------------------------------------------------- |
-| `m.chat`         | JID chat (grup atau pribadi)                                |
-| `m.sender`       | JID pengirim                                                |
-| `m.isGroup`      | `true` kalau dari grup                                      |
-| `m.fromMe`       | `true` kalau pesan dari bot sendiri                         |
-| `m.text`         | Isi teks pesan                                              |
-| `m.name`         | Nama tampilan pengirim                                      |
-| `m.mtype`        | Tipe pesan (`conversation`, `imageMessage`, dan seterusnya) |
-| `m.mentionedJid` | Array JID yang di-mention                                   |
-| `m.quoted`       | Pesan yang di-reply, `null` kalau tidak ada                 |
-| `m.id` / `m.key` | ID & key pesan                                              |
+| Properti           | Isi                                                         |
+| ------------------ | ----------------------------------------------------------- |
+| `m.chat`           | JID chat (grup atau pribadi)                                |
+| `m.sender`         | JID pengirim                                                |
+| `m.isGroup`        | `true` kalau dari grup                                      |
+| `m.fromMe`         | `true` kalau pesan dari bot sendiri                         |
+| `m.text`           | Isi teks pesan                                              |
+| `m.name`           | Nama tampilan pengirim                                      |
+| `m.senderUsername` | Username WhatsApp pengirim, `null` kalau tidak ada          |
+| `m.mtype`          | Tipe pesan (`conversation`, `imageMessage`, dan seterusnya) |
+| `m.mentionedJid`   | Array JID yang di-mention                                   |
+| `m.quoted`         | Pesan yang di-reply, `null` kalau tidak ada                 |
+| `m.id` / `m.key`   | ID & key pesan                                              |
 
 | Method                   | Fungsi                                              |
 | ------------------------ | --------------------------------------------------- |
@@ -566,7 +567,31 @@ await conn.sendImageAsSticker(m.chat, buffer, m); // gambar jadi stiker
 await conn.reply(m.chat, 'teks', m); // balasan
 const buffer = await conn.getFile(url); // unduh file
 const name = await conn.getName(jid); // nama kontak/grup
+const handle = await conn.getUsername(jid); // username WhatsApp, null kalau tidak ada
 ```
+
+`conn.getUsername()` di-cache, termasuk hasil negatifnya, jadi aman dipanggil
+per pesan. Lewati jaringan sepenuhnya dengan `conn.getUsername(jid, true)`.
+`conn.getName()` sendiri sudah memakai username sebagai fallback sebelum
+menampilkan digit LID mentah.
+
+### Notifikasi MEX
+
+Perubahan username kontak, rotasi LID, dan status kuota pesan keluar datang
+lewat satu event:
+
+```js
+conn.ev.on('mex.notification', (ev) => {
+  if (ev.kind === 'username_set') console.log(ev.lidJid, '->', ev.username);
+  if (ev.kind === 'message_capping') console.log(ev.cappingStatus, ev.usedQuota, '/', ev.totalQuota);
+});
+```
+
+`kind` yang tersedia: `username_set`, `username_delete`, `username_update_hint`,
+`own_username_sync`, `text_status_update`, `text_status_update_hint`,
+`lid_change`, `message_capping`, `unknown`. Bot sudah otomatis mencetak
+peringatan ke terminal kalau `message_capping` bukan `NONE` — itu tanda akun
+mendekati batas kirim.
 
 ### Menyimpan data
 
