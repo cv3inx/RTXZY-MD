@@ -18,6 +18,8 @@ export default {
     // if (chatUpdate.messages.length > 1) console.log(chatUpdate.messages)
     let m = chatUpdate.messages[chatUpdate.messages.length - 1];
     if (!m) return;
+    // Skip all messages during offline resume (queued messages from WhatsApp)
+    if (this.isOfflineResuming) return
     // Skip messages from channels/newsletters - bot only serves group & private chat
     if (isNewsletterJid(m.key?.remoteJid)) return;
     //console.log(JSON.stringify(m, null, 4))
@@ -431,7 +433,7 @@ export default {
       } catch (e) {
         // console.log(m, m.quoted, e)
       }
-      if (opts['autoread'] && m.key?.id) await this.sendReadReceipt(m.chat, m.key.participant || m.sender, [m.key.id]);
+      if (opts['autoread'] && m.key?.id) await this.sendReadReceipt(m.chat, m.isGroup ? m.key.participant || m.sender : null, [m.key.id]);
     }
   },
 
@@ -494,8 +496,10 @@ export default {
         break;
     }
   },
+
   async delete({ remoteJid, fromMe, id, participant }) {
     if (fromMe) return;
+    if (!remoteJid?.endsWith('@g.us')) return; // anti-delete only for groups
     const _now = Date.now();
     this._delCache = this._delCache || new Map();
     if (id && this._delCache.get(id) > _now - 5000) return;

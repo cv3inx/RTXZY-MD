@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "zapo-docs": {
+      "type": "http",
+      "url": "https://zapo.to/mcp"
+    },
+    "zapo": {
+      "command": "node",
+      "args": ["node_modules/@zapo-js/mcp-server/dist/bin.js"],
+      "env": {
+        "MCP_AUTH_PATH": "sessions/mcp.sqlite",
+        "MCP_SESSION_ID": "zapx-dev",
+        "MCP_LOG_LEVEL": "info"
+      }
+    }
+  }
+}

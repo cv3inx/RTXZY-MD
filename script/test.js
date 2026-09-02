@@ -12,7 +12,7 @@ const RED = '\x1b[31m';
 const GREEN = '\x1b[32m';
 const BLUE = '\x1b[34m';
 
-import pkg from './package.json' with { type: 'json' };
+import pkg from '../package.json' with { type: 'json' };
 let files = [];
 
 // lib/json is data, not ours to lint.

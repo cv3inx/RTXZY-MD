@@ -15,21 +15,21 @@ const config = {
     mail: 'ditzzyaf@gmail.com'
   },
   usePair: false, //  true = pakai pairing code, false = pakai qr code
-  botNumber: '',
+  botNumber: '6283847444637', // awali 628 untuk nomor bot
   pairingCode: 'ABCD1234', // wajib 8 digit kode unik
 
   // Karakter prefix yang dikenali bot, satu karakter per entry.
   prefix: ['.', '#', '!', '/'],
 
   // Tempat penyimpanan database bot (users, chats, stats, dll).
-  //   'sqlite'  -> database/database.sqlite (default, WAL)
-  //   'json'    -> database/database.json
-  //   'mongodb' -> wajib isi mongoUrl di bawah
-  // Data dari database.json lama di root diimpor sekali otomatis.
-  // Argumen --db saat menjalankan bot menimpa pilihan ini.
+  // Isi `url` saja — tipenya dideteksi sendiri dari skema URL-nya. `type` cuma
+  // dipakai kalau `url` kosong (default: sqlite di database/database.sqlite).
+  // Data dari database.json lama di root diimpor sekali otomatis (ke sqlite).
+  // Argumen --db saat menjalankan bot menimpa keduanya.
   database: {
     type: 'sqlite',
-    mongoUrl: '' // contoh: mongodb://user:pass@host:27017/bot
+    // contoh: postgres://user:pass@host:5432/bot · mongodb://user:pass@host:27017/bot · https://host.dev/db.json (cloud)
+    url: process.env.DATABASE_URL || ''
   },
 
   access: {
@@ -40,7 +40,7 @@ const config = {
 
   links: {
     group: 'https://chat.whatsapp.com/I5RpePh2b5u37OyFjzCNTr', // wajib diisi
-    instagram: 'https://instagram.com/prm2.0' // wajib diisi
+    instagram: 'https://instagram.com/zyy.afk' // wajib diisi
   },
 
   branding: {
@@ -51,9 +51,9 @@ const config = {
   },
 
   messages: {
-    wait: '_*Tunggu sedang di proses...*_',
-    error: '_*Server Error*_',
-    stickerWait: '*⫹⫺ Stiker sedang dibuat...*'
+    wait: '> *Tunggu sedang di proses...*',
+    error: '> *Server Error*',
+    stickerWait: '> *⫹⫺ Stiker sedang dibuat...*'
   },
 
   maxWarn: 5,

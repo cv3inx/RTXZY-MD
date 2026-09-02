@@ -1,6 +1,6 @@
-<h1 align="center">RTXZY-MD</h1>
+<h1 align="center">VIOZAP</h1>
 
-<p align="center">Bot WhatsApp multi-fitur berbasis <a href="https://zapo.to"><code>zapo-js</code></a> — 700+ plugin, ESM murni, hot-reload.</p>
+<p align="center">Bot WhatsApp multi-fitur di atas <a href="https://zapo.to"><code>zapo-js</code></a> — 700+ plugin, ESM murni, hot-reload tanpa restart.</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Node.js-22%2B-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node">
@@ -10,239 +10,142 @@
 
 ---
 
-## Daftar Isi
+**Pemakaian** · [Mulai Cepat](#mulai-cepat) · [Persyaratan](#persyaratan) · [Instalasi](#instalasi) · [Konfigurasi](#konfigurasi) · [Menjalankan](#menjalankan) · [Argumen CLI](#argumen-cli) · [Deployment](#deployment)
 
-**Pemakaian**
-
-- [Pembaruan Terbaru](#pembaruan-terbaru)
-- [Persyaratan](#persyaratan)
-- [Instalasi](#instalasi)
-- [Konfigurasi](#konfigurasi)
-- [Menjalankan Bot](#menjalankan-bot)
-- [Daftar Argumen](#daftar-argumen)
-- [Deployment](#deployment)
-
-**Pengembangan**
-
-- [Struktur Proyek](#struktur-proyek)
-- [Cara Kerja](#cara-kerja)
-- [Membuat Plugin](#membuat-plugin)
-- [Lint, Format & Test](#lint-format--test)
-- [MCP Development](#mcp-development)
-
-**Lain-lain**
-
-- [Kontributor](#kontributor)
-- [Support](#support)
+**Pengembangan** · [Struktur](#struktur-proyek) · [Cara Kerja](#cara-kerja) · [Membuat Plugin](#membuat-plugin) · [Test & Lint](#test--lint) · [MCP](#mcp)
 
 ---
 
-## Pembaruan Terbaru
-
-| Perubahan                    | Keterangan                                                                                                                       |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| **Pindah ke zapo-js**        | Library WhatsApp diganti dari Baileys ke [`zapo-js`](https://zapo.to). Dokumentasi & MCP di [`zapo.to/mcp`](https://zapo.to/mcp) |
-| **ESM (ECMAScript Modules)** | Semua file pakai `import`/`export` native, bukan `require`                                                                       |
-| **Server HTTP native**       | Dependensi `express` dibuang, pakai modul `http` bawaan Node                                                                     |
-| **Sesi lokal SQLite**        | Kredensial WhatsApp di `sessions/state.sqlite` (`@zapo-js/store-sqlite` + `better-sqlite3`)                                      |
-| **Database bot 3 tipe**      | `sqlite` (default), `json`, atau `mongodb` — pilih di `config.js`. Semua file database ada di folder `database/`                 |
-| **Login dual mode**          | QR Code (default) atau Pairing Code, diatur lewat `usePair` di `config.js`                                                       |
-| **API key lewat `.env`**     | Key bisa diisi di `.env` supaya tidak ikut ter-commit                                                                            |
-| **Update LID resolver**      | Penanganan JID `@lid` (format baru WhatsApp) diperbarui                                                                          |
-| **Wajib Node.js 22+**        | Versi di bawah 22 ditolak saat boot                                                                                              |
-| **Database aman saat stop**  | Database di-flush saat bot berhenti, bukan cuma tiap 30 detik                                                                    |
-| **Pengaturan privasi akun**  | `.privacy` — last seen, foto profil, siapa boleh menambahkan ke grup, deny-list per kategori                                     |
-| **Pengaturan per-chat**      | `.chat` — pin, arsip, mute, tandai baca/belum baca, lock. Tersinkron ke semua perangkat tertaut                                  |
-| **Pesan sementara grup**     | `.pesansementara off/24jam/7hari/90hari`                                                                                         |
-
----
-
-## Persyaratan
-
-| Komponen        | Keterangan                                                                 |
-| --------------- | -------------------------------------------------------------------------- |
-| **Node.js**     | Versi **22 atau lebih baru** (dicek saat boot, di bawah itu langsung exit) |
-| **ffmpeg**      | Pemrosesan video & audio                                                   |
-| **imagemagick** | Manipulasi gambar                                                          |
-| **webp**        | Konversi stiker                                                            |
-| **python3**     | Opsional — hanya untuk `.speedtest` (menjalankan `speed.py`)               |
-
-Saat pertama jalan, bot mengecek tool-tool ini dan menampilkan hasilnya (`x/7 tools found`). Fitur yang butuh tool yang hilang akan gagal, tapi bot tetap jalan.
-
-> **Catatan:** Script ini **tidak mendukung** eksekusi di **Termux**.
-
----
-
-## Instalasi
-
-### Windows / VPS / RDP
-
-Unduh dan instal:
-
-- [Git](https://git-scm.com/downloads)
-- [Node.js 22+](https://nodejs.org/en/download)
-- [FFmpeg](https://ffmpeg.org/download.html) — tambahkan ke PATH
-- [ImageMagick](https://imagemagick.org/script/download.php)
-
-### VPS (Linux)
-
-```bash
-apt update && apt upgrade -y
-apt install nodejs imagemagick ffmpeg -y
-node -v
-# Jika versi masih di bawah 22:
-curl -s https://deb.nodesource.com/setup_22.x | sudo bash
-apt-get install -y nodejs
-```
-
-### Clone & Install
+## Mulai Cepat
 
 ```bash
 git clone https://github.com/BOTCAHX/RTXZY-MD
 cd RTXZY-MD
 npm install
-cp .env.example .env   # lalu isi API key-nya
+cp .env.example .env      # isi BOTCAHX_APIKEY
+npm start                 # scan QR yang muncul di terminal
 ```
+
+Login sekali saja — kredensial tersimpan di `sessions/state.sqlite`. Sisanya diatur di [`config.js`](config.js): nomor owner, prefix, dan database.
+
+---
+
+## Persyaratan
+
+| Komponen        |                   | Untuk apa                                               |
+| --------------- | ----------------- | ------------------------------------------------------- |
+| **Node.js**     | wajib, **22+**    | Di bawah 22 ditolak saat `npm install` dan saat boot    |
+| **ffmpeg**      | wajib untuk media | Video, audio, stiker animasi (perlu dukungan `libwebp`) |
+| **imagemagick** | wajib untuk media | Manipulasi gambar, fallback pembuatan stiker            |
+| **python3**     | opsional          | Hanya untuk `.speedtest`                                |
+
+Saat boot, bot memprobe tool-tool ini dan melaporkan `x/7 tool tersedia`. Yang hilang tidak membuat bot mati — hanya fitur yang memakainya yang gagal.
+
+> Tidak mendukung **Termux**.
+
+---
+
+## Instalasi
+
+### Linux / VPS
+
+```bash
+apt update && apt install -y nodejs imagemagick ffmpeg
+node -v                                              # harus 22+
+curl -s https://deb.nodesource.com/setup_22.x | sudo bash && apt install -y nodejs   # kalau masih di bawah 22
+```
+
+### Windows / RDP
+
+Instal [Git](https://git-scm.com/downloads), [Node.js 22+](https://nodejs.org/en/download), [FFmpeg](https://ffmpeg.org/download.html) (tambahkan ke PATH), dan [ImageMagick](https://imagemagick.org/script/download.php). Lanjut ke [Mulai Cepat](#mulai-cepat).
 
 ### Docker
 
 ```bash
-docker build -t rtxzy-md .
-docker run -it -p 5000:5000 rtxzy-md
-```
-
-Pakai `-it` supaya QR Code atau prompt nomor bisa muncul dan terbaca. Agar sesi & data tidak hilang setiap container dibuat ulang, mount volume untuk `sessions/` dan `database/`:
-
-```bash
+docker build -t viozap .
 docker run -it -p 5000:5000 \
   -v "$PWD/sessions:/app/sessions" \
   -v "$PWD/database:/app/database" \
-  rtxzy-md
+  viozap
 ```
 
-### Pterodactyl Panel
+`-it` wajib supaya QR code dan prompt nomor bisa muncul. Dua volume itu juga wajib kalau tidak mau login ulang dan kehilangan data tiap container dibuat ulang.
 
-Caranya tergantung letak file:
+### Pterodactyl
 
-**Opsi 1 — File langsung di `/home/container` (bukan dalam folder):**
+| Letak file                    | Startup command             | Catatan                                                                                                                   |
+| ----------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Langsung di `/home/container` | `npm start`                 | Paling sederhana, semua folder rapi di satu tempat                                                                        |
+| Di dalam subfolder            | `node NAMA_FOLDER/index.js` | `npm install` dulu dari terminal panel. `sessions/`, `database/`, `tmp/` lahir di cwd panel — bukan di dalam subfoldernya |
 
-- Set startup ke `node index.js` atau `npm start`
-
-**Opsi 2 — File berada dalam folder (contoh `/home/container/RTXZY-MD`):**
-
-1. Buka **Terminal** panel, lalu install dependensinya:
-   ```bash
-   cd RTXZY-MD   # atau nama folder kamu
-   npm install
-   ```
-2. Set startup panel ke `node RTXZY-MD/index.js` (sesuaikan nama foldernya)
-
-> **Catatan:** `sessions/`, `database/`, dan `tmp/` dibuat relatif terhadap direktori kerja panel, bukan folder bot. Jadi dengan startup di atas, folder-folder itu muncul di `/home/container`. Kalau ingin semuanya rapi di dalam satu folder, pakai Opsi 3.
-
-**Opsi 3 — Pindahkan semua file ke `/home/container`:**
-
-Pindahkan semua isi folder bot langsung ke `/home/container`, lalu set startup ke `node index.js` atau `npm start`.
-
-**Cara upload file ke panel:**
-
-Bot bisa di-clone via `git clone` langsung dari terminal panel, atau diupload sebagai arsip. Rekomendasi:
-
-1. Download repo sebagai **ZIP** dari GitHub
-2. Edit file (`config.js`, `.env`, dll) di lokal
-3. Upload ke panel sebagai **ZIP** atau **tar.gz**, lalu extract di panel
-
-> Panel biasanya punya batas view per file, jadi editing lokal lalu upload arsip lebih praktis.
->
-> Konfigurasi tiap panel bisa berbeda. Pahami struktur folder server kamu dan sesuaikan startup command-nya.
->
-> Pastikan Node.js egg yang dipakai versi 22+, kalau tidak bot akan error.
->
-> Kalau panel tidak punya akses bash sama sekali, gunakan Opsi 1 atau Opsi 3.
+Pakai egg Node.js 22+. Kalau panel tidak punya akses bash, taruh file langsung di `/home/container`. Untuk mengedit, lebih praktis edit di lokal lalu upload ulang sebagai ZIP/tar.gz daripada mengedit lewat file manager panel.
 
 ---
 
 ## Konfigurasi
 
-Semua pengaturan bot ada di satu file: [`config.js`](config.js). File ini di-`watchFile` — begitu disimpan, config langsung dimuat ulang tanpa restart bot.
+Semua di satu file: [`config.js`](config.js). File ini di-`watchFile`, jadi begitu disimpan config langsung dimuat ulang — bot tidak perlu restart.
 
-### Field utama
+| Field                                        | Wajib | Keterangan                                                                    |
+| -------------------------------------------- | :---: | ----------------------------------------------------------------------------- |
+| `owner.number` · `owner.name`                |  ✅   | Nomor owner format internasional tanpa `+` (`628xxx`), dan namanya            |
+| `owner.mail`                                 |       | Email owner                                                                   |
+| `prefix`                                     |  ✅   | Array karakter, satu karakter per entry: `['.', '#', '!', '/']`               |
+| `access.owner`                               |  ✅   | Akses penuh — plugin bertanda `rowner` / `owner`                              |
+| `access.mods` · `access.prems`               |  ✅   | Moderator dan user premium                                                    |
+| `usePair`                                    |       | `false` = QR code (default), `true` = pairing code                            |
+| `botNumber` · `pairingCode`                  |       | Hanya dipakai saat `usePair: true`. `botNumber` kosong = diminta lewat prompt |
+| `database`                                   |       | Lihat [Database](#database)                                                   |
+| `api.*`                                      |  ✅   | Lihat [API key](#api-key)                                                     |
+| `branding.watermark`                         |       | Nama bot di footer pesan                                                      |
+| `branding.stickerPackname` · `stickerAuthor` |       | Metadata EXIF stiker                                                          |
+| `branding.thumb`                             |       | URL thumbnail default                                                         |
+| `messages.wait` · `error` · `stickerWait`    |       | Template balasan untuk plugin `wait: true`, error, dan pembuatan stiker       |
+| `links.group` · `links.instagram`            |       | Link yang muncul di beberapa menu                                             |
+| `maxWarn`                                    |       | Jumlah peringatan sebelum user ditindak                                       |
 
-| Field                                        | Wajib | Keterangan                                                                                       |
-| -------------------------------------------- | :---: | ------------------------------------------------------------------------------------------------ |
-| `owner.number`                               |  ✅   | Nomor owner, format internasional tanpa `+` (contoh `628xxx`)                                    |
-| `owner.name`                                 |  ✅   | Nama owner, dipakai di beberapa pesan                                                            |
-| `owner.mail`                                 |       | Email owner                                                                                      |
-| `usePair`                                    |       | `false` = login QR Code (default), `true` = Pairing Code                                         |
-| `botNumber`                                  |       | Nomor bot. Hanya dipakai saat `usePair: true`; kalau kosong, nomor diminta lewat prompt terminal |
-| `pairingCode`                                |       | Kode pairing custom, wajib 8 karakter                                                            |
-| `prefix`                                     |  ✅   | Array karakter prefix, satu karakter per entry: `['.', '#', '!', '/']`                           |
-| `database`                                   |       | Tipe & lokasi database — lihat [Database](#database)                                             |
-| `access.owner`                               |  ✅   | Array nomor dengan akses owner penuh (plugin bertanda `rowner`/`owner`)                          |
-| `access.mods`                                |  ✅   | Array nomor moderator (plugin bertanda `mods`)                                                   |
-| `access.prems`                               |  ✅   | Array nomor premium                                                                              |
-| `links.group` / `links.instagram`            |       | Link yang ditampilkan di beberapa menu                                                           |
-| `branding.watermark`                         |       | Nama bot, dipakai di footer pesan                                                                |
-| `branding.stickerPackname` / `stickerAuthor` |       | Metadata EXIF stiker                                                                             |
-| `branding.thumb`                             |       | URL thumbnail default                                                                            |
-| `messages.wait` / `error` / `stickerWait`    |       | Template balasan untuk plugin `wait: true`, error, dan pembuatan stiker                          |
-| `maxWarn`                                    |       | Jumlah peringatan sebelum user ditindak                                                          |
-| `api.*`                                      |  ✅   | Endpoint & key API — lihat [API Key](#api-key)                                                   |
+### API key
 
-### API Key
+Hampir semua fitur memanggil REST API BOTCAHX, jadi apikey **wajib**. Daftar di [api.botcahx.eu.org](https://api.botcahx.eu.org) — free 15 request/hari, atau [beli paket](https://api.botcahx.eu.org/price).
 
-Bot ini menggunakan **97% fitur dari Rest API**, jadi kamu **wajib mengisi apikey**.
-
-1. Daftar di [`BOTCAHX API`](https://api.botcahx.eu.org)
-2. Pilih paket yang sesuai: [`Lihat Paket`](https://api.botcahx.eu.org/price)
-3. Copy apikey kamu
-
-| Tipe        | Batas                                    |
-| ----------- | ---------------------------------------- |
-| **Free**    | 15 request/hari                          |
-| **Premium** | Sesuai paket yang dibeli _(recommended)_ |
-
-Ada dua cara mengisinya. **Lewat `.env` (disarankan)** — key tidak ikut ter-commit karena `.env` sudah masuk `.gitignore`:
-
-```bash
-cp .env.example .env
-```
+Isi lewat `.env` (disarankan — sudah masuk `.gitignore`, jadi tidak ikut ter-commit):
 
 ```dotenv
 BOTCAHX_APIKEY=apikey_kamu
-BOTCAHX_AKSESKEY=akseskey_kamu   # opsional, untuk suno ai & fitur premium
-WHOISJSON_KEY=key_kamu           # opsional, untuk .whois2
+BOTCAHX_AKSESKEY=akseskey_kamu   # opsional: suno ai & fitur premium
+WHOISJSON_KEY=key_kamu           # opsional: .whois2
+DATABASE_URL=                    # opsional: lihat Database
 ```
 
-Atau **langsung di `config.js`** pada `api.botcahx.key`. Nilai di `config.js` hanya dipakai kalau variabel `.env`-nya kosong.
-
-Semua plugin memakai key ini lewat helper `Api` di [`lib/system/api.js`](lib/system/api.js) — apikey disuntik otomatis ke setiap URL, tidak perlu ditulis manual per plugin.
+Nilai di `config.js` hanya dipakai kalau variabel `.env`-nya kosong. Plugin memakai key ini lewat helper `Api` di [`lib/system/api.js`](lib/system/api.js) — apikey disuntik otomatis ke setiap URL, tidak perlu ditulis per plugin.
 
 ### Database
 
-Database bot menyimpan `users`, `chats`, `stats`, `msgs`, dan `sticker`. Isinya ditulis otomatis setiap 30 detik, **dan sekali lagi saat bot berhenti** (`Ctrl+C`, `SIGTERM`, atau restart) supaya perubahan di antara dua penulisan tidak hilang.
+Database menyimpan `users`, `chats`, `stats`, `msgs`, dan `sticker`. Ditulis otomatis setiap 30 detik **dan sekali lagi saat bot berhenti** (`Ctrl+C`, `SIGTERM`, restart), supaya perubahan di antara dua penulisan tidak hilang.
+
+Cukup isi satu field `url` — tipenya dideteksi dari skema URL-nya:
 
 ```js
   database: {
-    type: 'sqlite',  // 'sqlite' | 'json' | 'mongodb'
-    mongoUrl: ''     // wajib diisi kalau type: 'mongodb'
+    type: 'sqlite', // dipakai kalau `url` kosong
+    url: ''         // atau lewat DATABASE_URL di .env
   },
 ```
 
-| Tipe                   | Lokasi data                | Catatan                                                                         |
-| ---------------------- | -------------------------- | ------------------------------------------------------------------------------- |
-| `sqlite` **(default)** | `database/database.sqlite` | Mode WAL, satu baris per entry — tidak menulis ulang seluruh file setiap simpan |
-| `json`                 | `database/database.json`   | Satu file JSON, ditulis ulang penuh setiap simpan                               |
-| `mongodb`              | Server MongoDB             | Isi `mongoUrl`, contoh `mongodb://user:pass@host:27017/bot`                     |
+| Isi `url`                         | Dipakai    | Keterangan                                                 |
+| --------------------------------- | ---------- | ---------------------------------------------------------- |
+| kosong (**default**)              | `sqlite`   | `database/database.sqlite`, mode WAL, satu baris per entry |
+| `postgres://…` / `postgresql://…` | `postgres` | Tabel `bot_data` dibuat otomatis, satu baris `jsonb`       |
+| `mongodb://…` / `mongodb+srv://…` | `mongodb`  | Satu dokumen berisi seluruh database                       |
+| `https://…`                       | `cloud`    | Adapter HTTP: `GET` untuk baca, `POST` untuk simpan        |
 
-Catatan penting:
+- `url` menang atas `type`, jadi mengisi `url` tidak perlu diikuti mengubah `type`.
+- Kalau `type` minta postgres/mongodb tapi `url` kosong, bot berhenti dengan pesan jelas — bukan diam-diam jatuh ke SQLite.
+- **Postgres:** server dengan sertifikat self-signed (Render, Heroku, dan sejenisnya) butuh `?sslmode=no-verify` di akhir URL.
+- Upgrade dari versi lama yang menyimpan `database.json` di root: datanya diimpor sekali otomatis ke SQLite pada boot pertama. File lama tidak dihapus, jadi aman sebagai backup.
+- Semua adapter selain sqlite menulis ulang seluruh dokumen setiap flush.
 
-- **Semua file database ada di folder `database/`.** Kalau kamu upgrade dari versi lama yang menyimpan `database.json` di root, datanya diimpor sekali otomatis pada boot pertama. File lama tidak dihapus, jadi aman sebagai backup.
-- Argumen `--db` menimpa `database.type` tanpa mengubah `config.js`.
-- Kalau `type: 'mongodb'` tapi `mongoUrl` kosong, bot berhenti dengan pesan error — bukan diam-diam jatuh ke SQLite.
-- Menjalankan beberapa bot di satu folder: argumen posisional jadi prefix nama file, misal `node index.js bot2` memakai `database/bot2_database.sqlite`.
-- Saat berhenti, supervisor menunggu maksimal 5 detik sampai `main.js` selesai menyimpan sebelum ikut keluar. Kalau lewat, prosesnya dipaksa mati dan log-nya berbunyi `main.js tidak berhenti dalam 5s, dipaksa`.
-
-Logika pemilihan adapter ada di [`lib/database/adapter.js`](lib/database/adapter.js), dan bisa diuji sendiri:
+Logikanya ada di [`lib/database/adapter.js`](lib/database/adapter.js) dan bisa diuji tanpa menyalakan bot:
 
 ```bash
 node lib/database/adapter.js   # -> adapter.js self-check OK
@@ -250,17 +153,14 @@ node lib/database/adapter.js   # -> adapter.js self-check OK
 
 ---
 
-## Menjalankan Bot
+## Menjalankan
 
 ```bash
-npm start
-# atau
-node index.js
+npm start        # index.js: health server + auto-restart kalau bot crash
+node main.js     # tanpa supervisor — crash tetap mati, berguna saat debug
 ```
 
-Secara default **QR Code** muncul di terminal — scan dari WhatsApp di HP (**Perangkat tertaut → Tautkan perangkat**). Kalau QR di terminal terlalu besar atau rusak, bot juga mencetak link untuk scan lewat browser.
-
-Mau pakai **Pairing Code**? Set di `config.js`:
+Default login lewat **QR code** di terminal (kalau QR-nya rusak atau kepotong, bot juga mencetak link untuk scan lewat browser). Mau **pairing code**? Set di `config.js`:
 
 ```js
   usePair: true,
@@ -268,106 +168,112 @@ Mau pakai **Pairing Code**? Set di `config.js`:
   pairingCode: 'ABCD1234',      // wajib 8 karakter
 ```
 
-Kode 8 karakter akan muncul di terminal — masukkan di HP lewat **Perangkat tertaut → Tautkan dengan nomor telepon**.
+Masukkan kodenya di HP lewat **Perangkat tertaut › Tautkan dengan nomor telepon**.
 
-Sesi tersimpan di `sessions/state.sqlite`, jadi login cuma sekali. Kalau bot gagal link dengan pesan _"Couldn't link device"_, hapus folder `sessions/` lalu jalankan ulang.
+Log terminal menyatukan pesan chat dan kejadian sistem dalam satu aliran:
+
+```
+  ● Tersambung  VIOZAP  ·  +62 811-1000-222
+10:34:36  info    Menunggu pesan masuk
+[ MSG ] 02/09/26 10:34:36  conversation  0B from [6285891001164]  Sariawan  in [6285891001164@s.whatsapp.net]  DM
+halo bot, bisa bikin stiker?
+[ CMD ] 02/09/26 10:34:36  conversation  0B from [6289882934933]  Ditzzy  in [123@g.us]  Grup Kocak  exp+17
+.sticker
+10:34:40  reload  plugins/main/menu.js
+```
+
+Tag di depan menandai jenisnya: `MSG` pesan biasa, `CMD` perintah, `BOT` pesan dari bot sendiri, `ERR` perintah yang error, `STUB` kejadian grup — jadi bisa langsung `grep '\[ CMD \]'`.
 
 ---
 
-## Daftar Argumen
+## Argumen CLI
 
 ```bash
-node index.js [--options]
+node index.js [nama] [--options]
 ```
 
-**Autentikasi**
+**Login**
 
-| Argumen | Fungsi                                                   |
-| ------- | -------------------------------------------------------- |
-| `--qr`  | Paksa mode QR Code, mengabaikan `usePair` di `config.js` |
+| Argumen           | Fungsi                                              |
+| ----------------- | --------------------------------------------------- |
+| `--qr`            | Paksa QR code, mengabaikan `usePair` di `config.js` |
+| `--reset-session` | Hapus `sessions/state.sqlite` — login dari nol      |
 
 **Batasan respon**
 
 | Argumen      | Fungsi                                                |
 | ------------ | ----------------------------------------------------- |
 | `--self`     | Hanya merespon owner & bot sendiri                    |
-| `--pconly`   | Hanya merespon chat pribadi                           |
-| `--gconly`   | Hanya merespon chat grup                              |
-| `--swonly`   | Hanya merespon status                                 |
-| `--nyimak`   | Mode silent — hanya log, tidak membalas               |
+| `--pconly`   | Hanya chat pribadi                                    |
+| `--gconly`   | Hanya grup                                            |
+| `--swonly`   | Hanya status                                          |
+| `--nyimak`   | Mode silent — mencatat log tanpa membalas             |
 | `--restrict` | Aktifkan plugin bertag `admin` (berisiko kena banned) |
 
-**Database**
+**Database & lain-lain**
 
-| Argumen              | Fungsi                                                          |
-| -------------------- | --------------------------------------------------------------- |
-| `--db sqlite`        | Pakai SQLite (`database/database.sqlite`)                       |
-| `--db json`          | Pakai file JSON (`database/database.json`)                      |
-| `--db <mongodb url>` | Pakai MongoDB, contoh `--db mongodb://user:pass@host:27017/bot` |
-| `--db <https://...>` | Pakai cloud adapter                                             |
+| Argumen                     | Fungsi                                                                                            |
+| --------------------------- | ------------------------------------------------------------------------------------------------- |
+| `--db sqlite`               | Paksa SQLite                                                                                      |
+| `--db postgres` / `mongodb` | Paksa tipe itu, URL diambil dari `config.js`                                                      |
+| `--db <url>`                | URL langsung — `postgres://…`, `mongodb://…`, atau `https://…`                                    |
+| `--prefix <karakter>`       | Override prefix (setiap karakter jadi prefix terpisah)                                            |
+| `--autoread`                | Tandai semua pesan masuk sebagai sudah dibaca                                                     |
+| `--queque`                  | Antrikan pesan masuk, delay 1 detik per pesan di antrian                                          |
+| `--img`                     | Tampilkan gambar & stiker langsung di terminal                                                    |
+| `--tmp`                     | Matikan pembersihan `tmp` otomatis (default: file yang tak diakses 3 menit dihapus tiap 30 detik) |
+| `--test`                    | Mode pengembangan — matikan penulisan database & pembersihan tmp berkala                          |
+| `--debug-lid`               | Log tambahan untuk debugging resolusi JID `@lid`                                                  |
+| `nama` (posisional)         | Prefix nama sesi, file database, dan tabel postgres — untuk beberapa bot dalam satu folder        |
 
-Tanpa `--db`, bot memakai `database.type` dari `config.js`.
-
-**Lain-lain**
-
-| Argumen             | Fungsi                                                                                             |
-| ------------------- | -------------------------------------------------------------------------------------------------- |
-| `--prefix <prefix>` | Override prefix (setiap karakter jadi prefix terpisah)                                             |
-| `--autoread`        | Tandai semua pesan masuk sebagai sudah dibaca                                                      |
-| `--queque`          | Antrikan pesan masuk (delay 1 detik per pesan di antrian)                                          |
-| `--img`             | Tampilkan gambar di terminal                                                                       |
-| `--tmp`             | Matikan pembersihan otomatis folder `tmp` (default: file lebih dari 3 menit dihapus tiap 30 detik) |
-| `--test`            | Mode pengembangan — matikan penulisan database & pembersihan tmp berkala                           |
-| `--debug-lid`       | Log tambahan untuk debugging resolusi JID `@lid`                                                   |
-| `<nama>`            | Argumen posisional jadi prefix nama sesi & file database (multi-bot)                               |
+Contoh dua bot dalam satu checkout: `node index.js bot2` memakai `sessions/bot2/`, `database/bot2_database.sqlite`, dan tabel `bot2_bot_data`.
 
 ---
 
 ## Deployment
 
-### Render
-
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://dashboard.render.com/blueprint/new?repo=https%3A%2F%2Fgithub.com%2FBOTCAHX%2FRTXZY-MD)
 
-Bot membuka HTTP server di `process.env.PORT` (atau port acak kalau tidak diset) yang membalas `GET /` dengan status JSON — dipakai platform hosting untuk health check.
+Bot membuka HTTP server di `process.env.PORT` (atau port acak kalau tidak diset) yang menjawab `GET /` dengan status JSON — itu yang dipakai platform hosting sebagai health check.
 
 ---
 
 ## Struktur Proyek
 
 ```
-index.js            Supervisor: HTTP health server, spawn main.js, auto-restart
-main.js             Wiring: config, database, plugin loader, hot-reload
-config.js           Semua pengaturan bot
-handler.js          Router pesan: parsing prefix, cek izin, jalankan plugin
-test.js             Cek sintaks + lint semua file (npm test)
+index.js            Supervisor: health server, spawn main.js, auto-restart
+main.js             Perakitan: config, database, plugin loader, watcher
+config.js           Semua pengaturan
+handler.js          Router pesan: cocokkan prefix, cek izin, jalankan plugin
 
 lib/
-  simple.js         Layer kompatibilitas: ~90 helper di objek conn (sendFile, reply, dll)
+  simple.js         Layer kompatibilitas: ~90 helper di objek conn
   system/
-    connection.js   Setup koneksi zapo-js, login QR/pairing, translasi event
-    userDefaults.js Nilai default untuk entry user & chat di database
+    connection.js   Koneksi zapo-js, login QR/pairing, translasi event
+    userDefaults.js Nilai default entry user & chat di database
     api.js          Client API botcahx (apikey otomatis)
-    print.js        Log pesan masuk ke terminal
+    print.js        Log pesan masuk/keluar ke terminal
+    log.js          Log sistem (boot, koneksi, reload, error)
     levelling.js    Rumus level & XP
-    functions.js    Helper umum
   database/
-    adapter.js      Pemilihan adapter database (sqlite/json/mongodb/cloud)
-    sqliteDB.js     Adapter lowdb berbasis SQLite
-    mongoDB.js      Adapter lowdb berbasis MongoDB
+    adapter.js         Pemilihan adapter (sqlite/postgres/mongodb/cloud)
+    sqliteDB.js        Adapter lowdb berbasis SQLite
+    postgresDB.js      Adapter lowdb berbasis PostgreSQL
+    mongoDB.js         Adapter lowdb berbasis MongoDB
     cloudDBAdapter.js  Adapter lowdb berbasis HTTP
   media/            Konversi stiker, webp, gambar, video
   games/            State game (werewolf, tictactoe, ular tangga, dll)
 
-plugins/            Semua fitur bot, satu file = satu fitur
-  _events/          Hook otomatis tanpa perintah (autodownload, anti-link, dll)
-  main/ core/ owner/ group/ tools/ info/
-  downloader/ internet/ news/ ai/ maker/ sticker/ stalker/
-  rpg/ game/ xp/ fun/ quotes/ islam/ primbon/ misc/ cmd/
+plugins/            703 file — satu file, satu fitur
+  _events/          Fitur pasif tanpa perintah (autodownload, anti-link, dll)
+  ai/ cmd/ core/ downloader/ fun/ game/ group/ info/ internet/ islam/
+  main/ maker/ misc/ news/ owner/ primbon/ quotes/ rpg/ stalker/
+  sticker/ tools/ xp/
 
-sessions/           Kredensial WhatsApp (SQLite) — jangan di-commit
+script/             test.js (cek sintaks) & speed.py (.speedtest)
+sessions/           Kredensial WhatsApp — jangan di-commit
 database/           Data bot — jangan di-commit
-tmp/                File media sementara, dibersihkan otomatis
+tmp/                Media sementara, dibersihkan otomatis
 ```
 
 ---
@@ -380,53 +286,51 @@ tmp/                File media sementara, dibersihkan otomatis
 index.js  ──spawn──▶  main.js  ──▶  config.js
    │                     │
    │                     ├─▶ database (lowdb + adapter)
-   │                     ├─▶ createClient()  ──▶  lib/system/connection.js  ──▶  zapo-js WaClient
-   │                     ├─▶ authenticate()  ──▶  QR / Pairing Code
-   │                     ├─▶ load semua plugins/**/*.js
-   │                     └─▶ reloadHandler() ──▶  handler.js
+   │                     ├─▶ createClient()   ──▶  lib/system/connection.js  ──▶  zapo-js WaClient
+   │                     ├─▶ authenticate()   ──▶  QR / pairing code
+   │                     ├─▶ muat semua plugins/**/*.js
+   │                     └─▶ reloadHandler()  ──▶  handler.js
    │
-   └─▶ restart otomatis kalau main.js exit / error
+   └─▶ restart otomatis kalau main.js exit / crash
 ```
 
-[`index.js`](index.js) adalah proses induk: ia menyalakan HTTP health server, lalu menjalankan `main.js` sebagai child process dengan channel IPC. Kalau child mati atau melempar error, induk menghidupkannya kembali. Ini juga yang membuat perintah restart dari dalam bot bisa bekerja.
+[`index.js`](index.js) adalah proses induk: menyalakan health server, menjalankan `main.js` sebagai child dengan channel IPC, lalu menghidupkannya lagi kalau mati. Crash berulang kena backoff eksponensial supaya tidak menghabiskan CPU. Saat `Ctrl+C`, induk menunggu maksimal 5 detik supaya child sempat menyimpan database dulu.
 
 ### Layer koneksi
 
-`zapo-js` punya API sendiri yang berbeda dari Baileys, sedangkan ratusan plugin di repo ini ditulis untuk gaya Baileys. Jembatannya ada dua lapis:
+`zapo-js` punya API sendiri yang berbeda dari Baileys, sedangkan ratusan plugin di repo ini ditulis gaya Baileys. Jembatannya dua lapis:
 
-1. [`lib/system/connection.js`](lib/system/connection.js) membungkus `WaClient` jadi objek yang bentuknya seperti socket Baileys (`conn.ev`, `conn.authState`, `conn.user`, `conn.ws`) dan menerjemahkan setiap event zapo-js ke nama event Baileys (`messages.upsert`, `group-participants.update`, `connection.update`, dan seterusnya).
-2. [`lib/simple.js`](lib/simple.js) menempelkan ~90 method helper ke objek itu lewat `attach()` — `sendMessage`, `sendFile`, `reply`, `downloadM`, `groupMetadata`, `copyNForward`, dan lainnya.
+1. [`lib/system/connection.js`](lib/system/connection.js) membungkus `WaClient` jadi objek berbentuk socket Baileys (`conn.ev`, `conn.user`, `conn.authState`, `conn.ws`) dan menerjemahkan setiap event zapo ke nama event Baileys (`messages.upsert`, `group-participants.update`, `message.delete`, …).
+2. [`lib/simple.js`](lib/simple.js) menempelkan ~90 helper ke objek itu lewat `attach()` — `sendMessage`, `sendFile`, `reply`, `downloadM`, `groupMetadata`, `copyNForward`, dan lainnya.
 
-Efeknya: plugin tidak perlu tahu library WhatsApp mana yang dipakai di bawahnya.
+Efeknya plugin tidak perlu tahu library WhatsApp mana yang dipakai di bawahnya. Kemampuan WhatsApp yang baru ditambahkan dengan menerjemahkannya di `connection.js` dan/atau menambah helper di `simple.js` — bukan dengan memanggil `conn._client` dari plugin.
 
-### Alur satu pesan masuk
+### Alur satu pesan
 
 1. `zapo-js` menerima pesan, `connection.js` menerjemahkannya, lalu emit `messages.upsert`.
-2. `handler.js` menerima, memanggil `smsg()` untuk membuat objek `m` yang mudah dipakai.
+2. `handler.js` menerimanya dan memanggil `smsg()` untuk membuat objek `m` yang enak dipakai.
 3. Default user & chat diisi lewat `ensureUserAndChatDefaults()`.
-4. Semua plugin dengan hook `all` dijalankan.
-5. Semua plugin dengan hook `before` dijalankan — di sini fitur otomatis seperti autodownload bekerja.
-6. Prefix dicocokkan, `command` dicari, izin dicek, lalu `run` plugin yang cocok dijalankan. Pencarian **berhenti pada plugin pertama yang cocok**.
-7. XP, limit, dan statistik dicatat; pesan dicetak ke log terminal.
+4. Semua plugin dengan hook `all` jalan, lalu semua hook `before` — di sini fitur otomatis seperti autodownload bekerja.
+5. Prefix dicocokkan, `command` dicari, izin dicek, `run` dijalankan. Pencarian **berhenti pada plugin pertama yang cocok**.
+6. XP, limit, dan statistik dicatat; pesannya dicetak ke log.
 
 ### Hot reload
 
-Bot tidak perlu restart saat kamu mengedit kode:
+| Yang diubah       | Yang terjadi                                                                     |
+| ----------------- | -------------------------------------------------------------------------------- |
+| `plugins/**/*.js` | Plugin itu di-import ulang. Syntax error dicetak dan versi lama tetap dipakai    |
+| `handler.js`      | Handler di-import ulang, listener dipasang ulang                                 |
+| `config.js`       | Config dimuat ulang                                                              |
+| `main.js`         | Bot restart penuh oleh `index.js`                                                |
+| **`lib/**/*.js`** | **Tidak diawasi** — perubahan di `lib/` baru berlaku setelah bot direstart penuh |
 
-| File yang diubah  | Yang terjadi                                                                                   |
-| ----------------- | ---------------------------------------------------------------------------------------------- |
-| `plugins/**/*.js` | Plugin itu di-import ulang. Kalau ada syntax error, error dicetak dan versi lama tetap dipakai |
-| `handler.js`      | Handler di-import ulang, listener dipasang ulang                                               |
-| `config.js`       | Config dimuat ulang                                                                            |
-| `main.js`         | Bot restart penuh oleh `index.js`                                                              |
+Karena re-import menjalankan ulang kode top-level modulnya, apa pun yang didaftarkan di sana akan terdaftar **dua kali**. Timer dan watcher harus dikawal seperti pola yang sudah ada — `clearInterval(global.__namaTimer)` sebelum `setInterval`, `fs.unwatchFile(file)` sebelum `fs.watchFile` (lihat [`plugins/group/remindersholat.js`](plugins/group/remindersholat.js)).
 
 ---
 
 ## Membuat Plugin
 
-Satu file di `plugins/` = satu fitur. Simpan file baru di kategori yang sesuai, bot langsung memuatnya tanpa restart.
-
-### Contoh minimal
+Satu file di `plugins/<kategori>/` = satu fitur. Simpan, bot langsung memuatnya.
 
 ```js
 // plugins/tools/ping.js
@@ -442,19 +346,18 @@ const handler = {
 export default handler;
 ```
 
-Contoh dengan argumen, limit, dan validasi:
+Dengan argumen, limit, dan validasi:
 
 ```js
 // plugins/internet/translate.js
 const handler = {
   help: ['tr'],
-  usage: 'leng text',
+  usage: 'kode teks',
   tags: ['tools'],
   command: ['translate', 'tl', 'tr'],
   limit: 1,
   run: async (m, { args, usedPrefix, command }) => {
     if (!args[0]) throw `*• Contoh:* ${usedPrefix}${command} id how are you`;
-    // ... proses ...
     await m.reply('hasil terjemahan');
   }
 };
@@ -462,18 +365,18 @@ const handler = {
 export default handler;
 ```
 
-### Properti plugin
+### Properti
 
 **Identitas & menu**
 
-| Properti   | Tipe                            | Fungsi                                                                     |
-| ---------- | ------------------------------- | -------------------------------------------------------------------------- |
-| `command`  | `string` \| `RegExp` \| `array` | Perintah yang memicu plugin                                                |
-| `hidden`   | `array`                         | Alias tambahan yang dikenali tapi tidak muncul di menu                     |
-| `help`     | `array`                         | Nama perintah yang ditampilkan di `.menu`                                  |
-| `usage`    | `string`                        | Petunjuk argumen di `.menu`, contoh `'nama_guild'`                         |
-| `tags`     | `array`                         | Kategori menu (`tools`, `rpg`, `downloader`, `game`, `owner`, dan lainnya) |
-| `disabled` | `boolean`                       | Matikan plugin tanpa menghapus file                                        |
+| Properti   | Tipe                            | Fungsi                                                   |
+| ---------- | ------------------------------- | -------------------------------------------------------- |
+| `command`  | `string` \| `RegExp` \| `array` | Perintah yang memicu plugin                              |
+| `hidden`   | `array`                         | Alias yang dikenali tapi tidak muncul di `.menu`         |
+| `help`     | `array`                         | Nama perintah yang ditampilkan di `.menu`                |
+| `usage`    | `string`                        | Petunjuk argumen di `.menu`, contoh `'nama_guild'`       |
+| `tags`     | `array`                         | Kategori menu (`tools`, `rpg`, `downloader`, `owner`, …) |
+| `disabled` | `boolean`                       | Matikan plugin tanpa menghapus filenya                   |
 
 **Prefix**
 
@@ -484,40 +387,40 @@ export default handler;
 
 **Izin & syarat** — kalau tidak lolos, bot membalas pesan penolakan standar dan plugin dilewati
 
-| Properti   | Syarat                                       |
-| ---------- | -------------------------------------------- |
-| `rowner`   | Hanya nomor di `access.owner`                |
-| `owner`    | Owner atau pesan dari bot sendiri            |
-| `mods`     | Owner atau nomor di `access.mods`            |
-| `premium`  | User premium                                 |
-| `group`    | Hanya di grup                                |
-| `private`  | Hanya di chat pribadi                        |
-| `admin`    | Pengirim harus admin grup                    |
-| `botAdmin` | Bot harus admin grup                         |
-| `register` | User harus sudah `.daftar`                   |
-| `rpg`      | Fitur RPG harus aktif di chat itu            |
-| `nsfw`     | Fitur NSFW harus aktif di chat itu           |
-| `limit`    | `number` — limit yang dipotong per pemakaian |
-| `level`    | `number` — level minimum user                |
+| Properti   | Syarat                                   |
+| ---------- | ---------------------------------------- |
+| `rowner`   | Hanya nomor di `access.owner`            |
+| `owner`    | Owner, atau pesan dari bot sendiri       |
+| `mods`     | Owner atau nomor di `access.mods`        |
+| `premium`  | User premium                             |
+| `group`    | Hanya di grup                            |
+| `private`  | Hanya di chat pribadi                    |
+| `admin`    | Pengirim harus admin grup                |
+| `botAdmin` | Bot harus admin grup                     |
+| `register` | User harus sudah `.daftar`               |
+| `rpg`      | Fitur RPG aktif di chat itu              |
+| `nsfw`     | Fitur NSFW aktif di chat itu             |
+| `limit`    | `number` — limit yang dipotong per pakai |
+| `level`    | `number` — level minimum user            |
 
 **Lain-lain**
 
-| Properti | Tipe       | Fungsi                                                        |
-| -------- | ---------- | ------------------------------------------------------------- |
-| `exp`    | `number`   | XP yang didapat user (default `17`)                           |
-| `wait`   | `boolean`  | Balas `messages.wait` dulu sebelum `run`                      |
-| `fail`   | `function` | Handler custom saat izin tidak lolos (default `global.dfail`) |
+| Properti | Tipe       | Fungsi                                                  |
+| -------- | ---------- | ------------------------------------------------------- |
+| `exp`    | `number`   | XP yang didapat user (default `17`)                     |
+| `wait`   | `boolean`  | Balas `messages.wait` dulu sebelum `run`                |
+| `fail`   | `function` | Handler custom saat izin gagal (default `global.dfail`) |
 
 ### Hook
 
-| Hook                      | Kapan jalan                            | Catatan                                                      |
-| ------------------------- | -------------------------------------- | ------------------------------------------------------------ |
-| `run(m, extra)`           | Saat perintah cocok                    | Isi utama plugin                                             |
-| `before(m, extra)`        | Setiap pesan, sebelum parsing perintah | Return nilai truthy untuk menghentikan pemrosesan plugin ini |
-| `after(m, extra)`         | Setelah `run`, di blok `finally`       | Jalan walaupun `run` error                                   |
-| `all(m, chatUpdate, Api)` | Setiap pesan, paling awal              | Untuk fitur pasif                                            |
+| Hook                      | Kapan jalan                            | Catatan                                     |
+| ------------------------- | -------------------------------------- | ------------------------------------------- |
+| `run(m, extra)`           | Saat perintah cocok                    | Isi utama plugin                            |
+| `before(m, extra)`        | Setiap pesan, sebelum parsing perintah | Return truthy untuk menghentikan plugin ini |
+| `after(m, extra)`         | Setelah `run`, di blok `finally`       | Jalan walaupun `run` error                  |
+| `all(m, chatUpdate, Api)` | Setiap pesan, paling awal              | Untuk fitur pasif                           |
 
-Plugin di `plugins/_events/` umumnya hanya memakai `before` atau `all` — itulah cara fitur otomatis seperti autodownload link bekerja.
+Plugin di `plugins/_events/` umumnya hanya memakai `before` atau `all` — itulah cara fitur otomatis seperti autodownload bekerja. Dua plugin yang mengaku perintah yang sama adalah bug, bukan pilihan: handler berhenti di yang pertama cocok, dan urutannya alfabetis per path.
 
 ### Objek `m`
 
@@ -531,7 +434,7 @@ Plugin di `plugins/_events/` umumnya hanya memakai `before` atau `all` — itula
 | `m.text`           | Isi teks pesan                                                       |
 | `m.name`           | Nama tampilan pengirim                                               |
 | `m.senderUsername` | Username WhatsApp pengirim, `null` kalau tidak ada                   |
-| `m.mtype`          | Tipe pesan (`conversation`, `imageMessage`, dan seterusnya)          |
+| `m.mtype`          | Tipe pesan (`conversation`, `imageMessage`, …)                       |
 | `m.mentionedJid`   | Array JID yang di-mention                                            |
 | `m.quoted`         | Pesan yang di-reply, `null` kalau tidak ada                          |
 | `m.id` / `m.key`   | ID & key pesan                                                       |
@@ -548,21 +451,18 @@ Plugin di `plugins/_events/` umumnya hanya memakai `before` atau `all` — itula
 
 ### Parameter `extra`
 
-| Nama                     | Isi                                                     |
-| ------------------------ | ------------------------------------------------------- |
-| `conn`                   | Objek koneksi, semua helper `lib/simple.js` ada di sini |
-| `Api`                    | Client API botcahx, apikey otomatis                     |
-| `command`                | Nama perintah yang dipakai user                         |
-| `usedPrefix`             | Prefix yang dipakai user                                |
-| `args`                   | Argumen sebagai array                                   |
-| `text`                   | Argumen sebagai satu string                             |
-| `groupMetadata`          | Metadata grup                                           |
-| `participants`           | Daftar anggota grup                                     |
-| `user` / `bot`           | Entry peserta grup untuk pengirim dan bot               |
-| `isOwner` / `isROwner`   | Status owner                                            |
-| `isAdmin` / `isBotAdmin` | Status admin grup                                       |
-| `isPrems`                | Status premium                                          |
-| `chatUpdate`             | Event mentah dari WhatsApp                              |
+| Nama                             | Isi                                                      |
+| -------------------------------- | -------------------------------------------------------- |
+| `conn`                           | Objek koneksi — semua helper `lib/simple.js` ada di sini |
+| `Api`                            | Client API botcahx, apikey otomatis                      |
+| `command` · `usedPrefix`         | Perintah dan prefix yang dipakai user                    |
+| `args` · `text`                  | Argumen sebagai array, dan sebagai satu string           |
+| `groupMetadata` · `participants` | Metadata grup dan daftar anggotanya                      |
+| `user` · `bot`                   | Entry peserta grup untuk pengirim dan untuk bot          |
+| `isOwner` · `isROwner`           | Status owner                                             |
+| `isAdmin` · `isBotAdmin`         | Status admin grup                                        |
+| `isPrems`                        | Status premium                                           |
+| `chatUpdate`                     | Event mentah dari WhatsApp                               |
 
 ### Helper `conn` yang sering dipakai
 
@@ -573,16 +473,14 @@ await conn.sendImageAsSticker(m.chat, buffer, m); // gambar jadi stiker
 await conn.reply(m.chat, 'teks', m); // balasan
 const buffer = await conn.getFile(url); // unduh file
 const name = await conn.getName(jid); // nama kontak/grup
-const handle = await conn.getUsername(jid); // username WhatsApp, null kalau tidak ada
+const handle = await conn.getUsername(jid); // username, null kalau tidak ada
 ```
 
-`conn.getUsername()` di-cache, termasuk hasil negatifnya, jadi aman dipanggil
-per pesan. Lewati jaringan sepenuhnya dengan `conn.getUsername(jid, true)`.
-`conn.getName()` sendiri sudah memakai username sebagai fallback sebelum
-menampilkan digit LID mentah.
+`conn.getUsername()` di-cache termasuk hasil negatifnya, jadi aman dipanggil per pesan; `conn.getUsername(jid, true)` melewati jaringan sepenuhnya. `conn.getName()` memakai username sebagai fallback sebelum menampilkan digit LID mentah.
 
-Pengaturan per-chat dipanggil lewat `conn.chatModify(mods, jid)`, bentuk yang
-sama seperti Baileys — satu operasi per panggilan:
+**JID `@lid`.** JID bisa datang sebagai `@lid` sesering `@s.whatsapp.net`. Bandingkan dan mention lewat `conn.getJid()` / `resolveLidJid()` / perbandingan digit — jangan pernah dengan `===` string mentah. Mention ke `@lid` yang belum diresolusi akan tampil salah di HP.
+
+**Pengaturan per-chat** lewat `conn.chatModify(mods, jid)`, bentuknya sama seperti Baileys, satu operasi per panggilan:
 
 ```js
 await conn.chatModify({ archive: true }, m.chat);
@@ -593,15 +491,19 @@ await conn.chatModify({ clear: 'all' }, m.chat);
 await conn.chatModify({ delete: true }, m.chat);
 ```
 
-`mods` yang tidak dikenal **melempar error**, bukan diabaikan — kalau salah
-tulis, kamu tahu langsung dan tidak menyangka pengaturannya tersimpan. Semua ini
-app-state mutation: ikut tersinkron ke perangkat lain yang tertaut, dan hanya
-mengubah tampilan akun bot, bukan tampilan peer.
+`mods` yang tidak dikenal **melempar error**, bukan diabaikan — salah tulis langsung ketahuan. Semua ini app-state mutation: ikut tersinkron ke perangkat tertaut lain, dan hanya mengubah tampilan akun bot, bukan tampilan peer.
 
-### Notifikasi MEX
+**Link preview.** Pesan teks bisa membawa thumbnail tanpa mengirim gambar yang harus diunduh:
 
-Perubahan username kontak, rotasi LID, dan status kuota pesan keluar datang
-lewat satu event:
+```js
+await conn.reply(m.chat, text, m, {
+  linkPreview: { title: 'Judul', description: 'Deskripsi', matchedText: 'https://contoh.dev', thumbnail: { bytes: jpegBuffer, width: 640, height: 400 } }
+});
+```
+
+`linkPreview: true` membuat zapo mengambil sendiri title/deskripsi/thumbnail dari URL di dalam teks. Objek override melewati fetch itu. Yang perlu diketahui: thumbnail wajib **JPEG** dan hanya disisipkan inline kalau **≤ 64 KB**; tanpa `matchedText` (atau URL di dalam teks) preview dibuang tanpa suara; dan proto zapo tidak punya field `canonicalUrl`, jadi apakah klien WhatsApp benar-benar menggambar kartunya masih belum terverifikasi.
+
+**Notifikasi MEX** — perubahan username kontak, rotasi LID, dan kuota pesan keluar datang lewat satu event:
 
 ```js
 conn.ev.on('mex.notification', (ev) => {
@@ -610,88 +512,88 @@ conn.ev.on('mex.notification', (ev) => {
 });
 ```
 
-`kind` yang tersedia: `username_set`, `username_delete`, `username_update_hint`,
-`own_username_sync`, `text_status_update`, `text_status_update_hint`,
-`lid_change`, `message_capping`, `unknown`. Bot sudah otomatis mencetak
-peringatan ke terminal kalau `message_capping` bukan `NONE` — itu tanda akun
-mendekati batas kirim.
+`kind` yang ada: `username_set`, `username_delete`, `username_update_hint`, `own_username_sync`, `text_status_update`, `text_status_update_hint`, `lid_change`, `message_capping`, `unknown`. Bot otomatis mencetak peringatan kalau `message_capping` bukan `NONE` — itu tanda akun mendekati batas kirim.
 
 ### Menyimpan data
 
-Pakai `global.db.data` — jangan menulis file database secara manual. Perubahan pada objek ini otomatis disimpan setiap 30 detik, apa pun tipe database yang dipakai.
+Pakai `global.db.data`, jangan menulis file database sendiri. Perubahan pada objek ini tersimpan otomatis, apa pun tipe database yang dipakai:
 
 ```js
-const user = global.db.data.users[m.sender];
-user.money += 1000;
-
-const chat = global.db.data.chats[m.chat];
-if (chat.antilink) {
+global.db.data.users[m.sender].money += 1000;
+if (global.db.data.chats[m.chat].antilink) {
   /* ... */
 }
 ```
 
+Field baru untuk user/chat didaftarkan di [`lib/system/userDefaults.js`](lib/system/userDefaults.js), bukan ditulis ad hoc dari plugin.
+
 ### Error & validasi
 
-`throw` dengan **string** dipakai untuk pesan validasi — teksnya dibalas apa adanya ke user:
+`throw` dengan **string** adalah pesan validasi — teksnya dibalas apa adanya ke user:
 
 ```js
 if (!text) throw `*• Contoh:* ${usedPrefix}${command} halo`;
 ```
 
-`Error` asli (bug, request gagal, dan sejenisnya) tidak pernah dibalas mentah ke chat: user hanya menerima `messages.error`, sementara detail lengkapnya masuk ke log server. Ini disengaja — stack trace bisa membocorkan path server, dan API key di dalamnya disensor jadi `#HIDDEN#`.
+`Error` asli (bug, request gagal) **tidak pernah** dibalas mentah: user hanya menerima `messages.error`, sementara detailnya masuk ke log server dengan API key disensor jadi `#HIDDEN#`. Ini disengaja — stack trace bisa membocorkan path server.
 
 ---
 
-## Lint, Format & Test
+## Test & Lint
 
 ```bash
-npm test           # cek sintaks + lint seluruh file
-npm run lint       # eslint
-npm run lint:fix   # eslint + perbaiki otomatis
+npm test           # cek sintaks (node -c) semua file di root, lib/, dan plugins/
+npm run lint       # eslint; lint:fix untuk autofix
 npm run format     # prettier --write
 ```
 
-Jalankan `npm test` sebelum commit. Ia mengecek setiap file bisa di-parse dan lolos lint, jadi plugin yang rusak ketahuan sebelum bot dijalankan.
+`npm test` **bukan** lint — ia hanya memastikan setiap file bisa di-parse. Jalankan keduanya sebelum commit.
+
+Unit test tinggal di dasar modul yang diujinya, dijaga `if (process.argv[1] === import.meta.filename)` dan memakai `node:assert`. Tidak ada framework test dan tidak ada folder `test/`. Jalankan satu modul untuk mengetesnya:
+
+```bash
+node lib/simple.js                # -> simple.js self-check OK
+node lib/database/adapter.js
+node lib/database/postgresDB.js
+node lib/system/connection.js
+node lib/system/print.js
+node lib/system/api.js
+node lib/system/userDefaults.js
+```
+
+Global baru harus ikut didaftarkan di blok `globals` [`eslint.config.js`](eslint.config.js), kalau tidak `no-undef` gagal — ESM selalu strict mode, jadi global yang tidak terdefinisi itu `ReferenceError`, bukan `undefined`.
+
+Prettier di repo ini memakai `printWidth: 100000`. Baris sangat panjang itu output formatter, bukan kesalahan — jalankan `npm run format` daripada memotong baris manual.
 
 ---
 
-## MCP Development
+## MCP
 
-Bot ini menyertakan [`@zapo-js/mcp-server`](https://zapo.to/mcp) — server Model Context Protocol yang mengekspos sesi `zapo-js` (koneksi, pairing, kirim pesan, query grup, inspeksi event) sebagai **tools** untuk LLM agent (Claude Code, Cursor, dan lainnya). Cocok untuk **development/testing**, bukan production.
+Dua MCP server terdaftar project-scope di [`.mcp.json`](.mcp.json), jadi agen AI (Claude Code, Cursor, …) langsung dapat keduanya saat membuka repo ini:
 
-### Menjalankan server
+| Nama        | Jenis | Fungsi                                                                      |
+| ----------- | ----- | --------------------------------------------------------------------------- |
+| `zapo-docs` | http  | Cari & baca dokumentasi zapo on demand ([zapo.to/mcp](https://zapo.to/mcp)) |
+| `zapo`      | stdio | Sesi WaClient nyata: pairing, kirim pesan, inspeksi event & log             |
 
-```bash
-npm run mcp          # = zapo-mcp-server (stdio)
-MCP_TRANSPORT=http MCP_AUTH_PATH=sessions/mcp.sqlite zapo-mcp-server
-```
+`zapo` dijalankan lokal dari `@zapo-js/mcp-server` (`npm run mcp` untuk menjalankannya manual). Tool yang disediakan: `call`, `inspect`, `events`, `logs`, `lifecycle`, `restart`.
 
-| Variabel           | Fungsi                                                                                                                                                                        |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `MCP_AUTH_PATH`    | Path store SQLite kredensial. **Gunakan path terpisah dari bot utama** (mis. `sessions/mcp.sqlite`) supaya tidak terjadi konflik `SQLITE_BUSY` saat bot & MCP jalan bersamaan |
-| `MCP_SESSION_ID`   | Sesi default (mendukung multi-sesi di satu store)                                                                                                                             |
-| `MCP_MAX_SESSIONS` | Batas jumlah sesi                                                                                                                                                             |
-| `MCP_TRANSPORT`    | `stdio` (default) atau `http`                                                                                                                                                 |
-| `MCP_LOG_LEVEL`    | Level log                                                                                                                                                                     |
-
-### Registrasi ke Claude Code
-
-```bash
-claude mcp add zapo -- node node_modules/@zapo-js/mcp-server/dist/bin.js
-```
-
-### Alur pairing lewat MCP
-
-`client.connect()` **memblokir sampai pairing selesai** — selalu panggil dengan `noAwait`:
+Sesi WhatsApp-nya **terpisah** dari sesi bot — `MCP_AUTH_PATH=sessions/mcp.sqlite`, bukan `sessions/state.sqlite`. Itu disengaja: berbagi satu store SQLite memicu `SQLITE_BUSY`. Konsekuensinya MCP butuh pairing sendiri, dan `connect()` memblokir sampai pairing selesai — jadi selalu panggil dengan `noAwait`:
 
 ```text
 call({ path: 'connect', noAwait: true })
 events({ types: ['auth_qr', 'auth_pairing_code', 'auth_paired', 'connection'] })
-# tampilkan QR ke user, tunggu auth_paired, lalu lanjut
 call({ path: 'message.send', args: ['628xxx@s.whatsapp.net', { conversation: 'halo' }] })
 ```
 
-Dokumentasi lengkap & skill MCP ada di [`zapo.to/mcp`](https://zapo.to/mcp).
+| Variabel         | Fungsi                                                      |
+| ---------------- | ----------------------------------------------------------- |
+| `MCP_AUTH_PATH`  | Path store SQLite kredensial (default `.auth/state.sqlite`) |
+| `MCP_SESSION_ID` | ID sesi, mendukung beberapa sesi dalam satu store           |
+| `MCP_TRANSPORT`  | `stdio` (default) atau `http`                               |
+| `MCP_LOG_LEVEL`  | Level log                                                   |
+
+Ini alat **development**, bukan untuk production. Dokumentasi lengkap di [zapo.to/mcp](https://zapo.to/mcp).
 
 ---
 
@@ -708,7 +610,7 @@ Dokumentasi lengkap & skill MCP ada di [`zapo.to/mcp`](https://zapo.to/mcp).
 | --------------------------------- | --------------------------------------- | ----------------------------------------------- | --------------------------------------- |
 | Recode                            | Contributor                             | Sepuh                                           | Sepuh                                   |
 
-**Base original:** [`ZukaBet`](https://github.com/HelgaIlham/ZukaBet)
+**Base original:** [`ZukaBet`](https://github.com/HelgaIlham/ZukaBet) · **Upstream:** [`RTXZY-MD`](https://github.com/BOTCAHX/RTXZY-MD)
 
 ---
 

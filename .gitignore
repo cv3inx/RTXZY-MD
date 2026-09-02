@@ -22,3 +22,5 @@ database.sqlite*
 /tmp/
 .env
 .claude
+.yarn
+.yarnrc
